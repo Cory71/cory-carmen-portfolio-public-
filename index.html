@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cory Carmen - Portfolio</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body id="top">
+    <!-- Bootstrap Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#hero">Cory Carmen</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#top">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#about">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#journey">Journey</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#skills">Skills</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#projects">Projects</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#contact">Contact</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="settingsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Settings
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="settingsDropdown">
+                            <li>
+                                <label class="dropdown-item setting-label">
+                                    <input type="checkbox" id="weatherWidget" class="setting-checkbox" checked>
+                                    <span class="setting-text">Show Weather Widget</span>
+                                </label>
+                            </li>
+                            <li>
+                                <label class="dropdown-item setting-label">
+                                    <input type="checkbox" id="quoteWidget" class="setting-checkbox" checked>
+                                    <span class="setting-text">Show Quote Widget</span>
+                                </label>
+                            </li>
+                            <li>
+                                <label class="dropdown-item setting-label">
+                                    <input type="checkbox" id="darkMode" class="setting-checkbox">
+                                    <span class="setting-text">Dark Mode</span>
+                                </label>
+                            </li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li>
+                                <button class="dropdown-item settings-btn" onclick="resetSettings()">
+                                    Reset to Defaults
+                                </button>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+          <div class="container">
+            <!-- Hero (centered) -->
+            <section class="hero card" id="hero">
+              <img src="images/Profile2.jpeg" alt="Cory Carmen - Profile Photo">
+              <h2>Cory Carmen</h2>
+              <p><strong>Student Software Developer</strong></p>
+              <p>Learning all the skills to become a Full-Stack Software Developer.</p>
+              <p><a href="#contact">Contact me</a></p>
+            </section>
+
+            <div class="layout">
+              <main>
+                <!-- About Me -->
+                <section class="card" id="about">
+                  <h3>About Me</h3>
+                  <p>Hello! I'm Cory, I'm studying to become a Software Developer and based on Vancouver Island.</p>
+                </section>
+
+                <!-- My Journey -->
+                <section class="card" id="journey">
+                  <h3>My Journey</h3>
+                  <p>I come from a 25 year career in the commercial diving and fishing industry. I'm now transitioning into tech, focusing on software development.</p>
+                  <p>My coding journey began when I enrolled in a Software Development Bootcamp.</p>
+                  <p>Here is my Timeline:</p>
+                  <ul>
+                    <li>Established strong foundation in HTML and CSS fundamentals.</li>
+                    <li>Developed version control skills with Git and GitHub.</li>
+                    <li>Completed first professional website project with modern web standards.</li>
+                    <li>Mastered responsive design with Bootstrap framework.</li>
+                    <li>Successfully mastered JavaScript programming concepts and implementation.</li>
+                    <li>Implemented interactive JavaScript features and DOM manipulation.</li>
+                    <li>Applied modern JavaScript (ES6+, Async/Await, Fetch API).</li>
+                    <li>Built professional contact forms with validation and user experience.</li>
+                    <li>Integrated REST APIs with live weather data from OpenWeatherMap.</li>
+                    <li>Learned API testing and documentation with Postman.</li>
+                    <li>Started exploring Node.js for backend development.</li>
+                  </ul>
+                </section>
+
+                <!-- Technical Skills -->
+                <section class="card" id="skills">
+                  <h3>Technical Skills</h3>
+                  <div class="skills-list">
+                    <div class="skill-tag">HTML5</div>
+                    <div class="skill-tag">CSS3</div>
+                    <div class="skill-tag">JavaScript</div>
+                    <div class="skill-tag">ES6+</div>
+                    <div class="skill-tag">Bootstrap</div>
+                    <div class="skill-tag">REST APIs</div>
+                    <div class="skill-tag">Async/Await</div>
+                    <div class="skill-tag">Git</div>
+                    <div class="skill-tag">GitHub</div>
+                    <div class="skill-tag">Responsive Design</div>
+                    <div class="skill-tag">Postman</div>
+                    <div class="skill-tag">Node.js</div>
+                    <div class="skill-tag">JSON</div>
+                    <div class="skill-tag">DOM Manipulation</div>
+                  </div>
+                </section>
+
+                <!-- Recent Projects -->
+                <section class="card" id="projects">
+                  <h3>Recent Projects</h3>
+                  <div class="project-table">
+                    <div class="project-header">Project Name</div>
+                    <div class="project-header">Technology</div>
+                    <div class="project-header">Status</div>
+                    <div class="project-header">Year</div>
+                    <div>Portfolio Website</div>
+                    <div>HTML, CSS</div>
+                    <div>Completed</div>
+                    <div>2025</div>
+                    <div>Interactive Personal Website</div>
+                    <div>JavaScript with HTML/CSS</div>
+                    <div>Completed</div>
+                    <div>2025</div>
+                    <div>Weather Forecasting App</div>
+                    <div>React, JavaScript, Frontend Frameworks, External API</div>
+                    <div>Coming Soon</div>
+                    <div>2025/26</div>
+                    <div>Mobile App</div>
+                    <div>React Native</div>
+                    <div>Coming Soon</div>
+                    <div>2025/26</div>
+                    <div>Note-Taking App</div>
+                    <div>JavaScript, API, Node.js, MongoDB</div>
+                    <div>Coming Soon</div>
+                    <div>2026</div>
+                    <div>Capstone</div>
+                    <div>React, React Native, Node.js, Express, MongoDB</div>
+                    <div>Planning</div>
+                    <div>2026</div>
+                  </div>
+                </section>
+
+                <!-- Contact Info -->
+                <section class="card" id="contact">
+                  <h3>Contact Info</h3>
+                  <p><strong>Cory Carmen</strong></p>
+                  <p>Email: cory2@shaw.ca</p>
+                  <p>Location: Nanaimo, BC, Canada</p>
+                  <p>Phone: (250) 714-2426</p>
+                  <p><a href="https://www.linkedin.com/in/cory-carmen-87a330382/" target="_blank" rel="noopener noreferrer">LinkedIn</a></p>
+                  
+                  <!-- Contact Form Dropdown -->
+                  <div class="contact-form-section">
+                    <button type="button" class="contact-form-toggle" id="contactToggle">
+                      <span>Send Me a Message</span>
+                      <span class="toggle-arrow">▼</span>
+                    </button>
+                    
+                    <div id="contactFormContainer" class="contact-form-container" style="display: none;">
+                      <form id="contactForm" class="contact-form">
+                        <div class="form-group">
+                          <label for="name">Name *</label>
+                          <input type="text" id="name" name="name" required>
+                        </div>
+                        
+                        <div class="form-group">
+                          <label for="email">Email *</label>
+                          <input type="email" id="email" name="email" required>
+                        </div>
+                        
+                        <div class="form-group">
+                          <label for="subject">Subject</label>
+                          <input type="text" id="subject" name="subject" placeholder="Project inquiry, collaboration, etc.">
+                        </div>
+                        
+                        <div class="form-group">
+                          <label for="message">Message *</label>
+                          <textarea id="message" name="message" rows="4" required placeholder="Tell me about your project or inquiry..."></textarea>
+                        </div>
+                        
+                        <button type="submit" class="submit-btn">
+                          <span class="btn-text">Send Message</span>
+                          <span class="btn-loading" style="display: none;">Sending...</span>
+                        </button>
+                      </form>
+                      
+                      <div id="formResponse" class="form-response" style="display: none;"></div>
+                    </div>
+                  </div>
+                </section>
+              </main>
+
+              <aside>
+                <div class="facts card">
+                  <h3>Quick Facts</h3>
+                  <div class="num">Student</div>
+                  <p>Available for Internship and Freelance projects.</p>
+                </div>
+
+                <div class="card" style="margin-top:12px;">
+                  <h3>Currently</h3>
+                  <p>Enrolled in a Software Development Bootcamp at UBC through CircuitStream.</p>
+                </div>
+
+                <!-- Quote of the Day Widget -->
+                <div class="card quote-widget" style="margin-top:12px;">
+                  <h3>💭 Quote of the Day</h3>
+                  <div id="quoteContainer">
+                    <div class="quote-loading">Loading inspiring quote...</div>
+                  </div>
+                  <div id="quoteContent" class="quote-content" style="display: none;">
+                    <blockquote id="quoteText" class="quote-text">--</blockquote>
+                    <cite id="quoteAuthor" class="quote-author">--</cite>
+                  </div>
+                </div>
+
+                <!-- Weather Widget -->
+                <div class="card weather-widget" style="margin-top:12px;">
+                  <h3>🌤️ Nanaimo Weather</h3>
+                  <div id="weatherContainer">
+                    <div class="weather-loading">Loading weather data...</div>
+                  </div>
+                  <div id="weatherCurrent" class="weather-current" style="display: none;">
+                    <div class="current-temp">
+                      <img id="weatherIcon" class="weather-icon" src="" alt="Weather icon">
+                      <span id="temperature">--°C</span>
+                    </div>
+                    <div class="weather-details">
+                      <p id="description">--</p>
+                      <p class="weather-info">Feels like: <span id="feelsLike">--°C</span></p>
+                      <p class="weather-info">Humidity: <span id="humidity">--%</span></p>
+                    </div>
+                  </div>
+                  <div id="weatherForecast" class="weather-forecast" style="display: none;">
+                    <button type="button" class="forecast-toggle" id="forecastToggle">
+                      <span>5-Day Forecast</span>
+                      <span class="forecast-arrow">▼</span>
+                    </button>
+                    <div id="forecastDropdown" class="forecast-dropdown" style="display: none;">
+                      <div id="forecastContainer" class="forecast-container">
+                        <!-- Forecast items will be populated by JavaScript -->
+                      </div>
+                    </div>
+                  </div>
+                  <div id="weatherError" class="weather-error" style="display: none;">
+                    <p>Unable to load weather data</p>
+                    <button onclick="loadWeather()" class="retry-btn">Retry</button>
+                  </div>
+                </div>
+              </aside>
+            </div>
+
+          </div>
+
+          <footer>
+            <p>&copy; 2025 Cory Carmen — Portfolio Website</p>
+          </footer>
+
+        <!-- Bootstrap JavaScript -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- Custom JavaScript -->
+        <script src="script.js"></script>
+        </body>
+        </html>
