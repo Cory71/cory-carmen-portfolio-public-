@@ -23,14 +23,14 @@ Portfolio website featuring weather integration, interactive contact forms, and 
 ## 📁 Project Structure
 ```
 Cory Carmen WebPage Project/
-├── index.html               # Main HTML file
-├── styles.css               # External CSS stylesheet
-├── script.js                # Interactive JavaScript features
-├── images/                  # Image assets folder
-│   ├── Profile1.jpeg        # Alternative profile photo
-│   └── Profile2.jpeg        # Main profile photo
-├── README.md               # Project documentation
-└── MyWebPageREADME.md      # Original README file
+├── index.html                      # Main HTML file
+├── styles.css                      # External CSS stylesheet
+├── script.js                       # Interactive JavaScript features
+├── images/                         # Image assets folder
+│   ├── Profile1.jpeg               # Alternative profile photo
+│   └── Profile2.jpeg               # Main profile photo
+├── README.md                       # Project documentation
+└── MyInteractiveWebsiteJourney.md  # Development journey documentation
 ```
 
 ## �🛠️ Technologies Used
