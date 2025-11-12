@@ -349,9 +349,8 @@ async function loadWeather(locationQuery = 'Nanaimo,CA') {
         
         if (!currentResponse.ok) {
             if (currentResponse.status === 401) {
-                console.log('⚠️ API key issue detected. Using demo data until key is activated.');
-                displayDemoWeather();
-                weatherContainer.style.display = 'none';
+                console.log('⚠️ API key issue detected.');
+                displayWeatherUnavailable('API key not valid');
                 return;
             } else if (currentResponse.status === 404) {
                 throw new Error('City not found. Please check the spelling and try again.');
@@ -394,8 +393,7 @@ async function loadWeather(locationQuery = 'Nanaimo,CA') {
         console.error('Weather API Error:', error);
         
         if (error.message.includes('Invalid API key') || error.message.includes('401')) {
-            displayDemoWeather();
-            weatherContainer.style.display = 'none';
+            displayWeatherUnavailable('API key not valid');
             return;
         }
         
@@ -430,15 +428,31 @@ function displayForecast(data) {
     const forecastContainer = document.getElementById('forecastContainer');
     forecastContainer.innerHTML = '';
     
-    // Get one forecast per day (every 8th entry = every 24 hours)
-    const dailyForecasts = [];
-    for (let i = 0; i < data.list.length && dailyForecasts.length < 5; i += 8) {
-        dailyForecasts.push(data.list[i]);
-    }
+    // Group forecast data by day and calculate daily highs/lows
+    const dailyData = {};
     
-    dailyForecasts.forEach((forecast, index) => {
-        const date = new Date(forecast.dt * 1000);
-        const dayName = index === 0 ? 'Today' : date.toLocaleDateString('en-US', { weekday: 'short' });
+    data.list.forEach(item => {
+        const date = new Date(item.dt * 1000);
+        const dayKey = date.toDateString();
+        
+        if (!dailyData[dayKey]) {
+            dailyData[dayKey] = {
+                date: date,
+                temps: [],
+                weather: item.weather[0] // Use the first weather entry for the day
+            };
+        }
+        
+        dailyData[dayKey].temps.push(item.main.temp);
+    });
+    
+    // Convert to array and take first 5 days
+    const dailyForecasts = Object.values(dailyData).slice(0, 5);
+    
+    dailyForecasts.forEach((dayData, index) => {
+        const dayName = index === 0 ? 'Today' : dayData.date.toLocaleDateString('en-US', { weekday: 'short' });
+        const highTemp = Math.round(Math.max(...dayData.temps));
+        const lowTemp = Math.round(Math.min(...dayData.temps));
         
         const forecastItem = document.createElement('div');
         forecastItem.className = 'forecast-item';
@@ -446,13 +460,13 @@ function displayForecast(data) {
             <div class="forecast-day">${dayName}</div>
             <div class="forecast-weather">
                 <img class="forecast-icon" 
-                     src="https://openweathermap.org/img/wn/${forecast.weather[0].icon}.png" 
-                     alt="${forecast.weather[0].description}">
-                <span class="forecast-desc">${forecast.weather[0].main}</span>
+                     src="https://openweathermap.org/img/wn/${dayData.weather.icon}.png" 
+                     alt="${dayData.weather.description}">
+                <span class="forecast-desc">${dayData.weather.main}</span>
             </div>
             <div class="forecast-temps">
-                <span class="forecast-high">${Math.round(forecast.main.temp_max)}°</span>
-                <span class="forecast-low">${Math.round(forecast.main.temp_min)}°</span>
+                <span class="forecast-high">${highTemp}°</span>
+                <span class="forecast-low">${lowTemp}°</span>
             </div>
         `;
         
@@ -460,34 +474,21 @@ function displayForecast(data) {
     });
 }
 
-function displayDemoWeather() {
-    const demoCurrentWeather = {
-        main: { temp: 12, feels_like: 10, humidity: 75 },
-        weather: [{ description: 'partly cloudy', icon: '02d', main: 'Clouds' }]
-    };
+function displayWeatherUnavailable(message = 'Weather data unavailable') {
+    const weatherContainer = document.getElementById('weatherContainer');
     
-    const demoForecastData = {
-        list: [
-            { dt: Date.now() / 1000, main: { temp_max: 12, temp_min: 8 }, weather: [{ icon: '02d', description: 'partly cloudy', main: 'Clouds' }] },
-            { dt: (Date.now() / 1000) + (24 * 3600), main: { temp_max: 15, temp_min: 9 }, weather: [{ icon: '10d', description: 'light rain', main: 'Rain' }] },
-            { dt: (Date.now() / 1000) + (48 * 3600), main: { temp_max: 11, temp_min: 6 }, weather: [{ icon: '04d', description: 'overcast clouds', main: 'Clouds' }] },
-            { dt: (Date.now() / 1000) + (72 * 3600), main: { temp_max: 14, temp_min: 8 }, weather: [{ icon: '01d', description: 'clear sky', main: 'Clear' }] },
-            { dt: (Date.now() / 1000) + (96 * 3600), main: { temp_max: 13, temp_min: 7 }, weather: [{ icon: '03d', description: 'scattered clouds', main: 'Clouds' }] }
-        ]
-    };
+    weatherContainer.innerHTML = `
+        <div class="weather-unavailable">
+            <p>⚠️ ${message}</p>
+            <p style="font-size: 0.8rem; color: #666; margin-top: 5px;">
+                Please check your internet connection or try again later.
+            </p>
+        </div>
+    `;
     
-    displayCurrentWeather(demoCurrentWeather);
-    displayForecast(demoForecastData);
-    
-    document.getElementById('weatherContainer').style.display = 'none';
-    document.getElementById('weatherCurrent').style.display = 'block';
-    document.getElementById('weatherForecast').style.display = 'block';
-    
-    // Add demo notice
-    const demoNotice = document.createElement('p');
-    demoNotice.style.cssText = 'font-size: 0.8rem; color: #666; text-align: center; margin-top: 10px; font-style: italic;';
-    demoNotice.textContent = 'Demo data - API key activation in progress';
-    document.querySelector('.weather-widget').appendChild(demoNotice);
+    weatherContainer.style.display = 'block';
+    document.getElementById('weatherCurrent').style.display = 'none';
+    document.getElementById('weatherForecast').style.display = 'none';
 }
 
 function initForecastDropdown() {

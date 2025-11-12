@@ -416,6 +416,20 @@ footer {
     color: #721c24;
 }
 
+.weather-unavailable {
+    text-align: center;
+    padding: 20px;
+    background: rgba(255, 235, 204, 0.8);
+    border: 1px solid #ffc107;
+    border-radius: 6px;
+    margin: 10px 0;
+}
+
+.weather-unavailable p {
+    margin: 5px 0;
+    color: #856404;
+}
+
 .weather-loading {
     text-align: center;
     padding: 20px;
@@ -817,6 +831,15 @@ body.dark-mode .current-location {
 
 body.dark-mode .weather-error p {
     color: #fbb6ce;
+}
+
+body.dark-mode .weather-unavailable {
+    background: rgba(102, 77, 3, 0.3);
+    border: 1px solid #ffc107;
+}
+
+body.dark-mode .weather-unavailable p {
+    color: #ffd54f;
 }
 
 /* Weather details text - lighter for better visibility */
