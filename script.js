@@ -281,25 +281,61 @@ function showFormResponse(message, type) {
 // Weather widget functionality
 function initWeatherWidget() {
     console.log('🌤️ Initializing weather widget...');
-    loadWeather();
+    loadWeather('Nanaimo,CA'); // Load default location
     initForecastDropdown();
     
-    // Refresh weather data every 30 minutes
-    setInterval(loadWeather, 1800000);
+    // Refresh weather data every 30 minutes for current location
+    setInterval(() => {
+        const currentLocationDisplay = document.getElementById('currentLocationDisplay');
+        const currentLocation = currentLocationDisplay ? currentLocationDisplay.textContent : 'Nanaimo,CA';
+        const locationQuery = currentLocation.includes(',') ? currentLocation : 'Nanaimo,CA';
+        loadWeather(locationQuery);
+    }, 1800000);
+    
+    // Add Enter key support for search input
+    const weatherInput = document.getElementById('weatherLocation');
+    if (weatherInput) {
+        weatherInput.addEventListener('keypress', function(event) {
+            if (event.key === 'Enter') {
+                searchWeather();
+            }
+        });
+    }
 }
 
-async function loadWeather() {
+// Search weather function for user input
+function searchWeather() {
+    const input = document.getElementById('weatherLocation');
+    const locationQuery = input.value.trim();
+    
+    if (!locationQuery) {
+        showNotification('Please enter a city name');
+        return;
+    }
+    
+    // Show loading state
+    const weatherContainer = document.getElementById('weatherContainer');
+    weatherContainer.innerHTML = '<div class="weather-loading">Searching for ' + locationQuery + '...</div>';
+    weatherContainer.style.display = 'block';
+    
+    loadWeather(locationQuery);
+    input.value = ''; // Clear input after search
+}
+
+async function loadWeather(locationQuery = 'Nanaimo,CA') {
     const API_KEY = '8e0ae4dbecc76ecfcb65601a0b55ab83';
-    const CITY = 'Nanaimo';
-    const COUNTRY_CODE = 'CA';
     const UNITS = 'metric';
     
     const weatherContainer = document.getElementById('weatherContainer');
     const currentWeather = document.getElementById('weatherCurrent');
     const forecastWeather = document.getElementById('weatherForecast');
     const weatherError = document.getElementById('weatherError');
+    const currentLocationDisplay = document.getElementById('currentLocationDisplay');
     
     // Show loading state
+    if (!weatherContainer.innerHTML.includes('Searching')) {
+        weatherContainer.innerHTML = '<div class="weather-loading">Loading weather data...</div>';
+    }
     weatherContainer.style.display = 'block';
     currentWeather.style.display = 'none';
     forecastWeather.style.display = 'none';
@@ -308,7 +344,7 @@ async function loadWeather() {
     try {
         // Fetch current weather
         const currentResponse = await fetch(
-            `https://api.openweathermap.org/data/2.5/weather?q=${CITY},${COUNTRY_CODE}&units=${UNITS}&appid=${API_KEY}`
+            `https://api.openweathermap.org/data/2.5/weather?q=${encodeURIComponent(locationQuery)}&units=${UNITS}&appid=${API_KEY}`
         );
         
         if (!currentResponse.ok) {
@@ -317,15 +353,22 @@ async function loadWeather() {
                 displayDemoWeather();
                 weatherContainer.style.display = 'none';
                 return;
+            } else if (currentResponse.status === 404) {
+                throw new Error('City not found. Please check the spelling and try again.');
             }
             throw new Error(`Weather API error: ${currentResponse.status}`);
         }
         
         const currentData = await currentResponse.json();
         
+        // Update location display
+        if (currentLocationDisplay) {
+            currentLocationDisplay.textContent = `${currentData.name}, ${currentData.sys.country}`;
+        }
+        
         // Fetch 5-day forecast
         const forecastResponse = await fetch(
-            `https://api.openweathermap.org/data/2.5/forecast?q=${CITY},${COUNTRY_CODE}&units=${UNITS}&appid=${API_KEY}`
+            `https://api.openweathermap.org/data/2.5/forecast?q=${encodeURIComponent(locationQuery)}&units=${UNITS}&appid=${API_KEY}`
         );
         
         if (!forecastResponse.ok) {
@@ -342,6 +385,11 @@ async function loadWeather() {
         currentWeather.style.display = 'block';
         forecastWeather.style.display = 'block';
         
+        // Show success notification for searches (not initial load)
+        if (locationQuery !== 'Nanaimo,CA') {
+            showNotification(`Weather updated for ${currentData.name}, ${currentData.sys.country}`);
+        }
+        
     } catch (error) {
         console.error('Weather API Error:', error);
         
@@ -351,8 +399,18 @@ async function loadWeather() {
             return;
         }
         
-        weatherContainer.style.display = 'none';
-        weatherError.style.display = 'block';
+        // Show user-friendly error messages
+        weatherContainer.innerHTML = `
+            <div class="weather-error">
+                <p>⚠️ ${error.message}</p>
+                <p style="font-size: 0.8rem; color: #666; margin-top: 5px;">
+                    Try formats like: "Vancouver, CA" or "London, UK"
+                </p>
+            </div>
+        `;
+        weatherContainer.style.display = 'block';
+        currentWeather.style.display = 'none';
+        forecastWeather.style.display = 'none';
     }
 }
 

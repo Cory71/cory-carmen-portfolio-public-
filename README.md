@@ -59,6 +59,22 @@ Cory Carmen WebPage Project/
 
 ## 📈 Version History
 
+### Version 6.3.0 - November 12, 2025
+**Enhanced Weather Widget with Location Search**
+- ✅ **NEW**: Location search functionality - search any city worldwide  
+- ✅ **NEW**: Default Nanaimo display with global search capability
+- ✅ **NEW**: Real-time location indicator showing current city
+- ✅ **ENHANCED**: Enter key support and auto-clear search input
+- ✅ **IMPROVED**: User-friendly error handling with format suggestions
+- ✅ **OPTIMIZED**: Consistent grey styling across all weather components
+- ✅ **POLISHED**: Dark mode color refinements for better readability
+
+**Files Changed:**
+- `index.html`: Added location search input and current location display
+- `styles.css`: Enhanced weather widget styling and dark mode colors
+- `script.js`: Implemented search functionality and location management
+- `README.md`: Documentation update
+
 ### Version 6.2.0 - November 11, 2025
 **Quote of the Day Widget**
 - ✅ **NEW**: Quote widget with 8 curated inspirational quotes in sidebar
@@ -215,4 +231,4 @@ The weather widget currently shows demo data. To enable live weather:
 This project is personal portfolio website. All rights reserved.
 
 ---
-*Last Updated: November 11, 2025*
+*Last Updated: November 12, 2025*

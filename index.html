@@ -243,7 +243,15 @@
 
                 <!-- Weather Widget -->
                 <div class="card weather-widget" style="margin-top:12px;">
-                  <h3>🌤️ Nanaimo Weather</h3>
+                  <h3>🌤️ Weather</h3>
+                  
+                  <!-- Location Search -->
+                  <div class="weather-search">
+                    <input type="text" id="weatherLocation" placeholder="Search city (e.g., Vancouver, CA)" class="weather-input">
+                    <button onclick="searchWeather()" class="weather-search-btn">🔍</button>
+                  </div>
+                  <div class="current-location">📍 <span id="currentLocationDisplay">Nanaimo, BC</span></div>
+                  
                   <div id="weatherContainer">
                     <div class="weather-loading">Loading weather data...</div>
                   </div>
