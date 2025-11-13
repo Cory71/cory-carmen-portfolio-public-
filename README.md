@@ -205,11 +205,16 @@ Cory Carmen WebPage Project/
    - Replace `API_KEY` variable in the `loadWeather()` function
 
 ## 🌤️ Weather Widget Setup
-The weather widget currently shows demo data. To enable live weather:
+The weather widget uses live OpenWeatherMap API data with location search functionality:
+1. **Current Setup**: Already configured with active API key for live weather data
+2. **Default Location**: Opens with Nanaimo, BC weather
+3. **Global Search**: Search any city worldwide (e.g., "Tokyo, JP", "London, UK")
+4. **Real-time Data**: Current weather and 5-day forecast with actual daily highs/lows
+
+**To use your own API key:**
 1. Get a free API key from [OpenWeatherMap](https://openweathermap.org/api)
-2. Replace the `API_KEY` in `script.js` line ~219
+2. Replace the `API_KEY` in `script.js` 
 3. Wait up to 2 hours for API key activation
-4. Refresh the page to see live Nanaimo, BC weather data
 
 ## 📝 Future Enhancements
 - [ ] Add more API integrations (GitHub stats, news feeds)
