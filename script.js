@@ -68,6 +68,7 @@ function initSkillInteractions() {
         'Responsive Design': 'Mobile-first design, media queries, and cross-device compatibility.',
         'Postman': 'API testing, request building, documentation, and debugging.',
         'Node.js': 'Server-side JavaScript runtime, npm packages, and backend development.',
+        'MERN': 'Full-stack JavaScript development using MongoDB, Express.js, React, and Node.js.',
         'JSON': 'Data interchange format, parsing, and API response handling.',
         'DOM Manipulation': 'Dynamic content updates, event handling, and interactive user interfaces.'
     };
