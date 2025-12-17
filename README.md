@@ -24,8 +24,10 @@ Portfolio website featuring weather integration, interactive contact forms, and 
 ```
 Cory Carmen WebPage Project/
 ├── index.html                      # Main HTML file
-├── styles.css                      # External CSS stylesheet
-├── script.js                       # Interactive JavaScript features
+├── css/                            # Stylesheets folder
+│   └── styles.css                  # External CSS stylesheet
+├── js/                             # JavaScript folder
+│   └── script.js                   # Interactive JavaScript features
 ├── images/                         # Image assets folder
 │   ├── Profile1.jpeg               # Alternative profile photo
 │   └── Profile2.jpeg               # Main profile photo
@@ -58,6 +60,21 @@ Cory Carmen WebPage Project/
 - **Typography**: Clean, readable fonts optimized for both web and mobile viewing with enhanced contrast
 
 ## 📈 Version History
+
+### Version 6.4.0 - December 17, 2025
+**Professional File Organization & MERN Stack Addition**
+- ✅ **RESTRUCTURED**: Organized project with professional folder structure (css/, js/)
+- ✅ **NEW**: Added MERN stack to technical skills with interactive description
+- ✅ **UPDATED**: Timeline includes current MERN stack learning progression
+- ✅ **IMPROVED**: Industry-standard file organization for better scalability
+- ✅ **ENHANCED**: Professional project structure following web development best practices
+
+**Files Changed:**
+- Project structure: Created css/ and js/ folders for better organization
+- `index.html`: Updated file paths and added MERN skill tag
+- `js/script.js`: Added MERN skill description and moved to js folder
+- `css/styles.css`: Moved to css folder
+- `README.md`: Updated project structure documentation
 
 ### Version 6.3.0 - November 12, 2025
 **Enhanced Weather Widget with Location Search**
