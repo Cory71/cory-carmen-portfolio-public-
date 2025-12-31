@@ -13,6 +13,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initContactForm();
     initWeatherWidget();
     initQuoteWidget();
+    initNewsWidget();
     initScrollAnimations();
     initScrollToTop();
     initTypingAnimation();
@@ -694,6 +695,7 @@ function initSettings() {
     const darkModeCheckbox = document.getElementById('darkMode');
     const weatherCheckbox = document.getElementById('weatherWidget');
     const quoteCheckbox = document.getElementById('quoteWidget');
+    const newsCheckbox = document.getElementById('newsWidget');
     
     // Load saved dark mode preference
     const savedDarkMode = localStorage.getItem('darkMode') === 'true';
@@ -751,6 +753,22 @@ function initSettings() {
             }
         });
     }
+    
+    // Handle news widget toggle
+    if (newsCheckbox) {
+        newsCheckbox.addEventListener('change', function() {
+            const newsWidget = document.querySelector('.news-widget');
+            if (newsWidget) {
+                if (this.checked) {
+                    newsWidget.style.display = 'block';
+                    showNotification('News feed enabled');
+                } else {
+                    newsWidget.style.display = 'none';
+                    showNotification('News feed hidden');
+                }
+            }
+        });
+    }
 }
 
 // Reset settings function
@@ -758,11 +776,13 @@ function resetSettings() {
     const darkModeCheckbox = document.getElementById('darkMode');
     const weatherCheckbox = document.getElementById('weatherWidget');
     const quoteCheckbox = document.getElementById('quoteWidget');
+    const newsCheckbox = document.getElementById('newsWidget');
     
     // Reset all checkboxes to default
     if (darkModeCheckbox) darkModeCheckbox.checked = false;
     if (weatherCheckbox) weatherCheckbox.checked = true;
     if (quoteCheckbox) quoteCheckbox.checked = true;
+    if (newsCheckbox) newsCheckbox.checked = true;
     
     // Reset dark mode
     document.body.classList.remove('dark-mode');
@@ -782,8 +802,247 @@ function resetSettings() {
         localStorage.setItem('quoteWidget', 'true');
     }
     
+    // Show news widget
+    const newsWidget = document.querySelector('.news-widget');
+    if (newsWidget) {
+        newsWidget.style.display = 'block';
+        localStorage.setItem('newsWidget', 'true');
+    }
+    
     // Refresh project table colors to light mode
     refreshProjectTableColors();
     
     showNotification('Settings reset to defaults');
+}
+
+// News Widget - Simple & Optimized
+function initNewsWidget() {
+    console.log('📰 News widget ready');
+    
+    // Start collapsed
+    setWidgetCollapsed(true);
+    
+    // Auto-refresh every hour when expanded
+    setInterval(() => {
+        if (isWidgetExpanded()) loadNews();
+    }, 3600000);
+    
+    // Category change handler
+    const categorySelect = document.getElementById('newsCategory');
+    if (categorySelect) {
+        categorySelect.addEventListener('change', loadNews);
+    }
+}
+
+// Simple toggle function
+function toggleNewsWidget() {
+    const isExpanded = isWidgetExpanded();
+    
+    if (isExpanded) {
+        setWidgetCollapsed(true);
+        resetWidget();
+        showNotification('News collapsed');
+    } else {
+        setWidgetCollapsed(false);
+        loadNews();
+        showNotification('News expanded');
+    }
+}
+
+// Refresh button handler
+function refreshNews() {
+    showNotification('Refreshing...');
+    loadNews();
+}
+
+// Main news loading function
+async function loadNews() {
+    const category = getSelectedCategory();
+    
+    updateWidgetTitle(category);
+    showLoading(category);
+    
+    try {
+        const articles = await fetchNewsData(category);
+        
+        if (articles.length > 0) {
+            displayArticles(articles.slice(0, 6));
+        } else {
+            showError('News Feeds Unavailable');
+        }
+    } catch (error) {
+        console.error('News loading failed:', error);
+        showError('News Feeds Unavailable');
+    }
+}
+
+// Fetch news from RSS feeds
+async function fetchNewsData(category) {
+    const feeds = {
+        headline: 'https://globalnews.ca/feed/',
+        local: 'https://globalnews.ca/bc/feed/',
+        canada: 'https://globalnews.ca/canada/feed/',
+        world: 'https://globalnews.ca/world/feed/',
+        business: 'https://globalnews.ca/money/feed/',
+        technology: 'https://globalnews.ca/tech/feed/',
+        health: 'https://globalnews.ca/health/feed/',
+        sports: 'https://globalnews.ca/sports/feed/'
+    };
+    
+    const feedUrl = feeds[category] || feeds.headline;
+    const proxyUrl = 'https://api.allorigins.win/raw?url=';
+    
+    const response = await fetch(proxyUrl + encodeURIComponent(feedUrl));
+    
+    if (!response.ok) {
+        throw new Error(`Feed unavailable: ${response.status}`);
+    }
+    
+    const xmlText = await response.text();
+    return parseNewsXML(xmlText, category);
+}
+
+// Parse XML to articles
+function parseNewsXML(xmlText, category) {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(xmlText, 'text/xml');
+    
+    if (doc.querySelector('parsererror')) {
+        throw new Error('XML parsing failed');
+    }
+    
+    const items = doc.querySelectorAll('item');
+    const articles = [];
+    
+    items.forEach((item, index) => {
+        if (index < 8) {
+            const title = item.querySelector('title')?.textContent?.trim();
+            const description = item.querySelector('description')?.textContent?.replace(/<[^>]*>/g, '').trim();
+            const url = item.querySelector('link')?.textContent?.trim();
+            const pubDate = item.querySelector('pubDate')?.textContent;
+            
+            if (title) {
+                articles.push({
+                    title,
+                    description: description?.substring(0, 180) + (description?.length > 180 ? '...' : ''),
+                    url,
+                    publishedAt: pubDate || new Date().toISOString(),
+                    source: getSourceName(category)
+                });
+            }
+        }
+    });
+    
+    return articles;
+}
+
+// Helper functions - Simple & Clear
+function isWidgetExpanded() {
+    const content = document.getElementById('newsContent');
+    return content && content.style.display !== 'none';
+}
+
+function setWidgetCollapsed(collapsed) {
+    const content = document.getElementById('newsContent');
+    const arrow = document.querySelector('.news-toggle-arrow');
+    
+    if (content) content.style.display = collapsed ? 'none' : 'block';
+    if (arrow) arrow.innerHTML = collapsed ? '▼' : '▲';
+}
+
+function getSelectedCategory() {
+    const select = document.getElementById('newsCategory');
+    return select ? select.value : 'headline';
+}
+
+function updateWidgetTitle(category) {
+    const titles = {
+        headline: '📰 Headlines',
+        local: '📰 Local BC',
+        canada: '📰 Canada',
+        world: '📰 World',
+        business: '📰 Business',
+        technology: '📰 Tech',
+        health: '📰 Health',
+        sports: '📰 Sports'
+    };
+    
+    const header = document.querySelector('.news-header h3');
+    if (header) header.textContent = titles[category] || '📰 News';
+}
+
+function getSourceName(category) {
+    const sources = {
+        local: 'Global News BC',
+        canada: 'Global News Canada',
+        world: 'Global News World',
+        business: 'Global News Business',
+        technology: 'Global News Tech',
+        health: 'Global News Health',
+        sports: 'Global News Sports'
+    };
+    
+    return sources[category] || 'Global News';
+}
+
+function showLoading(category) {
+    const container = document.getElementById('newsContainer');
+    if (container) {
+        container.innerHTML = `<div class="news-loading">Loading ${category} news...</div>`;
+    }
+}
+
+function displayArticles(articles) {
+    const container = document.getElementById('newsContainer');
+    
+    const html = articles.map(article => {
+        const timeAgo = getTimeAgo(new Date(article.publishedAt));
+        
+        return `
+            <div class="news-article">
+                <h4 class="news-title">
+                    <a href="${article.url}" target="_blank" rel="noopener">
+                        ${article.title}
+                    </a>
+                </h4>
+                <p class="news-description">${article.description}</p>
+                <div class="news-meta">
+                    <span class="news-source">${article.source}</span>
+                    <span class="news-time">${timeAgo}</span>
+                </div>
+            </div>
+        `;
+    }).join('');
+    
+    if (container) container.innerHTML = html;
+}
+
+function showError(message) {
+    const container = document.getElementById('newsContainer');
+    if (container) {
+        container.innerHTML = `
+            <div class="news-error">
+                <p>📰 ${message}</p>
+                <p>Check connection and try again.</p>
+            </div>
+        `;
+    }
+}
+
+function resetWidget() {
+    const select = document.getElementById('newsCategory');
+    const header = document.querySelector('.news-header h3');
+    const container = document.getElementById('newsContainer');
+    
+    if (select) select.value = 'headline';
+    if (header) header.textContent = '📰 News Now';
+    if (container) container.innerHTML = '<div class="news-loading">Loading news...</div>';
+}
+
+function getTimeAgo(date) {
+    const diff = Math.floor((new Date() - date) / 60000); // minutes
+    
+    if (diff < 60) return `${diff}m ago`;
+    if (diff < 1440) return `${Math.floor(diff / 60)}h ago`;
+    return `${Math.floor(diff / 1440)}d ago`;
 }
