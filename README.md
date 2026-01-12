@@ -23,7 +23,7 @@ Portfolio website featuring weather integration, interactive contact forms, and 
 
 ## 📁 Project Structure
 ```
-Cory Carmen WebPage Project/
+cory-carmen-portfolio/
 ├── index.html                      # Main HTML file
 ├── css/                            # Stylesheets folder
 │   └── styles.css                  # External CSS stylesheet
