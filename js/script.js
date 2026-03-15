@@ -1,24 +1,205 @@
 /* Cory Carmen Portfolio Website - Interactive JavaScript */
 /* Created: November 8, 2025 */
 
-// Initialize all features when DOM loads
-document.addEventListener('DOMContentLoaded', function() {
+// Portfolio configuration
+const portfolioConfig = buildPortfolioConfig();
+
+// App startup
+startPortfolioApp();
+
+function startPortfolioApp() {
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initPortfolioApp);
+        return;
+    }
+
+    initPortfolioApp();
+}
+
+function initPortfolioApp() {
     console.log('🚀 Portfolio website loaded successfully!');
     
+    initFooterYear();
+    initPortfolioProfile();
     initSmoothScrolling();
     initActiveNavigation();
     initSkillInteractions();
-    initProjectTableHover();
-    refreshProjectTableColors(); // Set initial colors based on theme
+    initProjectCardEffects();
+    refreshProjectCardColors(); // Set initial colors based on theme
     initContactForm();
     initWeatherWidget();
     initQuoteWidget();
     initNewsWidget();
+    initQuickStatsWidget();
+    initProjectSpotlightWidget();
+    initGitHubActivityWidget();
     initScrollAnimations();
     initScrollToTop();
     initTypingAnimation();
     initSettings();
-});
+}
+
+// Configuration helpers
+function buildPortfolioConfig() {
+    const defaultConfig = {
+        contact: {
+            name: 'Cory Carmen',
+            email: '',
+            phone: '',
+            location: 'Vancouver Island, BC, Canada',
+            linkedinUrl: 'https://www.linkedin.com/in/cory-carmen-87a330382/'
+        },
+        visibility: {
+            showEmail: false,
+            showPhone: false,
+            showLocation: true,
+            enableContactForm: false,
+            enableWeatherWidget: false
+        },
+        weather: {
+            apiKey: '',
+            defaultLocationQuery: 'Nanaimo,CA',
+            defaultLocationLabel: 'Nanaimo, BC',
+            units: 'metric'
+        }
+    };
+
+    return mergePortfolioConfig(defaultConfig, window.PORTFOLIO_LOCAL_CONFIG || {});
+}
+
+function mergePortfolioConfig(...configs) {
+    return configs.reduce((mergedConfig, config) => mergeConfigLayer(mergedConfig, config), {});
+}
+
+function mergeConfigLayer(target, source) {
+    const nextTarget = { ...target };
+
+    Object.keys(source).forEach(key => {
+        const sourceValue = source[key];
+        const targetValue = nextTarget[key];
+
+        if (isPlainObject(sourceValue) && isPlainObject(targetValue)) {
+            nextTarget[key] = mergeConfigLayer(targetValue, sourceValue);
+            return;
+        }
+
+        nextTarget[key] = sourceValue;
+    });
+
+    return nextTarget;
+}
+
+function isPlainObject(value) {
+    return value !== null && typeof value === 'object' && !Array.isArray(value);
+}
+
+// Footer helpers
+function initFooterYear() {
+    const currentYear = document.getElementById('currentYear');
+    if (currentYear) {
+        currentYear.textContent = new Date().getFullYear();
+    }
+}
+
+// Public profile helpers
+function initPortfolioProfile() {
+    const profileElements = getPortfolioProfileElements();
+
+    applyContactName(profileElements.contactName);
+    applyEmailVisibility(profileElements.contactEmailRow, profileElements.contactEmailText);
+    applyLocationVisibility(profileElements.contactLocationRow, profileElements.contactLocationText);
+    applyPhoneVisibility(profileElements.contactPhoneRow, profileElements.contactPhoneText);
+    applyLinkedInLink(profileElements.contactLinkedInLink);
+    applyPrivacyNoteVisibility(profileElements.contactPrivacyNote);
+    applyContactFormAvailability(profileElements.contactToggle, profileElements.contactFormContainer);
+    applyDefaultLocationLabel(profileElements.currentLocationDisplay);
+}
+
+function getPortfolioProfileElements() {
+    return {
+        contactName: document.getElementById('contactName'),
+        contactEmailRow: document.getElementById('contactEmailRow'),
+        contactEmailText: document.getElementById('contactEmailText'),
+        contactLocationRow: document.getElementById('contactLocationRow'),
+        contactLocationText: document.getElementById('contactLocationText'),
+        contactPhoneRow: document.getElementById('contactPhoneRow'),
+        contactPhoneText: document.getElementById('contactPhoneText'),
+        contactLinkedInLink: document.getElementById('contactLinkedInLink'),
+        contactPrivacyNote: document.getElementById('contactPrivacyNote'),
+        contactToggle: document.getElementById('contactToggle'),
+        contactFormContainer: document.getElementById('contactFormContainer'),
+        currentLocationDisplay: document.getElementById('currentLocationDisplay')
+    };
+}
+
+function applyContactName(contactName) {
+    if (contactName) {
+        contactName.textContent = portfolioConfig.contact.name;
+    }
+}
+
+function applyEmailVisibility(contactEmailRow, contactEmailText) {
+    if (!contactEmailRow || !contactEmailText) return;
+
+    if (portfolioConfig.visibility.showEmail && portfolioConfig.contact.email) {
+        contactEmailText.textContent = portfolioConfig.contact.email;
+        contactEmailRow.style.display = '';
+        return;
+    }
+
+    contactEmailText.textContent = 'Available on request';
+}
+
+function applyLocationVisibility(contactLocationRow, contactLocationText) {
+    if (!contactLocationRow || !contactLocationText) return;
+
+    if (portfolioConfig.visibility.showLocation && portfolioConfig.contact.location) {
+        contactLocationText.textContent = portfolioConfig.contact.location;
+        contactLocationRow.style.display = '';
+        return;
+    }
+
+    contactLocationRow.style.display = 'none';
+}
+
+function applyPhoneVisibility(contactPhoneRow, contactPhoneText) {
+    if (!contactPhoneRow || !contactPhoneText) return;
+
+    if (portfolioConfig.visibility.showPhone && portfolioConfig.contact.phone) {
+        contactPhoneText.textContent = portfolioConfig.contact.phone;
+        contactPhoneRow.style.display = '';
+        return;
+    }
+
+    contactPhoneRow.style.display = 'none';
+}
+
+function applyLinkedInLink(contactLinkedInLink) {
+    if (contactLinkedInLink && portfolioConfig.contact.linkedinUrl) {
+        contactLinkedInLink.href = portfolioConfig.contact.linkedinUrl;
+    }
+}
+
+function applyPrivacyNoteVisibility(contactPrivacyNote) {
+    if (!contactPrivacyNote) return;
+
+    const showingPrivateDetails = portfolioConfig.visibility.showEmail || portfolioConfig.visibility.showPhone;
+    contactPrivacyNote.style.display = showingPrivateDetails ? 'none' : 'block';
+}
+
+function applyContactFormAvailability(contactToggle, contactFormContainer) {
+    if (!contactToggle || !contactFormContainer) return;
+
+    const canUseContactForm = portfolioConfig.visibility.enableContactForm && Boolean(portfolioConfig.contact.email);
+    contactToggle.style.display = canUseContactForm ? 'inline-flex' : 'none';
+    contactFormContainer.style.display = 'none';
+}
+
+function applyDefaultLocationLabel(currentLocationDisplay) {
+    if (currentLocationDisplay && portfolioConfig.weather.defaultLocationLabel) {
+        currentLocationDisplay.textContent = portfolioConfig.weather.defaultLocationLabel;
+    }
+}
 
 // Smooth scrolling for navigation links
 function initSmoothScrolling() {
@@ -56,6 +237,7 @@ function initActiveNavigation() {
 
 // Interactive skill tags
 function initSkillInteractions() {
+    // Map each visible skill tag to the message shown in the notification popup.
     const skillDetails = {
         'HTML5': 'Semantic HTML5, accessibility best practices, and modern web standards.',
         'CSS3': 'Modern CSS3, Flexbox, Grid, animations, and responsive design principles.',
@@ -69,6 +251,12 @@ function initSkillInteractions() {
         'Responsive Design': 'Mobile-first design, media queries, and cross-device compatibility.',
         'Postman': 'API testing, request building, documentation, and debugging.',
         'Node.js': 'Server-side JavaScript runtime, npm packages, and backend development.',
+        'React': 'Component-based frontend development for building fast, interactive user interfaces.',
+        'React Native': 'Cross-platform mobile app development for building native apps with JavaScript and React.',
+        'Express.js': 'Backend web framework for routing, APIs, middleware, and server-side application structure.',
+        'MongoDB': 'NoSQL database development for storing, querying, and managing application data.',
+        'Auth0': 'Authentication and authorization platform for secure login, user management, and identity integration.',
+        'Passport Local Strategy': 'Username and password authentication using Passport.js local strategy for custom login flows.',
         'MERN': 'Full-stack JavaScript development using MongoDB, Express.js, React, and Node.js.',
         'JSON': 'Data interchange format, parsing, and API response handling.',
         'DOM Manipulation': 'Dynamic content updates, event handling, and interactive user interfaces.'
@@ -94,68 +282,41 @@ function initSkillInteractions() {
     });
 }
 
-// Project table hover effects
-function initProjectTableHover() {
-    const projectRows = document.querySelectorAll('.project-table > div:not(.project-header)');
-    
-    for (let i = 0; i < projectRows.length; i += 4) {
-        const projectCells = [projectRows[i], projectRows[i + 1], projectRows[i + 2], projectRows[i + 3]];
-        
-        projectCells.forEach(cell => {
-            if (cell) {
-                cell.addEventListener('mouseenter', () => {
-                    const isDarkMode = document.body.classList.contains('dark-mode');
-                    // Only highlight the current row (4 cells)
-                    projectCells.forEach(c => {
-                        if (c) {
-                            if (isDarkMode) {
-                                // Dark mode: subtle gray hover (original choice)
-                                c.style.backgroundColor = '#363636';
-                            } else {
-                                // Light mode: brighter green hover
-                                c.style.backgroundColor = '#e8f5e8';
-                            }
-                            c.style.transition = 'background-color 0.3s ease';
-                        }
-                    });
-                });
-                
-                cell.addEventListener('mouseleave', () => {
-                    const isDarkMode = document.body.classList.contains('dark-mode');
-                    projectCells.forEach(c => {
-                        if (c) {
-                            if (isDarkMode) {
-                                // Dark mode: return to dark background
-                                c.style.backgroundColor = '#2a2a2a';
-                            } else {
-                                // Light mode: return to light green
-                                c.style.backgroundColor = '#f0fff0';
-                            }
-                        }
-                    });
-                });
-            }
+// Project and learning card effects
+function initProjectCardEffects() {
+    // Apply the same hover treatment to the new learning and project cards.
+    const cards = document.querySelectorAll('.project-card, .learning-item');
+
+    cards.forEach(card => {
+        card.addEventListener('mouseenter', () => {
+            const isDarkMode = document.body.classList.contains('dark-mode');
+            card.style.backgroundColor = isDarkMode ? '#363636' : '#e8f5e8';
         });
-    }
+
+        card.addEventListener('mouseleave', () => {
+            refreshProjectCardColors();
+        });
+    });
 }
 
-// Refresh project table colors when theme changes
-function refreshProjectTableColors() {
+// Refresh project and learning card colors when theme changes
+function refreshProjectCardColors() {
+    // Reapply base colors after hover effects or theme changes.
     const isDarkMode = document.body.classList.contains('dark-mode');
-    const projectDivs = document.querySelectorAll('.project-table > div:not(.project-header)');
+    const cards = document.querySelectorAll('.project-card, .learning-item');
     
-    projectDivs.forEach(div => {
+    cards.forEach(card => {
         if (isDarkMode) {
-            div.style.backgroundColor = '#2a2a2a';
-            div.style.color = '#e0e0e0';
+            card.style.backgroundColor = '#2a2a2a';
+            card.style.color = '#e0e0e0';
         } else {
-            div.style.backgroundColor = '#f0fff0';
-            div.style.color = '#333';
+            card.style.backgroundColor = '#f0fff0';
+            card.style.color = '#333';
         }
     });
 }
 
-// Contact form functionality
+// Contact form helpers
 function initContactForm() {
     initContactFormToggle();
     initContactFormSubmission();
@@ -206,23 +367,20 @@ function initContactFormSubmission() {
             return;
         }
         
-        // Show loading state
-        submitBtn.disabled = true;
-        btnText.style.display = 'none';
-        btnLoading.style.display = 'inline';
+        setContactSubmitState(submitBtn, btnText, btnLoading, true);
         
         setTimeout(() => {
-            // Create mailto link and open email client
             const mailtoLink = createMailtoLink(data);
+
+            if (!handleMissingMailtoLink(mailtoLink, submitBtn, btnText, btnLoading)) {
+                return;
+            }
+
             window.location.href = mailtoLink;
             
             showFormResponse('Email client opened! Your message has been prepared.', 'success');
             contactForm.reset();
-            
-            // Reset button state
-            submitBtn.disabled = false;
-            btnText.style.display = 'inline';
-            btnLoading.style.display = 'none';
+            setContactSubmitState(submitBtn, btnText, btnLoading, false);
         }, 1500);
     });
     
@@ -231,6 +389,22 @@ function initContactFormSubmission() {
         input.addEventListener('blur', () => validateField(input));
         input.addEventListener('input', () => input.style.borderColor = '');
     });
+}
+
+function setContactSubmitState(submitButton, buttonText, buttonLoading, isLoading) {
+    submitButton.disabled = isLoading;
+    buttonText.style.display = isLoading ? 'none' : 'inline';
+    buttonLoading.style.display = isLoading ? 'inline' : 'none';
+}
+
+function handleMissingMailtoLink(mailtoLink, submitButton, buttonText, buttonLoading) {
+    if (mailtoLink) {
+        return true;
+    }
+
+    showFormResponse('Direct email is not enabled in this version of the site.', 'error');
+    setContactSubmitState(submitButton, buttonText, buttonLoading, false);
+    return false;
 }
 
 function validateContactForm(data) {
@@ -260,7 +434,12 @@ function validateField(field) {
 }
 
 function createMailtoLink(data) {
-    const to = 'cory2@shaw.ca';
+    const to = portfolioConfig.contact.email;
+
+    if (!to) {
+        return null;
+    }
+
     const subject = encodeURIComponent(data.subject || 'Message from Portfolio Website');
     const body = encodeURIComponent(
         `Hello Cory,\n\n${data.message}\n\n` +
@@ -280,17 +459,23 @@ function showFormResponse(message, type) {
     setTimeout(() => formResponse.style.display = 'none', 5000);
 }
 
-// Weather widget functionality
+// Weather widget helpers
 function initWeatherWidget() {
     console.log('🌤️ Initializing weather widget...');
-    loadWeather('Nanaimo,CA'); // Load default location
+
+    if (!portfolioConfig.visibility.enableWeatherWidget || !portfolioConfig.weather.apiKey) {
+        displayWeatherUnavailable('Weather widget is disabled in the public source version');
+        return;
+    }
+
+    loadWeather(portfolioConfig.weather.defaultLocationQuery); // Load default location
     initForecastDropdown();
     
     // Refresh weather data every 30 minutes for current location
     setInterval(() => {
         const currentLocationDisplay = document.getElementById('currentLocationDisplay');
-        const currentLocation = currentLocationDisplay ? currentLocationDisplay.textContent : 'Nanaimo,CA';
-        const locationQuery = currentLocation.includes(',') ? currentLocation : 'Nanaimo,CA';
+        const currentLocation = currentLocationDisplay ? currentLocationDisplay.textContent : portfolioConfig.weather.defaultLocationQuery;
+        const locationQuery = currentLocation.includes(',') ? currentLocation : portfolioConfig.weather.defaultLocationQuery;
         loadWeather(locationQuery);
     }, 1800000);
     
@@ -324,94 +509,126 @@ function searchWeather() {
     input.value = ''; // Clear input after search
 }
 
-async function loadWeather(locationQuery = 'Nanaimo,CA') {
-    const API_KEY = '8e0ae4dbecc76ecfcb65601a0b55ab83';
-    const UNITS = 'metric';
+async function loadWeather(locationQuery = portfolioConfig.weather.defaultLocationQuery) {
+    const API_KEY = portfolioConfig.weather.apiKey;
+    const UNITS = portfolioConfig.weather.units;
+
+    const weatherElements = getWeatherElements();
+
+    if (!API_KEY) {
+        displayWeatherUnavailable('Weather widget is disabled in the public source version');
+        return;
+    }
+
+    setWeatherLoadingState(weatherElements.weatherContainer, weatherElements.currentWeather, weatherElements.forecastWeather, weatherElements.weatherError);
     
-    const weatherContainer = document.getElementById('weatherContainer');
-    const currentWeather = document.getElementById('weatherCurrent');
-    const forecastWeather = document.getElementById('weatherForecast');
-    const weatherError = document.getElementById('weatherError');
-    const currentLocationDisplay = document.getElementById('currentLocationDisplay');
-    
-    // Show loading state
+    try {
+        const currentData = await fetchCurrentWeatherData(locationQuery, UNITS, API_KEY);
+        const forecastData = await fetchForecastWeatherData(locationQuery, UNITS, API_KEY);
+
+        updateWeatherLocationLabel(weatherElements.currentLocationDisplay, currentData);
+        displayCurrentWeather(currentData);
+        displayForecast(forecastData);
+
+        showWeatherContent(weatherElements.weatherContainer, weatherElements.currentWeather, weatherElements.forecastWeather);
+
+        if (locationQuery !== portfolioConfig.weather.defaultLocationQuery) {
+            showNotification(`Weather updated for ${currentData.name}, ${currentData.sys.country}`);
+        }
+    } catch (error) {
+        handleWeatherLoadError(error, weatherElements.weatherContainer, weatherElements.currentWeather, weatherElements.forecastWeather);
+    }
+}
+
+function getWeatherElements() {
+    return {
+        weatherContainer: document.getElementById('weatherContainer'),
+        currentWeather: document.getElementById('weatherCurrent'),
+        forecastWeather: document.getElementById('weatherForecast'),
+        weatherError: document.getElementById('weatherError'),
+        currentLocationDisplay: document.getElementById('currentLocationDisplay')
+    };
+}
+
+function setWeatherLoadingState(weatherContainer, currentWeather, forecastWeather, weatherError) {
     if (!weatherContainer.innerHTML.includes('Searching')) {
         weatherContainer.innerHTML = '<div class="weather-loading">Loading weather data...</div>';
     }
+
     weatherContainer.style.display = 'block';
     currentWeather.style.display = 'none';
     forecastWeather.style.display = 'none';
     weatherError.style.display = 'none';
-    
-    try {
-        // Fetch current weather
-        const currentResponse = await fetch(
-            `https://api.openweathermap.org/data/2.5/weather?q=${encodeURIComponent(locationQuery)}&units=${UNITS}&appid=${API_KEY}`
-        );
-        
-        if (!currentResponse.ok) {
-            if (currentResponse.status === 401) {
-                console.log('⚠️ API key issue detected.');
-                displayWeatherUnavailable('API key not valid');
-                return;
-            } else if (currentResponse.status === 404) {
-                throw new Error('City not found. Please check the spelling and try again.');
-            }
-            throw new Error(`Weather API error: ${currentResponse.status}`);
-        }
-        
-        const currentData = await currentResponse.json();
-        
-        // Update location display
-        if (currentLocationDisplay) {
-            currentLocationDisplay.textContent = `${currentData.name}, ${currentData.sys.country}`;
-        }
-        
-        // Fetch 5-day forecast
-        const forecastResponse = await fetch(
-            `https://api.openweathermap.org/data/2.5/forecast?q=${encodeURIComponent(locationQuery)}&units=${UNITS}&appid=${API_KEY}`
-        );
-        
-        if (!forecastResponse.ok) {
-            throw new Error(`Forecast API error: ${forecastResponse.status}`);
-        }
-        
-        const forecastData = await forecastResponse.json();
-        
-        // Display weather data
-        displayCurrentWeather(currentData);
-        displayForecast(forecastData);
-        
-        weatherContainer.style.display = 'none';
-        currentWeather.style.display = 'block';
-        forecastWeather.style.display = 'block';
-        
-        // Show success notification for searches (not initial load)
-        if (locationQuery !== 'Nanaimo,CA') {
-            showNotification(`Weather updated for ${currentData.name}, ${currentData.sys.country}`);
-        }
-        
-    } catch (error) {
-        console.error('Weather API Error:', error);
-        
-        if (error.message.includes('Invalid API key') || error.message.includes('401')) {
-            displayWeatherUnavailable('API key not valid');
-            return;
-        }
-        
-        // Show user-friendly error messages
-        weatherContainer.innerHTML = `
-            <div class="weather-error">
-                <p>⚠️ ${error.message}</p>
-                <p style="font-size: 0.8rem; color: #666; margin-top: 5px;">
-                    Try formats like: "Vancouver, CA" or "London, UK"
-                </p>
-            </div>
-        `;
-        weatherContainer.style.display = 'block';
-        currentWeather.style.display = 'none';
-        forecastWeather.style.display = 'none';
+}
+
+async function fetchCurrentWeatherData(locationQuery, units, apiKey) {
+    const currentResponse = await fetch(
+        `https://api.openweathermap.org/data/2.5/weather?q=${encodeURIComponent(locationQuery)}&units=${units}&appid=${apiKey}`
+    );
+
+    if (!currentResponse.ok) {
+        throw createWeatherRequestError(currentResponse.status);
     }
+
+    return currentResponse.json();
+}
+
+async function fetchForecastWeatherData(locationQuery, units, apiKey) {
+    const forecastResponse = await fetch(
+        `https://api.openweathermap.org/data/2.5/forecast?q=${encodeURIComponent(locationQuery)}&units=${units}&appid=${apiKey}`
+    );
+
+    if (!forecastResponse.ok) {
+        throw new Error(`Forecast API error: ${forecastResponse.status}`);
+    }
+
+    return forecastResponse.json();
+}
+
+function createWeatherRequestError(statusCode) {
+    if (statusCode === 401) {
+        console.log('⚠️ API key issue detected.');
+        return new Error('API key not valid');
+    }
+
+    if (statusCode === 404) {
+        return new Error('City not found. Please check the spelling and try again.');
+    }
+
+    return new Error(`Weather API error: ${statusCode}`);
+}
+
+function updateWeatherLocationLabel(currentLocationDisplay, currentData) {
+    if (currentLocationDisplay) {
+        currentLocationDisplay.textContent = `${currentData.name}, ${currentData.sys.country}`;
+    }
+}
+
+function showWeatherContent(weatherContainer, currentWeather, forecastWeather) {
+    weatherContainer.style.display = 'none';
+    currentWeather.style.display = 'block';
+    forecastWeather.style.display = 'block';
+}
+
+function handleWeatherLoadError(error, weatherContainer, currentWeather, forecastWeather) {
+    console.error('Weather API Error:', error);
+
+    if (error.message.includes('API key')) {
+        displayWeatherUnavailable('API key not valid');
+        return;
+    }
+
+    weatherContainer.innerHTML = `
+        <div class="weather-error">
+            <p>⚠️ ${error.message}</p>
+            <p style="font-size: 0.8rem; color: #666; margin-top: 5px;">
+                Try formats like: "Vancouver, CA" or "London, UK"
+            </p>
+        </div>
+    `;
+    weatherContainer.style.display = 'block';
+    currentWeather.style.display = 'none';
+    forecastWeather.style.display = 'none';
 }
 
 function displayCurrentWeather(data) {
@@ -478,15 +695,25 @@ function displayForecast(data) {
 
 function displayWeatherUnavailable(message = 'Weather data unavailable') {
     const weatherContainer = document.getElementById('weatherContainer');
+    const weatherInput = document.getElementById('weatherLocation');
+    const weatherSearchButton = document.querySelector('.weather-search-btn');
     
     weatherContainer.innerHTML = `
         <div class="weather-unavailable">
             <p>⚠️ ${message}</p>
             <p style="font-size: 0.8rem; color: #666; margin-top: 5px;">
-                Please check your internet connection or try again later.
+                Add a local-only config file if you want this widget to work on your private machine.
             </p>
         </div>
     `;
+
+    if (weatherInput) {
+        weatherInput.disabled = true;
+    }
+
+    if (weatherSearchButton) {
+        weatherSearchButton.disabled = true;
+    }
     
     weatherContainer.style.display = 'block';
     document.getElementById('weatherCurrent').style.display = 'none';
@@ -578,6 +805,110 @@ function showNotification(message) {
         notification.style.transform = 'translateX(100%)';
         setTimeout(() => notification.remove(), 300);
     }, 4000);
+}
+
+// Sidebar widget helpers
+function initQuickStatsWidget() {
+    const completedProjects = document.querySelectorAll('.project-status.completed').length;
+    const plannedProjects = document.querySelectorAll('.project-status.in-progress, .project-status.coming-soon, .project-status.planning').length;
+    const focusAreas = document.querySelectorAll('.learning-item').length;
+
+    const completedProjectsCount = document.getElementById('completedProjectsCount');
+    const plannedProjectsCount = document.getElementById('plannedProjectsCount');
+    const focusAreasCount = document.getElementById('focusAreasCount');
+
+    if (completedProjectsCount) completedProjectsCount.textContent = completedProjects;
+    if (plannedProjectsCount) plannedProjectsCount.textContent = plannedProjects;
+    if (focusAreasCount) focusAreasCount.textContent = focusAreas;
+}
+
+function initProjectSpotlightWidget() {
+    const spotlightContent = document.getElementById('spotlightContent');
+    const projectCards = document.querySelectorAll('.project-card');
+
+    if (!spotlightContent || projectCards.length === 0) return;
+
+    const spotlightProjects = buildSpotlightProjects(projectCards);
+    startProjectSpotlightRotation(spotlightContent, spotlightProjects);
+}
+
+function buildSpotlightProjects(projectCards) {
+    return Array.from(projectCards).map(card => ({
+        title: card.querySelector('h4')?.textContent || 'Project',
+        meta: card.querySelector('.project-meta')?.textContent || '',
+        focus: card.querySelector('.project-focus')?.textContent || ''
+    }));
+}
+
+function startProjectSpotlightRotation(spotlightContent, spotlightProjects) {
+    let currentIndex = 0;
+
+    renderProjectSpotlight(spotlightContent, spotlightProjects[currentIndex]);
+
+    setInterval(() => {
+        currentIndex = (currentIndex + 1) % spotlightProjects.length;
+        renderProjectSpotlight(spotlightContent, spotlightProjects[currentIndex]);
+    }, 7000);
+}
+
+function renderProjectSpotlight(spotlightContent, project) {
+    spotlightContent.innerHTML = `
+        <div class="spotlight-title">${project.title}</div>
+        <p class="spotlight-meta">${project.meta}</p>
+        <p class="spotlight-focus">${project.focus}</p>
+    `;
+}
+
+async function initGitHubActivityWidget() {
+    const githubActivity = document.getElementById('githubActivity');
+    if (!githubActivity) return;
+
+    try {
+        const repo = await fetchFeaturedGitHubRepo();
+        renderFeaturedGitHubRepo(githubActivity, repo);
+    } catch (error) {
+        showGitHubActivityError(githubActivity, error);
+    }
+}
+
+async function fetchFeaturedGitHubRepo() {
+    const response = await fetch('https://api.github.com/repos/Cory71/note-taking-app-MT');
+    if (!response.ok) {
+        throw new Error(`GitHub API error: ${response.status}`);
+    }
+
+    const repo = await response.json();
+    if (!repo || !repo.html_url) {
+        throw new Error('Featured GitHub project is unavailable right now.');
+    }
+
+    return repo;
+}
+
+function renderFeaturedGitHubRepo(githubActivity, repo) {
+    githubActivity.innerHTML = `
+        <div class="github-list">
+            <div class="github-repo">
+                <div class="github-repo-name"><a href="${repo.html_url}" target="_blank" rel="noopener noreferrer">${repo.name}</a></div>
+                <div class="github-repo-meta">Updated ${formatGitHubDate(repo.updated_at)}</div>
+                <div class="github-repo-meta">Primary language: ${repo.language || 'Not specified'}</div>
+            </div>
+        </div>
+    `;
+}
+
+function showGitHubActivityError(githubActivity, error) {
+    console.error('GitHub activity error:', error);
+    githubActivity.innerHTML = '<div class="github-error">Featured GitHub project is unavailable at the moment.</div>';
+}
+
+function formatGitHubDate(dateString) {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('en-US', {
+        month: 'short',
+        day: 'numeric',
+        year: 'numeric'
+    });
 }
 
 // Quote widget functionality
@@ -690,144 +1021,130 @@ function initTypingAnimation() {
     }
 }
 
-// Settings functionality
+// Settings helpers
 function initSettings() {
     const darkModeCheckbox = document.getElementById('darkMode');
     const weatherCheckbox = document.getElementById('weatherWidget');
     const quoteCheckbox = document.getElementById('quoteWidget');
     const newsCheckbox = document.getElementById('newsWidget');
-    
-    // Load saved dark mode preference
-    const savedDarkMode = localStorage.getItem('darkMode') === 'true';
-    if (savedDarkMode) {
-        document.body.classList.add('dark-mode');
-        if (darkModeCheckbox) darkModeCheckbox.checked = true;
-        refreshProjectTableColors(); // Apply dark mode colors immediately
-    }
-    
-    // Handle dark mode toggle
-    if (darkModeCheckbox) {
-        darkModeCheckbox.addEventListener('change', function() {
-            if (this.checked) {
-                document.body.classList.add('dark-mode');
-                localStorage.setItem('darkMode', 'true');
-                showNotification('Dark mode enabled');
-                refreshProjectTableColors(); // Refresh colors after toggling
-            } else {
-                document.body.classList.remove('dark-mode');
-                localStorage.setItem('darkMode', 'false');
-                showNotification('Dark mode disabled');
-                refreshProjectTableColors(); // Refresh colors after toggling
-            }
-        });
-    }
-    
-    // Handle weather widget toggle
-    if (weatherCheckbox) {
-        weatherCheckbox.addEventListener('change', function() {
-            const weatherWidget = document.querySelector('.weather-widget');
-            if (weatherWidget) {
-                if (this.checked) {
-                    weatherWidget.style.display = 'block';
-                    showNotification('Weather widget enabled');
-                } else {
-                    weatherWidget.style.display = 'none';
-                    showNotification('Weather widget hidden');
-                }
-            }
-        });
-    }
-    
-    // Handle quote widget toggle
-    if (quoteCheckbox) {
-        quoteCheckbox.addEventListener('change', function() {
-            const quoteWidget = document.querySelector('.quote-widget');
-            if (quoteWidget) {
-                if (this.checked) {
-                    quoteWidget.style.display = 'block';
-                    showNotification('Quote widget enabled');
-                } else {
-                    quoteWidget.style.display = 'none';
-                    showNotification('Quote widget hidden');
-                }
-            }
-        });
-    }
-    
-    // Handle news widget toggle
-    if (newsCheckbox) {
-        newsCheckbox.addEventListener('change', function() {
-            const newsWidget = document.querySelector('.news-widget');
-            if (newsWidget) {
-                if (this.checked) {
-                    newsWidget.style.display = 'block';
-                    showNotification('News feed enabled');
-                } else {
-                    newsWidget.style.display = 'none';
-                    showNotification('News feed hidden');
-                }
-            }
-        });
-    }
+
+    applySavedDarkModePreference(darkModeCheckbox);
+    initDarkModeToggle(darkModeCheckbox);
+    applySavedWidgetPreference(weatherCheckbox, '.weather-widget', 'weatherWidget');
+    applySavedWidgetPreference(quoteCheckbox, '.quote-widget', 'quoteWidget');
+    applySavedWidgetPreference(newsCheckbox, '.news-widget', 'newsWidget');
+    initWidgetToggle(weatherCheckbox, '.weather-widget', 'weatherWidget', 'Weather widget enabled', 'Weather widget hidden');
+    initWidgetToggle(quoteCheckbox, '.quote-widget', 'quoteWidget', 'Quote widget enabled', 'Quote widget hidden');
+    initWidgetToggle(newsCheckbox, '.news-widget', 'newsWidget', 'News feed enabled', 'News feed hidden');
 }
 
-// Reset settings function
+function applySavedDarkModePreference(darkModeCheckbox) {
+    const savedDarkMode = localStorage.getItem('darkMode') === 'true';
+
+    if (!savedDarkMode) return;
+
+    document.body.classList.add('dark-mode');
+
+    if (darkModeCheckbox) {
+        darkModeCheckbox.checked = true;
+    }
+
+    refreshProjectCardColors(); // Apply dark mode colors on load.
+}
+
+function initDarkModeToggle(darkModeCheckbox) {
+    if (!darkModeCheckbox) return;
+
+    darkModeCheckbox.addEventListener('change', function() {
+        const isDarkMode = this.checked;
+
+        document.body.classList.toggle('dark-mode', isDarkMode);
+        localStorage.setItem('darkMode', String(isDarkMode));
+        showNotification(isDarkMode ? 'Dark mode enabled' : 'Dark mode disabled');
+        refreshProjectCardColors();
+    });
+}
+
+function applySavedWidgetPreference(checkbox, widgetSelector, storageKey) {
+    if (!checkbox) return;
+
+    const savedValue = localStorage.getItem(storageKey);
+    if (savedValue === null) return;
+
+    const shouldShowWidget = savedValue === 'true';
+    checkbox.checked = shouldShowWidget;
+    setWidgetVisibility(widgetSelector, shouldShowWidget);
+}
+
+function initWidgetToggle(checkbox, widgetSelector, storageKey, enabledMessage, disabledMessage) {
+    if (!checkbox) return;
+
+    checkbox.addEventListener('change', function() {
+        setWidgetVisibility(widgetSelector, this.checked);
+        localStorage.setItem(storageKey, String(this.checked));
+        showNotification(this.checked ? enabledMessage : disabledMessage);
+    });
+}
+
+function setWidgetVisibility(widgetSelector, shouldShowWidget) {
+    const widget = document.querySelector(widgetSelector);
+    if (!widget) return;
+
+    widget.style.display = shouldShowWidget ? 'block' : 'none';
+}
+
+// Settings reset helpers
 function resetSettings() {
     const darkModeCheckbox = document.getElementById('darkMode');
     const weatherCheckbox = document.getElementById('weatherWidget');
     const quoteCheckbox = document.getElementById('quoteWidget');
     const newsCheckbox = document.getElementById('newsWidget');
-    
-    // Reset all checkboxes to default
+
+    resetSettingsCheckboxes(darkModeCheckbox, weatherCheckbox, quoteCheckbox, newsCheckbox);
+    document.body.classList.remove('dark-mode');
+    localStorage.setItem('darkMode', 'false');
+
+    showWidgetAndSavePreference('.weather-widget', 'weatherWidget');
+    showWidgetAndSavePreference('.quote-widget', 'quoteWidget');
+    showWidgetAndSavePreference('.news-widget', 'newsWidget');
+
+    refreshProjectCardColors();
+    showNotification('Settings reset to defaults');
+}
+
+function resetSettingsCheckboxes(darkModeCheckbox, weatherCheckbox, quoteCheckbox, newsCheckbox) {
     if (darkModeCheckbox) darkModeCheckbox.checked = false;
     if (weatherCheckbox) weatherCheckbox.checked = true;
     if (quoteCheckbox) quoteCheckbox.checked = true;
     if (newsCheckbox) newsCheckbox.checked = true;
-    
-    // Reset dark mode
-    document.body.classList.remove('dark-mode');
-    localStorage.setItem('darkMode', 'false');
-    
-    // Show weather widget
-    const weatherWidget = document.querySelector('.weather-widget');
-    if (weatherWidget) {
-        weatherWidget.style.display = 'block';
-        localStorage.setItem('weatherWidget', 'true');
-    }
-    
-    // Show quote widget
-    const quoteWidget = document.querySelector('.quote-widget');
-    if (quoteWidget) {
-        quoteWidget.style.display = 'block';
-        localStorage.setItem('quoteWidget', 'true');
-    }
-    
-    // Show news widget
-    const newsWidget = document.querySelector('.news-widget');
-    if (newsWidget) {
-        newsWidget.style.display = 'block';
-        localStorage.setItem('newsWidget', 'true');
-    }
-    
-    // Refresh project table colors to light mode
-    refreshProjectTableColors();
-    
-    showNotification('Settings reset to defaults');
 }
 
-// News Widget - Simple & Optimized
+function showWidgetAndSavePreference(widgetSelector, storageKey) {
+    const widget = document.querySelector(widgetSelector);
+    if (!widget) return;
+
+    widget.style.display = 'block';
+    localStorage.setItem(storageKey, 'true');
+}
+
+// News widget helpers
 function initNewsWidget() {
     console.log('📰 News widget ready');
-    
-    // Start collapsed
+
     setWidgetCollapsed(true);
-    
-    // Auto-refresh every hour when expanded
+    startNewsAutoRefresh();
+    initNewsCategoryHandler();
+}
+
+function startNewsAutoRefresh() {
     setInterval(() => {
-        if (isWidgetExpanded()) loadNews();
+        if (isWidgetExpanded()) {
+            loadNews();
+        }
     }, 3600000);
-    
-    // Category change handler
+}
+
+function initNewsCategoryHandler() {
     const categorySelect = document.getElementById('newsCategory');
     if (categorySelect) {
         categorySelect.addEventListener('change', loadNews);
@@ -858,26 +1175,43 @@ function refreshNews() {
 // Main news loading function
 async function loadNews() {
     const category = getSelectedCategory();
-    
+
     updateWidgetTitle(category);
     showLoading(category);
-    
+
     try {
         const articles = await fetchNewsData(category);
-        
-        if (articles.length > 0) {
-            displayArticles(articles.slice(0, 6));
-        } else {
-            showError('News Feeds Unavailable');
-        }
+        renderLoadedArticles(articles);
     } catch (error) {
         console.error('News loading failed:', error);
         showError('News Feeds Unavailable');
     }
 }
 
-// Fetch news from RSS feeds
+function renderLoadedArticles(articles) {
+    if (articles.length > 0) {
+        displayArticles(articles.slice(0, 6));
+        return;
+    }
+
+    showError('News Feeds Unavailable');
+}
+
+// News data helpers
 async function fetchNewsData(category) {
+    const feedUrl = getNewsFeedUrl(category);
+    const proxyUrl = 'https://api.allorigins.win/raw?url=';
+    const response = await fetch(proxyUrl + encodeURIComponent(feedUrl));
+
+    if (!response.ok) {
+        throw new Error(`Feed unavailable: ${response.status}`);
+    }
+
+    const xmlText = await response.text();
+    return parseNewsXML(xmlText, category);
+}
+
+function getNewsFeedUrl(category) {
     const feeds = {
         headline: 'https://globalnews.ca/feed/',
         local: 'https://globalnews.ca/bc/feed/',
@@ -888,52 +1222,60 @@ async function fetchNewsData(category) {
         health: 'https://globalnews.ca/health/feed/',
         sports: 'https://globalnews.ca/sports/feed/'
     };
-    
-    const feedUrl = feeds[category] || feeds.headline;
-    const proxyUrl = 'https://api.allorigins.win/raw?url=';
-    
-    const response = await fetch(proxyUrl + encodeURIComponent(feedUrl));
-    
-    if (!response.ok) {
-        throw new Error(`Feed unavailable: ${response.status}`);
-    }
-    
-    const xmlText = await response.text();
-    return parseNewsXML(xmlText, category);
+
+    return feeds[category] || feeds.headline;
 }
 
-// Parse XML to articles
+// News parsing helpers
 function parseNewsXML(xmlText, category) {
     const parser = new DOMParser();
     const doc = parser.parseFromString(xmlText, 'text/xml');
-    
+
     if (doc.querySelector('parsererror')) {
         throw new Error('XML parsing failed');
     }
-    
+
     const items = doc.querySelectorAll('item');
     const articles = [];
-    
+
     items.forEach((item, index) => {
-        if (index < 8) {
-            const title = item.querySelector('title')?.textContent?.trim();
-            const description = item.querySelector('description')?.textContent?.replace(/<[^>]*>/g, '').trim();
-            const url = item.querySelector('link')?.textContent?.trim();
-            const pubDate = item.querySelector('pubDate')?.textContent;
-            
-            if (title) {
-                articles.push({
-                    title,
-                    description: description?.substring(0, 180) + (description?.length > 180 ? '...' : ''),
-                    url,
-                    publishedAt: pubDate || new Date().toISOString(),
-                    source: getSourceName(category)
-                });
-            }
+        if (index >= 8) return;
+
+        const article = createArticleFromItem(item, category);
+        if (article) {
+            articles.push(article);
         }
     });
-    
+
     return articles;
+}
+
+function createArticleFromItem(item, category) {
+    const title = item.querySelector('title')?.textContent?.trim();
+    const description = item.querySelector('description')?.textContent?.replace(/<[^>]*>/g, '').trim();
+    const url = item.querySelector('link')?.textContent?.trim();
+    const pubDate = item.querySelector('pubDate')?.textContent;
+
+    if (!title) {
+        return null;
+    }
+
+    return {
+        title,
+        description: buildArticleDescription(description),
+        url,
+        publishedAt: pubDate || new Date().toISOString(),
+        source: getSourceName(category)
+    };
+}
+
+function buildArticleDescription(description) {
+    if (!description) {
+        return '';
+    }
+
+    const shortDescription = description.substring(0, 180);
+    return shortDescription + (description.length > 180 ? '...' : '');
 }
 
 // Helper functions - Simple & Clear

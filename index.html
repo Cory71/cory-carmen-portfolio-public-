@@ -36,6 +36,12 @@
                     <li class="nav-item">
                         <a class="nav-link" href="#contact">Contact</a>
                     </li>
+                    <li class="nav-item nav-theme-toggle-item">
+                      <div class="form-check form-switch nav-theme-toggle">
+                        <input class="form-check-input" type="checkbox" role="switch" id="darkMode" aria-label="Toggle dark mode">
+                        <label class="form-check-label" for="darkMode">Dark Mode</label>
+                      </div>
+                    </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="settingsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             Settings
@@ -59,12 +65,6 @@
                                     <span class="setting-text">Show News Feed</span>
                                 </label>
                             </li>
-                            <li>
-                                <label class="dropdown-item setting-label">
-                                    <input type="checkbox" id="darkMode" class="setting-checkbox">
-                                    <span class="setting-text">Dark Mode</span>
-                                </label>
-                            </li>
                             <li><hr class="dropdown-divider"></li>
                             <li>
                                 <button class="dropdown-item settings-btn" onclick="resetSettings()">
@@ -84,8 +84,8 @@
               <img src="images/Profile2.jpeg" alt="Cory Carmen - Profile Photo">
               <h2>Cory Carmen</h2>
               <p><strong>Student Software Developer</strong></p>
-              <p>Learning all the skills to become a Full-Stack Software Developer.</p>
-              <p><a href="#contact">Contact me</a></p>
+              <p>Building practical, user-focused projects while growing into a Full-Stack Software Developer.</p>
+              <p><a href="#contact">Contact Me</a></p>
             </section>
 
             <div class="layout">
@@ -93,96 +93,218 @@
                 <!-- About Me -->
                 <section class="card" id="about">
                   <h3>About Me</h3>
-                  <p>Hello! I'm Cory, I'm studying to become a Software Developer and based on Vancouver Island.</p>
+                  <p>Hello, I'm Cory Carmen, a student software developer based on Vancouver Island and currently building my skills in full-stack web development.</p>
+                  <p>After spending 25 years in the commercial diving and fishing industry, I made the decision to transition into tech and pursue software development full-time.</p>
+                  <p>I enjoy building practical, user-focused projects while continuing to grow in JavaScript, React, Node.js, Express.js, MongoDB, and authentication systems.</p>
+                </section>
+
+                <!-- Career Transition -->
+                <section class="card" id="transition-story">
+                  <h3>From Commercial Diving to Software Development</h3>
+                  <p>My path into software development is not a traditional one. Before entering tech, I spent 25 years in the commercial diving and fishing industry, where safety, precision, teamwork, and problem-solving were part of everyday life.</p>
+                  <p>Working in those environments taught me how to adapt quickly, stay calm under pressure, and keep learning through hands-on experience.</p>
+                  <p>That background now influences how I approach development. I bring the same discipline and persistence to debugging, building projects, and learning new technologies that I brought to my previous career. Moving into software development has given me the opportunity to apply those strengths in a new field, and I am focused on continuing to grow as a full-stack developer.</p>
                 </section>
 
                 <!-- My Journey -->
                 <section class="card" id="journey">
                   <h3>My Journey</h3>
-                  <p>I come from a 25 year career in the commercial diving and fishing industry. I'm now transitioning into tech, focusing on software development.</p>
-                  <p>My coding journey began when I enrolled in a Software Development Bootcamp.</p>
-                  <p>Here is my Timeline:</p>
+                  <p>My development journey began when I enrolled in a Software Development Bootcamp and committed to building a strong foundation in modern web development.</p>
+                  <p>Since then, I have been steadily expanding from core frontend skills into full-stack development through practical projects and hands-on learning.</p>
+                  <p>Here is a snapshot of that progression:</p>
                   <ul>
-                    <li>Established strong foundation in HTML and CSS fundamentals.</li>
-                    <li>Developed version control skills with Git and GitHub.</li>
-                    <li>Completed first professional website project with modern web standards.</li>
-                    <li>Use of responsive design with Bootstrap framework.</li>
-                    <li>Successfully completed JavaScript programming concepts and implementation.</li>
-                    <li>Implemented interactive JavaScript features and DOM manipulation.</li>
-                    <li>Applied modern JavaScript (ES6+, Async/Await, Fetch API).</li>
-                    <li>Built professional contact forms with validation and user experience.</li>
-                    <li>Integrated REST APIs with live weather data from OpenWeatherMap.</li>
-                    <li>Learned API testing and documentation with Postman.</li>
-                    <li>Started exploring Node.js for backend development.</li>
-                    <li>Completed learning MERN stack for full-stack JavaScript development.</li>
+                    <li>Built a solid foundation in HTML5, CSS3, and modern web design fundamentals.</li>
+                    <li>Developed version control skills with Git and GitHub as part of an organized development workflow.</li>
+                    <li>Completed my first professional-style website project using semantic HTML and responsive design principles.</li>
+                    <li>Strengthened frontend development skills with Bootstrap and mobile-friendly layout design.</li>
+                    <li>Learned core JavaScript concepts and applied them to real interactive features.</li>
+                    <li>Built dynamic user experiences through DOM manipulation, event handling, and modern ES6+ syntax.</li>
+                    <li>Used Async/Await and the Fetch API to work with asynchronous data and external services.</li>
+                    <li>Created professional contact form features with validation and a better user experience.</li>
+                    <li>Integrated REST APIs using live weather data from OpenWeatherMap.</li>
+                    <li>Used Postman for API testing, request building, and documentation practice.</li>
+                    <li>Expanded into backend development with Node.js and Express.js.</li>
+                    <li>Strengthened full-stack knowledge through the MERN stack and database work with MongoDB.</li>
+                    <li>Started building frontend and mobile skills with React and React Native.</li>
+                    <li>Began learning authentication workflows with Auth0 and Passport Local Strategy.</li>
                   </ul>
                 </section>
 
                 <!-- Technical Skills -->
                 <section class="card" id="skills">
                   <h3>Technical Skills</h3>
-                  <div class="skills-list">
-                    <div class="skill-tag">HTML5</div>
-                    <div class="skill-tag">CSS3</div>
-                    <div class="skill-tag">JavaScript</div>
-                    <div class="skill-tag">ES6+</div>
-                    <div class="skill-tag">Bootstrap</div>
-                    <div class="skill-tag">REST APIs</div>
-                    <div class="skill-tag">Async/Await</div>
-                    <div class="skill-tag">Git</div>
-                    <div class="skill-tag">GitHub</div>
-                    <div class="skill-tag">Responsive Design</div>
-                    <div class="skill-tag">Postman</div>
-                    <div class="skill-tag">Node.js</div>
-                    <div class="skill-tag">MERN</div>
-                    <div class="skill-tag">JSON</div>
-                    <div class="skill-tag">DOM Manipulation</div>
+                  <!-- Group related technologies so the skills section is easier to scan. -->
+                  <div class="skill-groups">
+                    <div class="skill-group">
+                      <h4 class="skill-group-title">Frontend</h4>
+                      <div class="skills-list">
+                        <div class="skill-tag">HTML5</div>
+                        <div class="skill-tag">CSS3</div>
+                        <div class="skill-tag">JavaScript</div>
+                        <div class="skill-tag">ES6+</div>
+                        <div class="skill-tag">Bootstrap</div>
+                        <div class="skill-tag">React</div>
+                        <div class="skill-tag">React Native</div>
+                        <div class="skill-tag">Responsive Design</div>
+                        <div class="skill-tag">DOM Manipulation</div>
+                      </div>
+                    </div>
+
+                    <div class="skill-group">
+                      <h4 class="skill-group-title">Backend and APIs</h4>
+                      <div class="skills-list">
+                        <div class="skill-tag">Node.js</div>
+                        <div class="skill-tag">Express.js</div>
+                        <div class="skill-tag">REST APIs</div>
+                        <div class="skill-tag">Async/Await</div>
+                        <div class="skill-tag">JSON</div>
+                      </div>
+                    </div>
+
+                    <div class="skill-group">
+                      <h4 class="skill-group-title">Database and Authentication</h4>
+                      <div class="skills-list">
+                        <div class="skill-tag">MongoDB</div>
+                        <div class="skill-tag">Auth0</div>
+                        <div class="skill-tag">Passport Local Strategy</div>
+                        <div class="skill-tag">MERN</div>
+                      </div>
+                    </div>
+
+                    <div class="skill-group">
+                      <h4 class="skill-group-title">Tools and Workflow</h4>
+                      <div class="skills-list">
+                        <div class="skill-tag">Git</div>
+                        <div class="skill-tag">GitHub</div>
+                        <div class="skill-tag">Postman</div>
+                      </div>
+                    </div>
+                  </div>
+                </section>
+
+                <!-- Currently Learning -->
+                <section class="card" id="currently-learning">
+                  <h3>Currently Learning</h3>
+                  <p>I'm currently focused on building deeper full-stack skills through practical projects and hands-on learning.</p>
+                  <!-- Highlight current learning areas separately from established skills. -->
+                  <div class="learning-grid">
+                    <article class="learning-item">
+                      <h4>Frontend and Mobile</h4>
+                      <p>Building confidence with React and exploring React Native for cross-platform mobile app development.</p>
+                    </article>
+                    <article class="learning-item">
+                      <h4>Backend Development</h4>
+                      <p>Strengthening my Express.js and Node.js skills to build cleaner routes, APIs, and server-side logic.</p>
+                    </article>
+                    <article class="learning-item">
+                      <h4>Database Work</h4>
+                      <p>Using MongoDB to model, store, and manage application data in full-stack projects.</p>
+                    </article>
+                    <article class="learning-item">
+                      <h4>Authentication</h4>
+                      <p>Learning secure login flows with Auth0 and Passport Local Strategy as part of modern application development.</p>
+                    </article>
                   </div>
                 </section>
 
                 <!-- Recent Projects -->
                 <section class="card" id="projects">
                   <h3>Recent Projects</h3>
-                  <div class="project-table">
-                    <div class="project-header">Project Name</div>
-                    <div class="project-header">Technology</div>
-                    <div class="project-header">Status</div>
-                    <div class="project-header">Year</div>
-                    <div>Portfolio Website</div>
-                    <div>HTML, CSS</div>
-                    <div>Completed</div>
-                    <div>2025</div>
-                    <div>Interactive Personal Website</div>
-                    <div>JavaScript with HTML/CSS</div>
-                    <div>Completed</div>
-                    <div>2025</div>
-                    <div>Note-Taking App</div>
-                    <div>JavaScript, API, Node.js, MongoDB</div>
-                    <div>In Progress</div>
-                    <div>2026</div>
-                    <div>Weather Forecasting App</div>
-                    <div>React, JavaScript, Frontend Frameworks, External API</div>
-                    <div>Coming Soon</div>
-                    <div>2026</div>
-                    <div>Mobile App</div>
-                    <div>React Native</div>
-                    <div>Coming Soon</div>
-                    <div>2026</div>
-                    <div>Capstone</div>
-                    <div>React, React Native, Node.js, Express, MongoDB</div>
-                    <div>Planning</div>
-                    <div>2026</div>
+                  <p>These projects reflect both what I have built so far and the direction I am continuing to grow in as a developer.</p>
+                  <p>Each project highlights the stack used, the problem it addresses, and the main area of growth it represents in my development journey.</p>
+                  <!-- Project cards replace the old table with more context about each project. -->
+                  <div class="project-showcase">
+                    <article class="project-card project-featured">
+                      <div class="project-card-header">
+                        <h4>Portfolio Website</h4>
+                        <span class="project-status completed">Completed</span>
+                      </div>
+                      <p class="project-meta"><strong>Built With:</strong> HTML5, CSS3, JavaScript, Bootstrap, DOM Manipulation, REST APIs</p>
+                      <p><strong>What It Does:</strong> This portfolio now combines the original portfolio website and interactive personal website work into one project with weather data, news feeds, quotes, dark mode, settings controls, and a contact form.</p>
+                      <ul class="project-points">
+                        <li>Integrates live API content and dynamic widgets.</li>
+                        <li>Combines personal branding content with interactive frontend behavior in one site.</li>
+                        <li>Uses responsive layouts and theme-aware styling across the site.</li>
+                        <li>Presents my background, skills, and current work in a more professional format.</li>
+                      </ul>
+                      <p class="project-focus"><strong>What I Learned:</strong> How to combine frontend polish, API integration, and user-focused improvements in one evolving project.</p>
+                      <p class="project-year">2025 to 2026</p>
+                    </article>
+
+                    <article class="project-card">
+                      <div class="project-card-header">
+                        <h4>Note-Taking App</h4>
+                        <span class="project-status completed">Completed</span>
+                      </div>
+                      <p class="project-meta"><strong>Built With:</strong> JavaScript, EJS, Bootstrap, Node.js, MongoDB</p>
+                      <p><strong>What It Does:</strong> Created a full-stack note-taking application for storing, organizing, and managing content through backend logic and database integration.</p>
+                      <ul class="project-points">
+                        <li>Implements database-backed note management workflows.</li>
+                        <li>Uses server-side rendering to deliver the app interface.</li>
+                        <li>Connects frontend interactions to backend and database operations.</li>
+                      </ul>
+                      <p class="project-focus"><strong>What I Learned:</strong> Full-stack development patterns, CRUD workflows, and working with MongoDB in a practical project.</p>
+                      <!-- Only public repositories get direct GitHub links for visitors. -->
+                      <p><a class="project-link" href="https://github.com/Cory71/note-taking-app-MT" target="_blank" rel="noopener noreferrer">View GitHub Repository</a></p>
+                      <p class="project-year">2026</p>
+                    </article>
+
+                    <article class="project-card">
+                      <div class="project-card-header">
+                        <h4>Weather Forecasting App</h4>
+                        <span class="project-status in-progress">In Progress</span>
+                      </div>
+                      <p class="project-meta"><strong>Current Stack:</strong> React, JavaScript, External APIs</p>
+                      <p><strong>What It Is:</strong> A dedicated weather-focused frontend project that expands on API work and component-based design using React.</p>
+                      <ul class="project-points">
+                        <li>Display weather data through reusable React components.</li>
+                        <li>Build experience with state management and API-driven views.</li>
+                      </ul>
+                      <p class="project-focus"><strong>Current Goal:</strong> Build a clean React dashboard that turns API data into a polished user interface.</p>
+                      <p class="project-year">2026</p>
+                    </article>
+
+                    <article class="project-card">
+                      <div class="project-card-header">
+                        <h4>Mobile App</h4>
+                        <span class="project-status coming-soon">Coming Soon</span>
+                      </div>
+                      <p class="project-meta"><strong>Planned Stack:</strong> React Native</p>
+                      <p><strong>What It Will Do:</strong> Extend my frontend learning into mobile development and build experience with cross-platform application design.</p>
+                      <ul class="project-points">
+                        <li>Explore mobile UI patterns and app navigation.</li>
+                        <li>Practice building one codebase for multiple platforms.</li>
+                      </ul>
+                      <p class="project-focus"><strong>Current Goal:</strong> Learn the fundamentals of React Native by building a clean, usable first mobile project.</p>
+                      <p class="project-year">2026</p>
+                    </article>
+
+                    <article class="project-card">
+                      <div class="project-card-header">
+                        <h4>Capstone</h4>
+                        <span class="project-status planning">Planning</span>
+                      </div>
+                      <p class="project-meta"><strong>Planned Stack:</strong> React, React Native, Node.js, Express.js, MongoDB</p>
+                      <p><strong>What It Will Do:</strong> A larger full-stack project that brings together frontend, backend, database, and authentication concepts in one application.</p>
+                      <ul class="project-points">
+                        <li>Combine full-stack architecture with authentication workflows.</li>
+                        <li>Connect multiple parts of the stack in one end-to-end build.</li>
+                      </ul>
+                      <p class="project-focus"><strong>Current Goal:</strong> Plan a capstone that demonstrates practical MERN stack development and stronger application architecture.</p>
+                      <p class="project-year">2026</p>
+                    </article>
                   </div>
                 </section>
 
                 <!-- Contact Info -->
                 <section class="card" id="contact">
                   <h3>Contact Info</h3>
-                  <p><strong>Cory Carmen</strong></p>
-                  <p>Email: cory2@shaw.ca</p>
-                  <p>Location: Nanaimo, BC, Canada</p>
-                  <p>Phone: (250) 714-2426</p>
-                  <p><a href="https://www.linkedin.com/in/cory-carmen-87a330382/" target="_blank" rel="noopener noreferrer">LinkedIn</a></p>
+                  <p><strong id="contactName">Cory Carmen</strong></p>
+                  <p id="contactEmailRow">Email: <span id="contactEmailText">Available on request</span></p>
+                  <p id="contactLocationRow">Location: <span id="contactLocationText">Vancouver Island, BC, Canada</span></p>
+                  <p id="contactPhoneRow" style="display: none;">Phone: <span id="contactPhoneText"></span></p>
+                  <p><a id="contactLinkedInLink" href="https://www.linkedin.com/in/cory-carmen-87a330382/" target="_blank" rel="noopener noreferrer">LinkedIn</a></p>
+                  <p id="contactPrivacyNote" class="contact-privacy-note">Direct contact details are hidden in the public source version.</p>
                   
                   <!-- Contact Form Dropdown -->
                   <div class="contact-form-section">
@@ -235,6 +357,56 @@
                 <div class="card" style="margin-top:12px;">
                   <h3>Currently</h3>
                   <p>Enrolled in a Software Development Bootcamp at UBC through CircuitStream.</p>
+                </div>
+
+                <!-- Now Building Widget -->
+                <div class="card now-building-widget" style="margin-top:12px;">
+                  <h3>Now Building</h3>
+                  <ul class="build-list">
+                      <li>Building a Weather Forecasting App with React and external weather data APIs</li>
+                      <li>Improving this portfolio with stronger project case studies and clearer project storytelling</li>
+                      <li>Deepening full-stack skills in React, Express.js, MongoDB, and authentication workflows</li>
+                  </ul>
+                </div>
+
+                <!-- Quick Stats Widget -->
+                <div class="card quick-stats-widget" style="margin-top:12px;">
+                  <h3>Portfolio Snapshot</h3>
+                  <p>A quick view of what I have built so far and where I am currently focused.</p>
+                  <div class="stats-grid">
+                    <div class="stat-item">
+                      <div class="stat-number" id="completedProjectsCount">--</div>
+                      <div class="stat-label">Projects Built</div>
+                    </div>
+                    <div class="stat-item">
+                      <div class="stat-number" id="plannedProjectsCount">--</div>
+                      <div class="stat-label">Projects Planned</div>
+                    </div>
+                    <div class="stat-item">
+                      <div class="stat-number" id="focusAreasCount">--</div>
+                      <div class="stat-label">Current Focus Areas</div>
+                    </div>
+                    <div class="stat-item">
+                      <div class="stat-number" id="publicReposCount">3</div>
+                      <div class="stat-label">Public GitHub Repos</div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Project Spotlight Widget -->
+                <div class="card spotlight-widget" style="margin-top:12px;">
+                  <h3>Project Spotlight</h3>
+                  <div id="spotlightContent">
+                    <div class="spotlight-loading">Loading project spotlight...</div>
+                  </div>
+                </div>
+
+                <!-- GitHub Activity Widget -->
+                <div class="card github-widget" style="margin-top:12px;">
+                  <h3>GitHub Activity</h3>
+                  <div id="githubActivity">
+                    <div class="github-loading">Loading featured GitHub project...</div>
+                  </div>
                 </div>
 
                 <!-- Quote of the Day Widget -->
@@ -322,11 +494,17 @@
           </div>
 
           <footer>
-            <p>&copy; 2025 Cory Carmen — Portfolio Website</p>
+            <p>&copy; <span id="currentYear">2025</span> Cory Carmen - Portfolio Website</p>
           </footer>
 
         <!-- Bootstrap JavaScript -->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- Keep a safe fallback when the local-only config file is not present. -->
+        <script>
+          window.PORTFOLIO_LOCAL_CONFIG = window.PORTFOLIO_LOCAL_CONFIG || {};
+        </script>
+        <!-- Local-only private settings override public defaults when present. -->
+        <script src="js/config.local.js" onerror="window.PORTFOLIO_LOCAL_CONFIG = window.PORTFOLIO_LOCAL_CONFIG || {}; this.remove();"></script>
         <!-- Custom JavaScript -->
         <script src="js/script.js"></script>
         </body>

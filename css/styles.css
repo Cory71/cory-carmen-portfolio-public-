@@ -1,6 +1,8 @@
 /* Cory Carmen Portfolio Website Styles */
 /* Created: November 5, 2025 */
 
+/* Base page setup */
+
 * { 
     box-sizing: border-box; 
     margin: 0; 
@@ -19,11 +21,59 @@ body {
     background-color: #4169E1; 
 }
 
-/* Layout */
+/* Navbar */
 .navbar { 
     background-color: #191970 !important; 
 }
 
+.nav-theme-toggle-item {
+    display: flex;
+    align-items: center;
+    margin-right: 8px;
+}
+
+.nav-theme-toggle {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0;
+    padding: 0 10px;
+    min-height: 40px;
+}
+
+.nav-theme-toggle .form-check-input {
+    cursor: pointer;
+    width: 2.5em;
+    height: 1.25em;
+    margin: 0;
+    background-color: rgba(255, 255, 255, 0.25);
+    border-color: rgba(255, 255, 255, 0.45);
+    background-position: left center;
+    background-size: contain;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='%23ffffff' stroke='%23191970' stroke-width='0.75'/%3e%3c/svg%3e");
+    transition: background-position 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.nav-theme-toggle .form-check-input:checked {
+    background-color: #4db6ac;
+    border-color: #4db6ac;
+    background-position: right center;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='%23ffffff' stroke='%230b4f4f' stroke-width='0.75'/%3e%3c/svg%3e");
+}
+
+.nav-theme-toggle .form-check-input:focus {
+    border-color: #8fd8d1;
+    box-shadow: 0 0 0 0.2rem rgba(77, 182, 172, 0.25);
+}
+
+.nav-theme-toggle .form-check-label {
+    color: #ffffff;
+    font-size: 0.9rem;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+/* Header */
 header { 
     background: #4169E1; 
     color: whitesmoke; 
@@ -48,7 +98,7 @@ header p {
     padding: 0 16px; 
 }
 
-/* Grid: main + aside */
+/* Main layout */
 .layout { 
     display: flex; 
     gap: 20px; 
@@ -62,7 +112,7 @@ aside {
     width: 260px; 
 }
 
-/* Hero (centered) */
+/* Hero section */
 .hero { 
     background: #dadada; 
     padding: 30px; 
@@ -90,7 +140,7 @@ aside {
     color: #155; 
 }
 
-/* Cards for sections */
+/* Shared card styles */
 .card { 
     background: #dadada; 
     border: 1px solid #d0d0d0; 
@@ -120,7 +170,27 @@ aside {
     margin-bottom: 8px; 
 }
 
-/* Skills/projects */
+/* Skills section */
+.skill-groups {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+}
+
+.skill-group {
+    background: #f0fff0;
+    border: 1px solid #c7d8c7;
+    border-radius: 8px;
+    padding: 14px;
+}
+
+.skill-group-title {
+    color: #0b4f4f;
+    font-size: 1rem;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
 .skills-list { 
     display: flex; 
     flex-wrap: wrap; 
@@ -135,37 +205,143 @@ aside {
     font-size: 0.85rem; 
 }
 
-/* Project table */
-.project-table { 
-    display: grid; 
-    grid-template-columns: 1fr 1fr 1fr 1fr; 
-    gap: 0; 
-    margin-top: 12px; 
+/* Learning and project cards */
+.learning-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+    margin-top: 12px;
 }
 
-.project-table > div { 
-    text-align: center; 
-    padding: 8px; 
-    background: #f0fff0; 
-    border-right: 1px solid #ccc; 
-    border-bottom: 1px solid #ccc; 
+.learning-item,
+.project-card {
+    background: #f0fff0;
+    border: 1px solid #c7d8c7;
+    border-radius: 8px;
+    padding: 14px;
     color: #333;
-    transition: background-color 0.3s ease, color 0.3s ease;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease, color 0.3s ease;
 }
 
-.project-table > div:nth-child(4n) { 
-    border-right: none; 
+.learning-item:hover,
+.project-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 14px rgba(43, 122, 120, 0.16);
 }
 
-.project-header { 
-    font-weight: bold; 
-    color: #0b4f4f; 
-    background: #f0f8f8; 
-    font-size: 1.1rem; 
-    text-decoration: underline; 
+.learning-item h4,
+.project-card h4 {
+    color: #0b4f4f;
+    font-size: 1rem;
+    margin-bottom: 8px;
+    font-weight: bold;
 }
 
-/* Quick facts in aside */
+.learning-item p,
+.project-card p {
+    margin-bottom: 8px;
+}
+
+.project-showcase {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+    margin-top: 12px;
+}
+
+.project-featured {
+    grid-column: 1 / -1;
+}
+
+.project-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 10px;
+}
+
+.project-status {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    font-weight: bold;
+    white-space: nowrap;
+}
+
+.project-status.completed {
+    background: #d9efe0;
+    color: #255b41;
+}
+
+.project-status.in-progress {
+    background: #fff0cc;
+    color: #8a5c22;
+}
+
+.project-status.coming-soon {
+    background: #e4eefc;
+    color: #2f4f8f;
+}
+
+.project-status.planning {
+    background: #f4e7d5;
+    color: #8a5c22;
+}
+
+.project-tech,
+.project-focus,
+.project-year {
+    font-size: 0.92rem;
+}
+
+.project-meta {
+    font-size: 0.92rem;
+    color: #1e5f5d;
+}
+
+.project-points {
+    margin: 0 0 10px 18px;
+    padding: 0;
+}
+
+.project-points li {
+    margin-bottom: 6px;
+    color: #455555;
+}
+
+.project-tech {
+    color: #1e5f5d;
+    font-weight: bold;
+}
+
+.project-focus,
+.project-year {
+    color: #4e5b5b;
+}
+
+.project-link {
+    display: inline-block;
+    background: #2b7a78;
+    color: #ffffff;
+    text-decoration: none;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 0.88rem;
+    font-weight: bold;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.project-link:hover {
+    background: #236a68;
+    color: #ffffff;
+    transform: translateY(-1px);
+}
+
+/* Aside summary card */
 .facts { 
     background: #ffddd2; 
     padding: 12px; 
@@ -183,6 +359,90 @@ aside {
     margin-top: 6px; 
 }
 
+/* Sidebar widgets added to highlight active work and proof of progress. */
+.build-list {
+    margin: 0 0 0 18px;
+    padding: 0;
+}
+
+.build-list li {
+    margin-bottom: 8px;
+    color: #3f4f4f;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+}
+
+.stat-item {
+    background: #f0fff0;
+    border: 1px solid #c7d8c7;
+    border-radius: 8px;
+    padding: 10px;
+    text-align: center;
+}
+
+.stat-number {
+    font-size: 1.4rem;
+    font-weight: bold;
+    color: #2b7a78;
+}
+
+.stat-label {
+    font-size: 0.82rem;
+    color: #4e5b5b;
+    line-height: 1.35;
+}
+
+.spotlight-title,
+.github-repo-name {
+    color: #0b4f4f;
+    font-size: 1rem;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.spotlight-meta,
+.spotlight-focus,
+.github-repo-meta,
+.github-loading,
+.spotlight-loading,
+.github-error {
+    color: #4e5b5b;
+    font-size: 0.9rem;
+}
+
+.spotlight-focus {
+    margin-bottom: 0;
+}
+
+.github-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.github-repo {
+    padding-bottom: 10px;
+    border-bottom: 1px solid #d9e6e4;
+}
+
+.github-repo:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.github-repo-name a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.github-repo-name a:hover {
+    text-decoration: underline;
+}
+
 /* Footer */
 footer { 
     text-align: center; 
@@ -191,7 +451,7 @@ footer {
     font-size: 0.9rem; 
 }
 
-/* Contact Form Styles */
+/* Contact form */
 .contact-form-section {
     border-top: 1px solid #ddd;
     padding-top: 20px;
@@ -347,7 +607,13 @@ footer {
     border: 1px solid #f5c6cb;
 }
 
-/* Weather Widget Styles */
+.contact-privacy-note {
+    margin-top: 10px;
+    color: #5f6f6d;
+    font-size: 0.92rem;
+}
+
+/* Weather widget */
 .weather-widget {
     background: linear-gradient(135deg, #c5e4f3, #d8f0fc);
     border: 1px solid #95cce8;
@@ -578,12 +844,6 @@ footer {
     font-weight: 500;
 }
 
-.weather-error {
-    text-align: center;
-    padding: 20px;
-    color: #d32f2f;
-}
-
 .retry-btn {
     background: #2b7a78;
     color: white;
@@ -599,7 +859,7 @@ footer {
     background: #236a68;
 }
 
-/* Quote Widget Styles */
+/* Quote widget */
 .quote-widget {
     position: relative;
 }
@@ -650,7 +910,7 @@ footer {
     font-style: italic;
 }
 
-/* News Feed Widget Styles */
+/* News widget */
 .news-widget {
     background: #f0fff8;
     border-radius: 12px;
@@ -812,7 +1072,7 @@ footer {
     font-style: italic;
 }
 
-/* Settings Section Styles */
+/* Settings dropdown */
 .navbar .dropdown-menu {
     background: rgba(255, 255, 255, 0.95);
     border: 1px solid #ddd;
@@ -874,7 +1134,7 @@ footer {
     border-color: #ddd;
 }
 
-/* Dark Mode Styles */
+/* Dark mode */
 body.dark-mode {
     background-color: #1a1a1a;
     color: #e0e0e0;
@@ -892,6 +1152,16 @@ body.dark-mode .navbar {
 body.dark-mode .navbar-brand,
 body.dark-mode .nav-link {
     color: #e0e0e0 !important;
+}
+
+body.dark-mode .nav-theme-toggle .form-check-label {
+    color: #e0e0e0;
+}
+
+body.dark-mode .nav-theme-toggle .form-check-input {
+    background-color: rgba(255, 255, 255, 0.12);
+    border-color: #6b7280;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='%23ffffff' stroke='%232d2d30' stroke-width='0.75'/%3e%3c/svg%3e");
 }
 
 body.dark-mode .nav-link:hover {
@@ -940,20 +1210,93 @@ body.dark-mode .facts .num {
     color: #ff7043;
 }
 
+body.dark-mode .build-list li,
+body.dark-mode .stat-label,
+body.dark-mode .spotlight-meta,
+body.dark-mode .spotlight-focus,
+body.dark-mode .github-repo-meta,
+body.dark-mode .github-loading,
+body.dark-mode .spotlight-loading,
+body.dark-mode .github-error {
+    color: #c3c3c3;
+}
+
+body.dark-mode .stat-item {
+    background: #2a2a2a;
+    border-color: #404040;
+}
+
+body.dark-mode .stat-number,
+body.dark-mode .spotlight-title,
+body.dark-mode .github-repo-name {
+    color: #4db6ac;
+}
+
+body.dark-mode .github-repo {
+    border-bottom-color: #404040;
+}
+
 body.dark-mode .skill-tag {
     background: #4db6ac;
     color: #1a1a1a;
 }
 
-body.dark-mode .project-table > div {
+body.dark-mode .skill-group {
+    background: #2a2a2a;
+    border-color: #404040;
+}
+
+body.dark-mode .learning-item,
+body.dark-mode .project-card {
     background: #2a2a2a;
     border-color: #404040;
     color: #e0e0e0;
 }
 
-body.dark-mode .project-header {
-    background: #333333 !important;
+body.dark-mode .learning-item h4,
+body.dark-mode .project-card h4,
+body.dark-mode .project-tech,
+body.dark-mode .project-meta {
     color: #4db6ac;
+}
+
+body.dark-mode .project-focus,
+body.dark-mode .project-year {
+    color: #c3c3c3;
+}
+
+body.dark-mode .project-points li {
+    color: #d2d2d2;
+}
+
+body.dark-mode .project-link {
+    background: #4db6ac;
+    color: #1a1a1a;
+}
+
+body.dark-mode .project-link:hover {
+    background: #69c9c0;
+    color: #1a1a1a;
+}
+
+body.dark-mode .project-status.completed {
+    background: #214b44;
+    color: #b8f0e7;
+}
+
+body.dark-mode .project-status.in-progress {
+    background: #5a4315;
+    color: #ffe2a3;
+}
+
+body.dark-mode .project-status.coming-soon {
+    background: #24354f;
+    color: #c7daff;
+}
+
+body.dark-mode .project-status.planning {
+    background: #4a3721;
+    color: #f4d4a6;
 }
 
 body.dark-mode .weather-widget {
@@ -1004,7 +1347,7 @@ body.dark-mode .weather-unavailable p {
     color: #ffd54f;
 }
 
-/* Weather details text - lighter for better visibility */
+/* Dark mode weather details */
 body.dark-mode .weather-details p {
     color: #c0c0c0;
 }
@@ -1185,7 +1528,7 @@ body.dark-mode .dropdown-item:hover {
     background-color: rgba(77, 182, 172, 0.2) !important;
 }
 
-/* Bootstrap Responsive */
+/* Responsive layout */
 
 /* Large devices */
 @media (min-width: 992px) {
@@ -1208,13 +1551,15 @@ body.dark-mode .dropdown-item:hover {
     .hero { 
         padding: 25px 20px; 
     }
-    
-    .project-table { 
-        font-size: 0.9rem; 
+
+    .skill-groups,
+    .learning-grid,
+    .project-showcase {
+        grid-template-columns: 1fr;
     }
-    
-    .project-table > div { 
-        padding: 6px 4px; 
+
+    .project-featured {
+        grid-column: auto;
     }
 }
 
@@ -1244,24 +1589,79 @@ body.dark-mode .dropdown-item:hover {
     .hero h2 { 
         font-size: 1.3rem; 
     }
+
+    .hero p {
+        font-size: 0.95rem;
+    }
+
+    .nav-theme-toggle-item {
+        margin-right: 0;
+        padding: 6px 0;
+    }
+
+    .nav-theme-toggle {
+        justify-content: flex-start;
+        padding: 8px 0;
+    }
     
     .card { 
         padding: 12px; 
         margin-bottom: 15px; 
     }
-    
-    .project-table { 
-        font-size: 0.85rem; 
+
+    .skill-group {
+        padding: 12px;
     }
-    
-    .project-table > div { 
-        padding: 5px 3px; 
+
+    .stats-grid {
+        gap: 8px;
     }
-    
-    .project-header { 
-        font-size: 0.95rem; 
+
+    .learning-item,
+    .project-card {
+        padding: 12px;
     }
-    
+
+    .project-card-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+
+    .project-tech,
+    .project-meta,
+    .project-focus,
+    .project-year {
+        font-size: 0.88rem;
+    }
+
+    .skill-group-title,
+    .learning-item h4,
+    .project-card h4 {
+        font-size: 0.95rem;
+        line-height: 1.35;
+    }
+
+    .weather-search,
+    .news-controls {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .weather-search-btn,
+    .news-select,
+    .project-link {
+        width: 100%;
+    }
+
+    .project-link {
+        text-align: center;
+    }
+
+    .news-widget {
+        padding: 16px;
+    }
+
     .skills-list { 
         gap: 4px; 
     }
@@ -1302,21 +1702,69 @@ body.dark-mode .dropdown-item:hover {
     .hero h2 { 
         font-size: 1.1rem; 
     }
+
+    .hero p {
+        font-size: 0.9rem;
+    }
     
     .card { 
         padding: 10px; 
     }
-    
-    .project-table { 
-        font-size: 0.75rem; 
+
+    .skill-group {
+        padding: 10px;
     }
-    
-    .project-table > div { 
-        padding: 4px 2px; 
+
+    .learning-item,
+    .project-card {
+        padding: 10px;
     }
-    
-    .project-header { 
-        font-size: 0.85rem; 
+
+    .project-status {
+        font-size: 0.7rem;
+    }
+
+    .stat-number {
+        font-size: 1.2rem;
+    }
+
+    .spotlight-title,
+    .github-repo-name {
+        font-size: 0.95rem;
+    }
+
+    .skill-group-title,
+    .learning-item h4,
+    .project-card h4 {
+        font-size: 0.9rem;
+    }
+
+    .quote-text {
+        font-size: 15px;
+        padding: 0 10px;
+    }
+
+    .quote-author {
+        padding-right: 10px;
+    }
+
+    .forecast-item {
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    .forecast-day,
+    .forecast-temps {
+        width: auto;
+    }
+
+    .forecast-weather {
+        justify-content: flex-start;
+        width: 100%;
+    }
+
+    .news-widget {
+        padding: 14px;
     }
     
     #projects h3 { 
