@@ -835,9 +835,40 @@ function initProjectSpotlightWidget() {
 function buildSpotlightProjects(projectCards) {
     return Array.from(projectCards).map(card => ({
         title: card.querySelector('h4')?.textContent || 'Project',
-        meta: card.querySelector('.project-meta')?.textContent || '',
-        focus: card.querySelector('.project-focus')?.textContent || ''
+        meta: getSpotlightMeta(card),
+        focus: getSpotlightFocus(card)
     }));
+}
+
+// Spotlight text helpers
+function getSpotlightMeta(card) {
+    const projectTitle = card.querySelector('h4')?.textContent?.trim() || 'Project';
+    const spotlightMetaByProject = {
+        'Portfolio Website': 'HTML, CSS, JavaScript, Bootstrap, APIs',
+        'Note-Taking App': 'JavaScript, EJS, Node.js, MongoDB',
+        'Weather Forecasting App': 'React, JavaScript, weather APIs',
+        'Mobile App': 'React Native mobile project',
+        'Capstone': 'React, React Native, Node, Express, MongoDB'
+    };
+
+    return spotlightMetaByProject[projectTitle] || cleanSpotlightText(card.querySelector('.project-meta')?.textContent || '');
+}
+
+function getSpotlightFocus(card) {
+    const projectTitle = card.querySelector('h4')?.textContent?.trim() || 'Project';
+    const spotlightFocusByProject = {
+        'Portfolio Website': 'Built one polished site that mixes portfolio content with live widgets and theme controls.',
+        'Note-Taking App': 'Practiced full-stack CRUD flows, server rendering, and database-backed note management.',
+        'Weather Forecasting App': 'Building a clean React weather dashboard with reusable components and live data.',
+        'Mobile App': 'Learning React Native by planning a simple first app with solid mobile UI basics.',
+        'Capstone': 'Planning one end-to-end MERN app that ties together auth, frontend, backend, and data.'
+    };
+
+    return spotlightFocusByProject[projectTitle] || cleanSpotlightText(card.querySelector('.project-focus')?.textContent || '');
+}
+
+function cleanSpotlightText(text) {
+    return text.replace(/\s+/g, ' ').trim();
 }
 
 function startProjectSpotlightRotation(spotlightContent, spotlightProjects) {
@@ -1128,6 +1159,8 @@ function showWidgetAndSavePreference(widgetSelector, storageKey) {
 }
 
 // News widget helpers
+const NEWS_MAX_ARTICLE_AGE_HOURS = 72;
+
 function initNewsWidget() {
     console.log('📰 News widget ready');
 
@@ -1189,26 +1222,20 @@ async function loadNews() {
 }
 
 function renderLoadedArticles(articles) {
-    if (articles.length > 0) {
-        displayArticles(articles.slice(0, 6));
+    const recentArticles = filterRecentArticles(articles);
+
+    if (recentArticles.length > 0) {
+        displayArticles(recentArticles.slice(0, 6));
         return;
     }
 
-    showError('News Feeds Unavailable');
+    showError('No recent news in this category');
 }
 
 // News data helpers
 async function fetchNewsData(category) {
     const feedUrl = getNewsFeedUrl(category);
-    const proxyUrl = 'https://api.allorigins.win/raw?url=';
-    const response = await fetch(proxyUrl + encodeURIComponent(feedUrl));
-
-    if (!response.ok) {
-        throw new Error(`Feed unavailable: ${response.status}`);
-    }
-
-    const xmlText = await response.text();
-    return parseNewsXML(xmlText, category);
+    return fetchNewsFromCodeTabs(feedUrl, category);
 }
 
 function getNewsFeedUrl(category) {
@@ -1224,6 +1251,22 @@ function getNewsFeedUrl(category) {
     };
 
     return feeds[category] || feeds.headline;
+}
+
+async function fetchNewsFromCodeTabs(feedUrl, category) {
+    const proxyUrl = buildCodeTabsProxyUrl(feedUrl);
+    const response = await fetch(proxyUrl, { cache: 'no-store' });
+
+    if (!response.ok) {
+        throw new Error(`CodeTabs proxy unavailable: ${response.status}`);
+    }
+
+    const xmlText = await response.text();
+    return parseNewsXML(xmlText, category);
+}
+
+function buildCodeTabsProxyUrl(feedUrl) {
+    return `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(feedUrl)}`;
 }
 
 // News parsing helpers
@@ -1252,7 +1295,7 @@ function parseNewsXML(xmlText, category) {
 
 function createArticleFromItem(item, category) {
     const title = item.querySelector('title')?.textContent?.trim();
-    const description = item.querySelector('description')?.textContent?.replace(/<[^>]*>/g, '').trim();
+    const description = stripHtml(item.querySelector('description')?.textContent || '').trim();
     const url = item.querySelector('link')?.textContent?.trim();
     const pubDate = item.querySelector('pubDate')?.textContent;
 
@@ -1276,6 +1319,25 @@ function buildArticleDescription(description) {
 
     const shortDescription = description.substring(0, 180);
     return shortDescription + (description.length > 180 ? '...' : '');
+}
+
+function filterRecentArticles(articles) {
+    const maxArticleAgeMs = NEWS_MAX_ARTICLE_AGE_HOURS * 60 * 60 * 1000;
+    const now = Date.now();
+
+    return articles.filter(article => {
+        const publishedAt = new Date(article.publishedAt).getTime();
+
+        if (Number.isNaN(publishedAt)) {
+            return false;
+        }
+
+        return now - publishedAt <= maxArticleAgeMs;
+    });
+}
+
+function stripHtml(text) {
+    return text.replace(/<[^>]*>/g, ' ');
 }
 
 // Helper functions - Simple & Clear

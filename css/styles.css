@@ -404,6 +404,17 @@ aside {
     margin-bottom: 8px;
 }
 
+.spotlight-widget {
+    overflow: hidden;
+}
+
+#spotlightContent {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    height: 140px;
+}
+
 .spotlight-meta,
 .spotlight-focus,
 .github-repo-meta,
@@ -414,7 +425,24 @@ aside {
     font-size: 0.9rem;
 }
 
+.spotlight-meta,
 .spotlight-focus {
+    line-height: 1.4;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+}
+
+.spotlight-meta {
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    min-height: calc(0.9rem * 1.4 * 2);
+}
+
+.spotlight-focus {
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    min-height: calc(0.9rem * 1.4 * 3);
     margin-bottom: 0;
 }
 
