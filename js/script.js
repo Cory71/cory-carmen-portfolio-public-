@@ -859,7 +859,7 @@ function getSpotlightFocus(card) {
     const spotlightFocusByProject = {
         'Portfolio Website': 'Built one polished site that mixes portfolio content with live widgets and theme controls.',
         'Note-Taking App': 'Practiced full-stack CRUD flows, server rendering, and database-backed note management.',
-        'Weather Forecasting App': 'Building a clean React weather dashboard with reusable components and live data.',
+        'Weather Forecasting App': 'Built a clean React weather dashboard with reusable components, live API data, and theme controls.',
         'Mobile App': 'Learning React Native by planning a simple first app with solid mobile UI basics.',
         'Capstone': 'Planning one end-to-end MERN app that ties together auth, frontend, backend, and data.'
     };
@@ -903,7 +903,7 @@ async function initGitHubActivityWidget() {
 }
 
 async function fetchFeaturedGitHubRepo() {
-    const response = await fetch('https://api.github.com/repos/Cory71/note-taking-app-MT');
+    const response = await fetch('https://api.github.com/repos/Cory71/weather-app-cs');
     if (!response.ok) {
         throw new Error(`GitHub API error: ${response.status}`);
     }
