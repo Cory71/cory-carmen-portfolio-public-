@@ -847,8 +847,8 @@ function getSpotlightMeta(card) {
         'Portfolio Website': 'HTML, CSS, JavaScript, Bootstrap, APIs',
         'Note-Taking App': 'JavaScript, EJS, Node.js, MongoDB',
         'Weather Forecasting App': 'React, JavaScript, weather APIs',
-        'Mobile App': 'React Native mobile project',
-        'Capstone': 'React, React Native, Node, Express, MongoDB'
+        'BC Marine (Mobile App)': 'React Native, Expo, live marine data APIs',
+        'StockGrader (Capstone)': 'React, Vite, Node, Express, MongoDB, JWT'
     };
 
     return spotlightMetaByProject[projectTitle] || cleanSpotlightText(card.querySelector('.project-meta')?.textContent || '');
@@ -860,8 +860,8 @@ function getSpotlightFocus(card) {
         'Portfolio Website': 'Built one polished site that mixes portfolio content with live widgets and theme controls.',
         'Note-Taking App': 'Practiced full-stack CRUD flows, server rendering, and database-backed note management.',
         'Weather Forecasting App': 'Built a clean React weather dashboard with reusable components, live API data, and theme controls.',
-        'Mobile App': 'Learning React Native by planning a simple first app with solid mobile UI basics.',
-        'Capstone': 'Planning one end-to-end MERN app that ties together auth, frontend, backend, and data.'
+        'BC Marine (Mobile App)': 'Built a cross-platform React Native app that pulls live tide, wind, wave, and forecast data for BC waters.',
+        'StockGrader (Capstone)': 'Building a full-stack app that grades stocks A–F, pairing a React frontend with an Express and MongoDB API.'
     };
 
     return spotlightFocusByProject[projectTitle] || cleanSpotlightText(card.querySelector('.project-focus')?.textContent || '');
