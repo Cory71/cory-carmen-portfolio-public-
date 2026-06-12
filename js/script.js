@@ -4,10 +4,6 @@
 // Portfolio configuration
 const portfolioConfig = buildPortfolioConfig();
 
-// Contact form: Web3Forms access key (safe to be public). Get a free key at https://web3forms.com
-// and paste it below. Submissions are emailed straight to you with no backend needed.
-const WEB3FORMS_ACCESS_KEY = '712c8d1a-b67b-4ed0-b36b-e72dc76e7fbd';
-
 // App startup
 startPortfolioApp();
 
@@ -51,7 +47,8 @@ function buildPortfolioConfig() {
             email: '',
             phone: '',
             location: 'Vancouver Island, BC, Canada',
-            linkedinUrl: 'https://www.linkedin.com/in/cory-carmen-87a330382/'
+            linkedinUrl: 'https://www.linkedin.com/in/cory-carmen-87a330382/',
+            web3formsAccessKey: '' // Set in js/config.local.js to enable the contact form.
         },
         visibility: {
             showEmail: false,
@@ -199,9 +196,9 @@ function applyContactFormAvailability(contactToggle, contactFormContainer) {
     contactFormContainer.style.display = 'none';
 }
 
-// The contact form is ready once a real Web3Forms access key has been added.
+// The contact form is ready once a Web3Forms access key is set in config.local.js.
 function isContactFormEnabled() {
-    return Boolean(WEB3FORMS_ACCESS_KEY) && WEB3FORMS_ACCESS_KEY !== 'YOUR_WEB3FORMS_ACCESS_KEY';
+    return Boolean(portfolioConfig.contact.web3formsAccessKey);
 }
 
 function applyDefaultLocationLabel(currentLocationDisplay) {
@@ -406,7 +403,7 @@ function setContactSubmitState(submitButton, buttonText, buttonLoading, isLoadin
 // Send the contact message through Web3Forms (no backend needed).
 async function sendContactMessage(data) {
     const payload = {
-        access_key: WEB3FORMS_ACCESS_KEY,
+        access_key: portfolioConfig.contact.web3formsAccessKey,
         name: data.name,
         email: data.email,
         subject: data.subject || 'Message from Portfolio Website',
