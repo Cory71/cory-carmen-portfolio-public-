@@ -323,6 +323,14 @@ aside {
     color: #4e5b5b;
 }
 
+/* Small muted note under a project link (e.g. free-tier wake-up warning). */
+.project-note {
+    margin: -4px 0 8px;
+    color: #6a7775;
+    font-size: 0.82rem;
+    font-style: italic;
+}
+
 .project-link {
     display: inline-block;
     background: #2b7a78;
@@ -1291,6 +1299,10 @@ body.dark-mode .project-meta {
 body.dark-mode .project-focus,
 body.dark-mode .project-year {
     color: #c3c3c3;
+}
+
+body.dark-mode .project-note {
+    color: #9aa7a5;
 }
 
 body.dark-mode .project-points li {

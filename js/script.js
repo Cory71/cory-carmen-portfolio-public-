@@ -4,6 +4,10 @@
 // Portfolio configuration
 const portfolioConfig = buildPortfolioConfig();
 
+// Contact form: Web3Forms access key (safe to be public). Get a free key at https://web3forms.com
+// and paste it below. Submissions are emailed straight to you with no backend needed.
+const WEB3FORMS_ACCESS_KEY = '712c8d1a-b67b-4ed0-b36b-e72dc76e7fbd';
+
 // App startup
 startPortfolioApp();
 
@@ -190,9 +194,14 @@ function applyPrivacyNoteVisibility(contactPrivacyNote) {
 function applyContactFormAvailability(contactToggle, contactFormContainer) {
     if (!contactToggle || !contactFormContainer) return;
 
-    const canUseContactForm = portfolioConfig.visibility.enableContactForm && Boolean(portfolioConfig.contact.email);
-    contactToggle.style.display = canUseContactForm ? 'inline-flex' : 'none';
+    // Show the form once a real Web3Forms key is set, so it works on the live site too.
+    contactToggle.style.display = isContactFormEnabled() ? 'inline-flex' : 'none';
     contactFormContainer.style.display = 'none';
+}
+
+// The contact form is ready once a real Web3Forms access key has been added.
+function isContactFormEnabled() {
+    return Boolean(WEB3FORMS_ACCESS_KEY) && WEB3FORMS_ACCESS_KEY !== 'YOUR_WEB3FORMS_ACCESS_KEY';
 }
 
 function applyDefaultLocationLabel(currentLocationDisplay) {
@@ -351,9 +360,9 @@ function initContactFormSubmission() {
     const btnText = submitBtn.querySelector('.btn-text');
     const btnLoading = submitBtn.querySelector('.btn-loading');
     
-    contactForm.addEventListener('submit', function(e) {
+    contactForm.addEventListener('submit', async function(e) {
         e.preventDefault();
-        
+
         const formData = new FormData(contactForm);
         const data = {
             name: formData.get('name').trim(),
@@ -361,27 +370,24 @@ function initContactFormSubmission() {
             subject: formData.get('subject').trim(),
             message: formData.get('message').trim()
         };
-        
+
         if (!validateContactForm(data)) {
             showFormResponse('Please fill in all required fields correctly.', 'error');
             return;
         }
-        
+
         setContactSubmitState(submitBtn, btnText, btnLoading, true);
-        
-        setTimeout(() => {
-            const mailtoLink = createMailtoLink(data);
 
-            if (!handleMissingMailtoLink(mailtoLink, submitBtn, btnText, btnLoading)) {
-                return;
-            }
-
-            window.location.href = mailtoLink;
-            
-            showFormResponse('Email client opened! Your message has been prepared.', 'success');
+        try {
+            await sendContactMessage(data);
+            showFormResponse('Thanks! Your message has been sent.', 'success');
             contactForm.reset();
+        } catch (error) {
+            console.error('Contact form failed:', error);
+            showFormResponse('Sorry, something went wrong. Please try again later.', 'error');
+        } finally {
             setContactSubmitState(submitBtn, btnText, btnLoading, false);
-        }, 1500);
+        }
     });
     
     // Real-time validation
@@ -397,14 +403,31 @@ function setContactSubmitState(submitButton, buttonText, buttonLoading, isLoadin
     buttonLoading.style.display = isLoading ? 'inline' : 'none';
 }
 
-function handleMissingMailtoLink(mailtoLink, submitButton, buttonText, buttonLoading) {
-    if (mailtoLink) {
-        return true;
-    }
+// Send the contact message through Web3Forms (no backend needed).
+async function sendContactMessage(data) {
+    const payload = {
+        access_key: WEB3FORMS_ACCESS_KEY,
+        name: data.name,
+        email: data.email,
+        subject: data.subject || 'Message from Portfolio Website',
+        message: data.message
+    };
 
-    showFormResponse('Direct email is not enabled in this version of the site.', 'error');
-    setContactSubmitState(submitButton, buttonText, buttonLoading, false);
-    return false;
+    const response = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+        },
+        body: JSON.stringify(payload)
+    });
+
+    const result = await response.json();
+
+    // Web3Forms returns { success: true } when the email was accepted.
+    if (!response.ok || !result.success) {
+        throw new Error(result.message || 'Web3Forms request failed');
+    }
 }
 
 function validateContactForm(data) {
@@ -431,23 +454,6 @@ function validateField(field) {
     
     field.style.borderColor = !isValid ? '#c0d0c0' : '#6495ED';
     return isValid;
-}
-
-function createMailtoLink(data) {
-    const to = portfolioConfig.contact.email;
-
-    if (!to) {
-        return null;
-    }
-
-    const subject = encodeURIComponent(data.subject || 'Message from Portfolio Website');
-    const body = encodeURIComponent(
-        `Hello Cory,\n\n${data.message}\n\n` +
-        `Best regards,\n${data.name}\n\n` +
-        `---\nSent from your portfolio website\nReply to: ${data.email}`
-    );
-    
-    return `mailto:${to}?subject=${subject}&body=${body}`;
 }
 
 function showFormResponse(message, type) {
@@ -848,7 +854,7 @@ function getSpotlightMeta(card) {
         'Note-Taking App': 'JavaScript, EJS, Node.js, MongoDB',
         'Weather Forecasting App': 'React, JavaScript, weather APIs',
         'BC Marine (Mobile App)': 'React Native, Expo, live marine data APIs',
-        'StockGrader (Capstone)': 'React, Vite, Node, Express, MongoDB, JWT'
+        'StockGrader (Capstone)': 'React, Vite, Node, Express, MongoDB, JWT, Finnhub'
     };
 
     return spotlightMetaByProject[projectTitle] || cleanSpotlightText(card.querySelector('.project-meta')?.textContent || '');
@@ -861,7 +867,7 @@ function getSpotlightFocus(card) {
         'Note-Taking App': 'Practiced full-stack CRUD flows, server rendering, and database-backed note management.',
         'Weather Forecasting App': 'Built a clean React weather dashboard with reusable components, live API data, and theme controls.',
         'BC Marine (Mobile App)': 'Built a cross-platform React Native app that pulls live tide, wind, wave, and forecast data for BC waters.',
-        'StockGrader (Capstone)': 'Building a full-stack app that grades stocks A–F, pairing a React frontend with an Express and MongoDB API.'
+        'StockGrader (Capstone)': 'Built and deployed a full-stack app that grades stocks A–F, pairing a React frontend with an authenticated Express and MongoDB API.'
     };
 
     return spotlightFocusByProject[projectTitle] || cleanSpotlightText(card.querySelector('.project-focus')?.textContent || '');
@@ -1070,17 +1076,60 @@ function initSettings() {
 }
 
 function applySavedDarkModePreference(darkModeCheckbox) {
-    const savedDarkMode = localStorage.getItem('darkMode') === 'true';
+    // Use the saved choice if there is one; otherwise follow the system setting.
+    if (shouldStartInDarkMode()) {
+        document.body.classList.add('dark-mode');
 
-    if (!savedDarkMode) return;
+        if (darkModeCheckbox) {
+            darkModeCheckbox.checked = true;
+        }
 
-    document.body.classList.add('dark-mode');
-
-    if (darkModeCheckbox) {
-        darkModeCheckbox.checked = true;
+        refreshProjectCardColors(); // Apply dark mode colors on load.
     }
 
-    refreshProjectCardColors(); // Apply dark mode colors on load.
+    // Keep following the system theme until the user makes their own choice.
+    watchSystemThemeChanges(darkModeCheckbox);
+}
+
+// Decide the starting theme: a saved preference wins, the system setting is the fallback.
+function shouldStartInDarkMode() {
+    const savedDarkMode = localStorage.getItem('darkMode');
+
+    if (savedDarkMode !== null) {
+        return savedDarkMode === 'true';
+    }
+
+    return prefersDarkSystemTheme();
+}
+
+// Read the operating system's light or dark setting.
+function prefersDarkSystemTheme() {
+    return window.matchMedia('(prefers-color-scheme: dark)').matches;
+}
+
+// Match the page and the toggle to the current system theme.
+function applySystemTheme(darkModeCheckbox) {
+    const isDarkMode = prefersDarkSystemTheme();
+
+    document.body.classList.toggle('dark-mode', isDarkMode);
+
+    if (darkModeCheckbox) {
+        darkModeCheckbox.checked = isDarkMode;
+    }
+
+    refreshProjectCardColors();
+}
+
+// Follow live system theme changes, but only while the user has not set their own preference.
+function watchSystemThemeChanges(darkModeCheckbox) {
+    const systemTheme = window.matchMedia('(prefers-color-scheme: dark)');
+
+    systemTheme.addEventListener('change', function() {
+        // A saved preference means the user chose manually, so leave their choice alone.
+        if (localStorage.getItem('darkMode') !== null) return;
+
+        applySystemTheme(darkModeCheckbox);
+    });
 }
 
 function initDarkModeToggle(darkModeCheckbox) {
@@ -1132,8 +1181,10 @@ function resetSettings() {
     const newsCheckbox = document.getElementById('newsWidget');
 
     resetSettingsCheckboxes(darkModeCheckbox, weatherCheckbox, quoteCheckbox, newsCheckbox);
-    document.body.classList.remove('dark-mode');
-    localStorage.setItem('darkMode', 'false');
+
+    // Clear the saved theme override so the site follows the system setting again.
+    localStorage.removeItem('darkMode');
+    applySystemTheme(darkModeCheckbox);
 
     showWidgetAndSavePreference('.weather-widget', 'weatherWidget');
     showWidgetAndSavePreference('.quote-widget', 'quoteWidget');
@@ -1235,7 +1286,7 @@ function renderLoadedArticles(articles) {
 // News data helpers
 async function fetchNewsData(category) {
     const feedUrl = getNewsFeedUrl(category);
-    return fetchNewsFromCodeTabs(feedUrl, category);
+    return fetchNewsFromRss2Json(feedUrl, category);
 }
 
 function getNewsFeedUrl(category) {
@@ -1253,63 +1304,52 @@ function getNewsFeedUrl(category) {
     return feeds[category] || feeds.headline;
 }
 
-async function fetchNewsFromCodeTabs(feedUrl, category) {
-    const proxyUrl = buildCodeTabsProxyUrl(feedUrl);
-    const response = await fetch(proxyUrl, { cache: 'no-store' });
+// Fetch the RSS feed as JSON through rss2json, which also handles CORS for us.
+async function fetchNewsFromRss2Json(feedUrl, category) {
+    const requestUrl = buildRss2JsonUrl(feedUrl);
+    const response = await fetch(requestUrl, { cache: 'no-store' });
 
     if (!response.ok) {
-        throw new Error(`CodeTabs proxy unavailable: ${response.status}`);
+        throw new Error(`News service unavailable: ${response.status}`);
     }
 
-    const xmlText = await response.text();
-    return parseNewsXML(xmlText, category);
+    const data = await response.json();
+
+    if (data.status !== 'ok' || !Array.isArray(data.items)) {
+        throw new Error('News service returned no items');
+    }
+
+    // Keep the first few items and convert them to the widget's article shape.
+    return data.items
+        .slice(0, 8)
+        .map(item => createArticleFromJson(item, category))
+        .filter(article => article.title);
 }
 
-function buildCodeTabsProxyUrl(feedUrl) {
-    return `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(feedUrl)}`;
+function buildRss2JsonUrl(feedUrl) {
+    return `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(feedUrl)}`;
 }
 
 // News parsing helpers
-function parseNewsXML(xmlText, category) {
-    const parser = new DOMParser();
-    const doc = parser.parseFromString(xmlText, 'text/xml');
-
-    if (doc.querySelector('parsererror')) {
-        throw new Error('XML parsing failed');
-    }
-
-    const items = doc.querySelectorAll('item');
-    const articles = [];
-
-    items.forEach((item, index) => {
-        if (index >= 8) return;
-
-        const article = createArticleFromItem(item, category);
-        if (article) {
-            articles.push(article);
-        }
-    });
-
-    return articles;
-}
-
-function createArticleFromItem(item, category) {
-    const title = item.querySelector('title')?.textContent?.trim();
-    const description = stripHtml(item.querySelector('description')?.textContent || '').trim();
-    const url = item.querySelector('link')?.textContent?.trim();
-    const pubDate = item.querySelector('pubDate')?.textContent;
-
-    if (!title) {
-        return null;
-    }
+function createArticleFromJson(item, category) {
+    const description = stripHtml(item.description || '').trim();
 
     return {
-        title,
+        title: (item.title || '').trim(),
         description: buildArticleDescription(description),
-        url,
-        publishedAt: pubDate || new Date().toISOString(),
+        url: item.link,
+        publishedAt: normalizePublishedDate(item.pubDate),
         source: getSourceName(category)
     };
+}
+
+// rss2json sends dates like "2026-06-12 15:15:44"; convert to ISO so Date can parse them.
+function normalizePublishedDate(pubDate) {
+    if (!pubDate) {
+        return new Date().toISOString();
+    }
+
+    return pubDate.replace(' ', 'T');
 }
 
 function buildArticleDescription(description) {

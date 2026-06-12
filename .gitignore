@@ -3,3 +3,6 @@ js/config.local.js
 Portfolio-Upgrade-Plan.md
 MyInteractiveWebsiteJourney.md
 .vercel
+.claude
+docs/
+.playwright-mcp/

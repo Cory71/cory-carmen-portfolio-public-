@@ -83,8 +83,8 @@
             <section class="hero card" id="hero">
               <img src="images/Profile2.jpeg" alt="Cory Carmen - Profile Photo">
               <h2>Cory Carmen</h2>
-              <p><strong>Student Software Developer</strong></p>
-              <p>Building practical, user-focused projects while growing into a Full-Stack Software Developer.</p>
+              <p><strong>Full-Stack Software Developer</strong></p>
+              <p>Building practical, user-focused web and mobile apps with the full MERN stack.</p>
               <p><a href="#contact">Contact Me</a></p>
             </section>
 
@@ -93,7 +93,7 @@
                 <!-- About Me -->
                 <section class="card" id="about">
                   <h3>About Me</h3>
-                  <p>Hello, I'm Cory Carmen, a student software developer based on Vancouver Island and currently building my skills in full-stack web development.</p>
+                  <p>Hello, I'm Cory Carmen, a full-stack software developer based on Vancouver Island, focused on building practical, user-focused web and mobile applications.</p>
                   <p>After spending 25 years in the commercial diving and fishing industry, I made the decision to transition into tech and pursue software development full-time.</p>
                   <p>I enjoy building practical, user-focused projects while continuing to grow in JavaScript, React, Node.js, Express.js, MongoDB, and authentication systems.</p>
                 </section>
@@ -128,7 +128,8 @@
                     <li>Started building frontend and mobile skills with React and React Native.</li>
                     <li>Began learning authentication workflows with Auth0 and Passport Local Strategy.</li>
                     <li>Shipped a cross-platform mobile app with React Native and Expo using live marine data APIs.</li>
-                    <li>Started a full-stack capstone with a React frontend and an Express, MongoDB, and JWT-secured backend.</li>
+                    <li>Built and deployed a full-stack capstone with a React frontend and an Express, MongoDB, and JWT-secured backend.</li>
+                    <li>Graduated from the UBC Software Development program through CircuitStream in 2026.</li>
                   </ul>
                 </section>
 
@@ -146,6 +147,7 @@
                         <div class="skill-tag">ES6+</div>
                         <div class="skill-tag">Bootstrap</div>
                         <div class="skill-tag">React</div>
+                        <div class="skill-tag">React Router</div>
                         <div class="skill-tag">React Native</div>
                         <div class="skill-tag">Expo</div>
                         <div class="skill-tag">Vite</div>
@@ -172,6 +174,7 @@
                         <div class="skill-tag">Auth0</div>
                         <div class="skill-tag">Passport Local Strategy</div>
                         <div class="skill-tag">JWT Authentication</div>
+                        <div class="skill-tag">Google OAuth</div>
                         <div class="skill-tag">MERN</div>
                       </div>
                     </div>
@@ -182,6 +185,8 @@
                         <div class="skill-tag">Git</div>
                         <div class="skill-tag">GitHub</div>
                         <div class="skill-tag">Postman</div>
+                        <div class="skill-tag">Vitest</div>
+                        <div class="skill-tag">Unit Testing</div>
                       </div>
                     </div>
                   </div>
@@ -242,15 +247,17 @@
                         <h4>Note-Taking App</h4>
                         <span class="project-status completed">Completed</span>
                       </div>
-                      <p class="project-meta"><strong>Built With:</strong> JavaScript, EJS, Bootstrap, Node.js, MongoDB</p>
-                      <p><strong>What It Does:</strong> Created a full-stack note-taking application for storing, organizing, and managing content through backend logic and database integration.</p>
+                      <p class="project-meta"><strong>Built With:</strong> JavaScript, Node.js, Express, MongoDB, Mongoose, EJS, Passport, Auth0</p>
+                      <p><strong>What It Does:</strong> A full-stack note-taking app where users sign in and create, read, update, and delete their own personal notes, with ownership-based authorization and a REST API.</p>
                       <ul class="project-points">
-                        <li>Implements database-backed note management workflows.</li>
-                        <li>Uses server-side rendering to deliver the app interface.</li>
-                        <li>Connects frontend interactions to backend and database operations.</li>
+                        <li>Supports local accounts or optional Auth0 login, with sessions persisted in MongoDB across server restarts.</li>
+                        <li>Offers full CRUD on notes, scoped search, and pin/unpin with manual reordering.</li>
+                        <li>Includes a dark/light theme that follows the OS setting with a manual override, plus a REST API at /api/notes.</li>
                       </ul>
-                      <p class="project-focus"><strong>What I Learned:</strong> Full-stack development patterns, CRUD workflows, and working with MongoDB in a practical project.</p>
+                      <p class="project-focus"><strong>What I Learned:</strong> Building an authenticated full-stack app with sessions, ownership-based authorization, CRUD workflows, and a matching REST API on MongoDB.</p>
                       <!-- Only public repositories get direct GitHub links for visitors. -->
+                      <p><a class="project-link" href="https://note-taking-app-mt.onrender.com" target="_blank" rel="noopener noreferrer">View Live Site</a></p>
+                      <p class="project-note">Hosted on Render's free tier, so the first load may take up to a minute to wake.</p>
                       <p><a class="project-link" href="https://github.com/Cory71/note-taking-app-MT" target="_blank" rel="noopener noreferrer">View GitHub Repository</a></p>
                       <p class="project-year">2026</p>
                     </article>
@@ -295,17 +302,19 @@
                     <article class="project-card">
                       <div class="project-card-header">
                         <h4>StockGrader (Capstone)</h4>
-                        <span class="project-status in-progress">In Progress</span>
+                        <span class="project-status completed">Completed</span>
                       </div>
-                      <p class="project-meta"><strong>Built With:</strong> React, Vite, Node.js, Express.js, MongoDB, JWT Authentication</p>
-                      <p><strong>What It Does:</strong> A full-stack web app that grades publicly traded stocks on an A–F scale by analyzing five fundamental financial metrics from Yahoo Finance data, turning complex numbers into a quick, easy-to-read assessment.</p>
+                      <p class="project-meta"><strong>Built With:</strong> React, Vite, React Router, Bootstrap, Node.js, Express.js, MongoDB, JWT, Google OAuth, Finnhub API</p>
+                      <p><strong>What It Does:</strong> A full-stack web app that grades publicly traded stocks on an A–F scale by analyzing five fundamental financial criteria from Finnhub data, turning complex numbers into a quick, easy-to-read assessment.</p>
                       <ul class="project-points">
-                        <li>Pairs a React and Vite frontend with an Express and MongoDB backend API.</li>
-                        <li>Lets users search a stock and view its automated fundamental grade.</li>
-                        <li>Secures the backend with JWT authentication and environment-based config.</li>
+                        <li>Pairs a React and Vite frontend with an Express, MongoDB, and Finnhub-powered backend API.</li>
+                        <li>Supports email/password and Google sign-in, with a grade card that breaks down all five criteria.</li>
+                        <li>Adds a watchlist that tracks grade changes and a compare view for two to three stocks.</li>
+                        <li>Includes dark/light mode, ticker and company name search, and 34 unit tests.</li>
                       </ul>
-                      <p class="project-focus"><strong>Current Goal:</strong> Finish connecting the React frontend to the backend grading service and ship a polished end-to-end full-stack capstone.</p>
+                      <p class="project-focus"><strong>What I Learned:</strong> Building and deploying a complete full-stack app end to end, wiring a React frontend to an authenticated Express and MongoDB API with third-party data and OAuth.</p>
                       <!-- Capstone is split into separate public frontend and backend repositories. -->
+                      <p><a class="project-link" href="https://stock-advisor-frontend.vercel.app" target="_blank" rel="noopener noreferrer">View Live Site</a></p>
                       <p><a class="project-link" href="https://github.com/Cory71/stock-advisor-frontend" target="_blank" rel="noopener noreferrer">View Frontend Repository</a></p>
                       <p><a class="project-link" href="https://github.com/Cory71/stock-advisor-backend" target="_blank" rel="noopener noreferrer">View Backend Repository</a></p>
                       <p class="project-year">2026</p>
@@ -367,20 +376,20 @@
               <aside>
                 <div class="facts card">
                   <h3>Quick Facts</h3>
-                  <div class="num">Student</div>
-                  <p>Available for Internship and Freelance projects.</p>
+                  <div class="num">Graduate</div>
+                  <p>Available for junior developer, freelance, and internship roles.</p>
                 </div>
 
                 <div class="card" style="margin-top:12px;">
                   <h3>Currently</h3>
-                  <p>Enrolled in a Software Development Bootcamp at UBC through CircuitStream.</p>
+                  <p>Graduated in 2026 from the Software Development program at UBC through CircuitStream, and now focused on full-stack developer roles and projects.</p>
                 </div>
 
                 <!-- Now Building Widget -->
                 <div class="card now-building-widget" style="margin-top:12px;">
                   <h3>Now Building</h3>
                   <ul class="build-list">
-                      <li>Building StockGrader, my full-stack capstone that grades stocks with a React frontend and an Express and MongoDB API</li>
+                      <li>Polishing my StockGrader capstone and exploring new full-stack project ideas to build next</li>
                       <li>Improving this portfolio with stronger project case studies and clearer project storytelling</li>
                       <li>Deepening full-stack skills in React, Express.js, MongoDB, and authentication workflows</li>
                   </ul>
