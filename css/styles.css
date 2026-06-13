@@ -352,6 +352,11 @@ aside {
     border-radius: 8px;
 }
 
+/* Give the scan instructions room to breathe below the QR. */
+.app-preview .project-note {
+    margin-top: 14px;
+}
+
 .project-link {
     display: inline-block;
     background: #2b7a78;
