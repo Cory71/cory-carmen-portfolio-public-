@@ -813,16 +813,25 @@ function showNotification(message) {
 // Sidebar widget helpers
 function initQuickStatsWidget() {
     const completedProjects = document.querySelectorAll('.project-status.completed').length;
-    const plannedProjects = document.querySelectorAll('.project-status.in-progress, .project-status.coming-soon, .project-status.planning').length;
+    const liveProjects = countLiveProjects();
     const focusAreas = document.querySelectorAll('.learning-item').length;
 
     const completedProjectsCount = document.getElementById('completedProjectsCount');
-    const plannedProjectsCount = document.getElementById('plannedProjectsCount');
+    const liveProjectsCount = document.getElementById('liveProjectsCount');
     const focusAreasCount = document.getElementById('focusAreasCount');
 
     if (completedProjectsCount) completedProjectsCount.textContent = completedProjects;
-    if (plannedProjectsCount) plannedProjectsCount.textContent = plannedProjects;
+    if (liveProjectsCount) liveProjectsCount.textContent = liveProjects;
     if (focusAreasCount) focusAreasCount.textContent = focusAreas;
+}
+
+// Count projects that have a deployed "View Live Site" link.
+function countLiveProjects() {
+    const projectLinks = document.querySelectorAll('.project-link');
+
+    return Array.from(projectLinks)
+        .filter(link => link.textContent.trim() === 'View Live Site')
+        .length;
 }
 
 function initProjectSpotlightWidget() {
