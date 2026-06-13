@@ -1045,8 +1045,8 @@ function displayQuote(data) {
 
 // Typing animation for hero section
 function initTypingAnimation() {
-    const heroSubtitle = document.querySelector('.hero p:nth-child(4)'); // Target the second paragraph
-    if (heroSubtitle && heroSubtitle.textContent.includes('Full-Stack')) {
+    const heroSubtitle = document.querySelector('.hero p:nth-child(4)'); // Target the tagline paragraph
+    if (heroSubtitle && heroSubtitle.textContent.trim()) {
         const originalText = heroSubtitle.textContent;
         heroSubtitle.textContent = '';
         
