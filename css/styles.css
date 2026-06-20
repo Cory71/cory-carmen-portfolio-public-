@@ -331,6 +331,15 @@ aside {
     font-style: italic;
 }
 
+/* Graduation credential badge in the "Currently" sidebar card. */
+.credential-badge {
+    display: block;
+    width: 150px;
+    max-width: 70%;
+    height: auto;
+    margin: 12px auto 0;
+}
+
 .project-link {
     display: inline-block;
     background: #2b7a78;
