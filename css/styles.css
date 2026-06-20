@@ -332,12 +332,29 @@ aside {
 }
 
 /* Graduation credential badge in the "Currently" sidebar card. */
+.credential-badge-link {
+    display: block;
+}
+
 .credential-badge {
     display: block;
     width: 150px;
     max-width: 70%;
     height: auto;
     margin: 12px auto 0;
+    transition: opacity 0.2s ease;
+}
+
+/* Subtle feedback that the badge is clickable. */
+.credential-badge-link:hover .credential-badge {
+    opacity: 0.85;
+}
+
+/* "Verify on Credly" link under the badge. */
+.credential-verify {
+    margin: 6px 0 0;
+    text-align: center;
+    font-size: 0.82rem;
 }
 
 .project-link {
