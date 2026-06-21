@@ -265,7 +265,15 @@ function initSkillInteractions() {
         'Passport Local Strategy': 'Username and password authentication using Passport.js local strategy for custom login flows.',
         'MERN': 'Full-stack JavaScript development using MongoDB, Express.js, React, and Node.js.',
         'JSON': 'Data interchange format, parsing, and API response handling.',
-        'DOM Manipulation': 'Dynamic content updates, event handling, and interactive user interfaces.'
+        'DOM Manipulation': 'Dynamic content updates, event handling, and interactive user interfaces.',
+        'React Router': 'Client-side routing and navigation for single-page React applications.',
+        'Expo': 'Tooling and workflow for building, previewing, and shipping React Native apps.',
+        'Vite': 'Fast frontend build tool and dev server for modern JavaScript and React projects.',
+        'JWT Authentication': 'Token-based authentication for securing APIs and managing user sessions.',
+        'Google OAuth': 'Third-party sign-in letting users authenticate securely with their Google account.',
+        'Docker': 'Containerizing applications for consistent development, testing, and deployment environments.',
+        'Vitest': 'Fast unit testing framework for JavaScript and React components.',
+        'Unit Testing': 'Writing automated tests to verify individual pieces of code work as expected.'
     };
     
     document.querySelectorAll('.skill-tag').forEach(tag => {
