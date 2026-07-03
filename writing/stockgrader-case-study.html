@@ -113,7 +113,7 @@
             <p>The watchlist stores a <strong>grade-at-add snapshot</strong> for each stock, then compares it to the current grade so a user sees "▲ Upgraded," "▼ Downgraded," or "— No change." That meant thinking about data modeling, not just displaying the latest value — storing history to make comparison meaningful.</p>
 
             <h3>5. Testing both layers</h3>
-            <p>Correctness matters when you're telling people a stock is an "A." The frontend is covered by a Vitest suite across helpers, components, and hooks; the backend is tested with Mocha, Chai, Supertest, Sinon, and an in-memory MongoDB so tests run fast and hermetically, without touching a real database. Testing across the whole stack is a habit I wanted to build early.</p>
+            <p>Correctness matters when you're telling people a stock is an "A." The frontend is covered by a Vitest suite across helpers, components, and hooks; the backend is tested with Mocha, Chai, Supertest, Sinon, and an in-memory MongoDB so tests run fast and in isolation, without touching a real database. Testing across the whole stack is a habit I wanted to build early.</p>
 
             <h2>What I learned</h2>
             <p>StockGrader is where a lot of separate skills became one working product: wiring a React frontend to an authenticated Express + MongoDB API, integrating third-party financial data, handling auth and OAuth, and deploying two services that talk to each other in production. Just as important, it's where I learned that the interesting engineering is often in the constraints — the rate limit, the cold start, the companies that don't fit the model — and that handling them honestly is what makes a project feel finished.</p>

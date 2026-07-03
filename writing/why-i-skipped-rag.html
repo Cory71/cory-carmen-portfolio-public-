@@ -64,12 +64,12 @@
             <p>I didn't have that problem. My entire knowledge base — a short bio, a résumé summary, project write-ups, and a links file — is about <strong>2,000 tokens</strong>. The model's context window is 200,000. I was going to use roughly 1% of it.</p>
 
             <div class="article-callout">
-                <strong>The key realization:</strong> when your whole corpus fits comfortably in the prompt, retrieval doesn't help you — it only adds a way to fail.
+                <strong>The key realization:</strong> when your whole knowledge base fits comfortably in the prompt, retrieval doesn't help you — it only adds a way to fail.
             </div>
 
             <p>Three concrete reasons RAG would have made this <em>worse</em>, not better:</p>
             <ul>
-                <li><strong>Accuracy.</strong> Retrieval can pick the wrong chunks and miss an answer that's actually in my documents. Inlining everything means the model always sees the full context, so it can never "fail to retrieve." For a small corpus, RAG can only match or hurt accuracy — never improve it.</li>
+                <li><strong>Accuracy.</strong> Retrieval can pick the wrong chunks and miss an answer that's actually in my documents. Inlining everything means the model always sees the full context, so it can never "fail to retrieve." For a small knowledge base, RAG can only match or hurt accuracy — never improve it.</li>
                 <li><strong>Cost.</strong> RAG's main selling point is sending fewer tokens. But at ~2,000 tokens on a fast, cheap model, each answer already costs a fraction of a cent. RAG would have <em>added</em> embedding-API costs and a second provider to save an amount of money that rounds to zero.</li>
                 <li><strong>Complexity.</strong> Today, updating what the assistant knows means editing a markdown file and pushing. With RAG, every edit means re-embedding and rebuilding a vector index. More moving parts, more to break, for no benefit.</li>
             </ul>
@@ -79,7 +79,7 @@
             <p>That gives me the parts that actually matter — grounded answers, real citations, and honest refusals — with one API key, no vector database, no embedding pipeline, and no build step.</p>
 
             <h2>When RAG <em>would</em> be the right call</h2>
-            <p>This isn't "RAG is overrated." It's "use the tool that fits the size of the problem." RAG earns its complexity the moment the corpus no longer fits comfortably in context: think hundreds of documents, long-form content, or a knowledge base that grows faster than you want to re-send on every call. If mine grew to tens of thousands of tokens, I'd reach for it — and there's even a middle step (simple keyword or section retrieval) before going full vector search.</p>
+            <p>This isn't "RAG is overrated." It's "use the tool that fits the size of the problem." RAG earns its complexity the moment your documents no longer fit comfortably in context: think hundreds of documents, long-form content, or a knowledge base that grows faster than you want to re-send on every call. If mine grew to tens of thousands of tokens, I'd reach for it — and there's even a middle step (simple keyword or section retrieval) before going full vector search.</p>
 
             <h2>The takeaway</h2>
             <p>The most impressive thing an engineer can do often isn't using the fanciest technique — it's choosing the simplest one that solves the problem, and being able to explain the trade-off. RAG would have looked more advanced on paper. Skipping it made the feature simpler, cheaper, and more accurate. That's the call I'd want to make on a real team, so it's the call I made here.</p>
