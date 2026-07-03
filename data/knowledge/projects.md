@@ -10,7 +10,8 @@ analyzing five fundamental financial criteria from Finnhub data, turning complex
 numbers into a quick, easy-to-read assessment. Supports email/password and
 Google sign-in, a grade card breaking down all five criteria, a watchlist that
 tracks grade changes, and a compare view for two to three stocks. Includes
-dark/light mode, ticker and company-name search, and 34 unit tests.
+dark/light mode, ticker and company-name search, and a full suite of unit tests
+across the frontend and backend.
 
 **What Cory learned:** building and deploying a complete full-stack app end to
 end, wiring a React frontend to an authenticated Express and MongoDB API with

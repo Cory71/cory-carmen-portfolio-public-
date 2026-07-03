@@ -63,8 +63,8 @@ that same focus and reliability to writing and shipping code.
 
 He does not just learn technologies in isolation — he builds and deploys complete,
 working projects with them. His capstone, StockGrader, is a fully deployed
-full-stack app with authentication, third-party data, and 34 unit tests, which
-he is especially proud of. Cory also values testing and quality: he writes unit
+full-stack app with authentication, third-party data, and a full suite of unit
+tests across the frontend and backend, which he is especially proud of. Cory also values testing and quality: he writes unit
 tests with Vitest to make sure his code works as expected.
 
 Cory is a motivated junior developer who is eager to keep growing, takes feedback
