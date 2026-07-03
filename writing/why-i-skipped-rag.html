@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Why I Didn't Use RAG for My Portfolio's AI Assistant — Cory Carmen</title>
+
+    <meta name="description" content="I built an AI assistant on my portfolio and deliberately skipped RAG. Here's why inlining a small knowledge base was the better engineering choice — and when RAG actually earns its complexity.">
+    <link rel="canonical" href="https://cory-carmen.vercel.app/writing/why-i-skipped-rag.html">
+    <meta name="theme-color" content="#2b7a78">
+    <link rel="icon" href="../images/favicon.svg" type="image/svg+xml">
+
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="Cory Carmen Portfolio">
+    <meta property="og:title" content="Why I Didn't Use RAG for My Portfolio's AI Assistant">
+    <meta property="og:description" content="Why inlining a small knowledge base beat RAG for my portfolio's AI assistant — and when RAG actually earns its complexity.">
+    <meta property="og:url" content="https://cory-carmen.vercel.app/writing/why-i-skipped-rag.html">
+    <meta property="og:image" content="https://cory-carmen.vercel.app/images/Profile2.jpeg">
+    <meta name="twitter:card" content="summary">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/article.css">
+</head>
+<body>
+<script>
+  // Apply the saved/system theme immediately to avoid a flash of the wrong mode.
+  (function () {
+    var saved = localStorage.getItem('darkMode');
+    var dark = saved !== null ? saved === 'true' : window.matchMedia('(prefers-color-scheme: dark)').matches;
+    if (dark) document.body.classList.add('dark-mode');
+  })();
+</script>
+
+    <!-- Simple top bar with a link home and a dark-mode toggle -->
+    <nav class="article-topbar">
+        <a class="article-brand" href="../index.html">Cory Carmen</a>
+        <label class="article-theme">
+            <input type="checkbox" id="darkModeToggle" aria-label="Toggle dark mode">
+            Dark mode
+        </label>
+    </nav>
+
+    <main class="article">
+        <a class="article-back" href="../index.html#writing">&larr; Back to portfolio</a>
+
+        <div class="article-header">
+            <p class="article-kicker">Engineering notes</p>
+            <h1>Why I Didn't Use RAG for My Portfolio's AI Assistant</h1>
+            <p class="article-meta">By Cory Carmen · July 2026 · ~4 min read</p>
+        </div>
+
+        <div class="article-body">
+            <p>My portfolio has an AI assistant — the "Ask about Cory" widget in the corner. A visitor asks a question about my background, skills, or projects, and it streams back a grounded answer with source citations, and honestly says "I don't have that" when the answer isn't in my documents.</p>
+
+            <p>When I designed it, the obvious "impressive" choice was <strong>RAG</strong> — Retrieval-Augmented Generation. I chose not to use it. Here's the reasoning, because I think the decision is more interesting than the feature.</p>
+
+            <h2>What RAG is, and why it's the default</h2>
+            <p>RAG is the standard pattern for grounding a language model in your own data. You split your documents into chunks, turn each chunk into a vector embedding, and store those vectors. When a question comes in, you embed the question too, find the most similar chunks, and feed just those chunks to the model as context. It's how you let a model answer from a knowledge base without retraining it.</p>
+            <p>It's genuinely the right tool for a lot of problems — and it's the first thing most people reach for when they hear "AI that answers from my documents."</p>
+
+            <h2>Why RAG was the wrong tool for this</h2>
+            <p>The whole point of RAG is to solve the problem of <em>having too much text to fit in the prompt</em>. You retrieve only the relevant slice so you don't blow past the context window or pay to send everything every time.</p>
+            <p>I didn't have that problem. My entire knowledge base — a short bio, a résumé summary, project write-ups, and a links file — is about <strong>2,000 tokens</strong>. The model's context window is 200,000. I was going to use roughly 1% of it.</p>
+
+            <div class="article-callout">
+                <strong>The key realization:</strong> when your whole corpus fits comfortably in the prompt, retrieval doesn't help you — it only adds a way to fail.
+            </div>
+
+            <p>Three concrete reasons RAG would have made this <em>worse</em>, not better:</p>
+            <ul>
+                <li><strong>Accuracy.</strong> Retrieval can pick the wrong chunks and miss an answer that's actually in my documents. Inlining everything means the model always sees the full context, so it can never "fail to retrieve." For a small corpus, RAG can only match or hurt accuracy — never improve it.</li>
+                <li><strong>Cost.</strong> RAG's main selling point is sending fewer tokens. But at ~2,000 tokens on a fast, cheap model, each answer already costs a fraction of a cent. RAG would have <em>added</em> embedding-API costs and a second provider to save an amount of money that rounds to zero.</li>
+                <li><strong>Complexity.</strong> Today, updating what the assistant knows means editing a markdown file and pushing. With RAG, every edit means re-embedding and rebuilding a vector index. More moving parts, more to break, for no benefit.</li>
+            </ul>
+
+            <h2>What I did instead</h2>
+            <p>I inline the whole knowledge base into the system prompt on every request. Each document is labeled with its source, and the prompt instructs the model to answer only from those documents, speak about me in the third person, refuse when the answer isn't there, and end each reply with a <code>SOURCES:</code> line. The widget splits that line off and renders the sources as citation chips.</p>
+            <p>That gives me the parts that actually matter — grounded answers, real citations, and honest refusals — with one API key, no vector database, no embedding pipeline, and no build step.</p>
+
+            <h2>When RAG <em>would</em> be the right call</h2>
+            <p>This isn't "RAG is overrated." It's "use the tool that fits the size of the problem." RAG earns its complexity the moment the corpus no longer fits comfortably in context: think hundreds of documents, long-form content, or a knowledge base that grows faster than you want to re-send on every call. If mine grew to tens of thousands of tokens, I'd reach for it — and there's even a middle step (simple keyword or section retrieval) before going full vector search.</p>
+
+            <h2>The takeaway</h2>
+            <p>The most impressive thing an engineer can do often isn't using the fanciest technique — it's choosing the simplest one that solves the problem, and being able to explain the trade-off. RAG would have looked more advanced on paper. Skipping it made the feature simpler, cheaper, and more accurate. That's the call I'd want to make on a real team, so it's the call I made here.</p>
+
+            <div class="article-cta">
+                <a href="../index.html#hero">Try the assistant &rarr;</a>
+                <a class="secondary" href="https://github.com/Cory71/cory-carmen-portfolio-public-" target="_blank" rel="noopener noreferrer">View the code</a>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; <span id="currentYear">2026</span> Cory Carmen - Portfolio Website</p>
+    </footer>
+
+    <script>document.getElementById('currentYear').textContent = new Date().getFullYear();</script>
+    <script src="../js/theme.js"></script>
+</body>
+</html>

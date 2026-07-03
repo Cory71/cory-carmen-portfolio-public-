@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StockGrader Case Study — Cory Carmen</title>
+
+    <meta name="description" content="A case study of StockGrader, my full-stack capstone: turning messy financial statements into a simple A–F stock grade with React, Express, MongoDB, and the Finnhub API.">
+    <link rel="canonical" href="https://cory-carmen.vercel.app/writing/stockgrader-case-study.html">
+    <meta name="theme-color" content="#2b7a78">
+    <link rel="icon" href="../images/favicon.svg" type="image/svg+xml">
+
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="Cory Carmen Portfolio">
+    <meta property="og:title" content="StockGrader: Turning Financial Statements into a Letter Grade">
+    <meta property="og:description" content="A full-stack case study — React, Express, MongoDB, JWT, and the Finnhub API — with the engineering decisions I'm most proud of.">
+    <meta property="og:url" content="https://cory-carmen.vercel.app/writing/stockgrader-case-study.html">
+    <meta property="og:image" content="https://cory-carmen.vercel.app/images/projects/stockgrader.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="https://cory-carmen.vercel.app/images/projects/stockgrader.png">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/article.css">
+</head>
+<body>
+<script>
+  (function () {
+    var saved = localStorage.getItem('darkMode');
+    var dark = saved !== null ? saved === 'true' : window.matchMedia('(prefers-color-scheme: dark)').matches;
+    if (dark) document.body.classList.add('dark-mode');
+  })();
+</script>
+
+    <nav class="article-topbar">
+        <a class="article-brand" href="../index.html">Cory Carmen</a>
+        <label class="article-theme">
+            <input type="checkbox" id="darkModeToggle" aria-label="Toggle dark mode">
+            Dark mode
+        </label>
+    </nav>
+
+    <main class="article">
+        <a class="article-back" href="../index.html#writing">&larr; Back to portfolio</a>
+
+        <div class="article-header">
+            <p class="article-kicker">Case study</p>
+            <h1>StockGrader: Turning Financial Statements into a Letter Grade</h1>
+            <p class="article-meta">By Cory Carmen · July 2026 · ~7 min read</p>
+        </div>
+
+        <div class="article-body">
+            <ul class="tech-chips">
+                <li>React</li>
+                <li>Vite</li>
+                <li>Node.js</li>
+                <li>Express</li>
+                <li>MongoDB</li>
+                <li>JWT</li>
+                <li>Google OAuth</li>
+                <li>Finnhub API</li>
+            </ul>
+
+            <p>StockGrader is my full-stack capstone: a web app that grades any U.S.-listed stock on an <strong>A–F scale</strong> by analyzing five fundamental financial criteria, turning pages of financial statements into a single, quick-to-read assessment. It's deployed, authenticated, and tested on both the frontend and backend.</p>
+
+            <figure class="article-figure">
+                <img src="../images/projects/stockgrader.png" alt="StockGrader showing Apple (AAPL) with an A grade and its five passing criteria">
+                <figcaption>The grade card: a letter grade backed by five pass/fail criteria with the real numbers behind each one.</figcaption>
+            </figure>
+
+            <h2>The problem</h2>
+            <p>Fundamental analysis is powerful but intimidating. Deciding whether a company is financially healthy means reading income statements and cash-flow statements and knowing which numbers matter. For anyone who isn't already comfortable with financial reports, that's a wall.</p>
+            <p>I wanted to collapse that wall into something anyone can read in two seconds — a letter grade — <strong>without</strong> hiding the reasoning. The grade had to be explainable, honest about its limits, and backed by the actual numbers.</p>
+
+            <h2>The approach: a transparent grading model</h2>
+            <p>Instead of a black-box score, StockGrader checks five fundamental criteria focused on revenue growth and free-cash-flow health. Each criterion the company passes earns a point, and the total maps to a letter:</p>
+            <ul>
+                <li><strong>A</strong> — all 5 criteria pass</li>
+                <li><strong>B</strong> — 4 of 5</li>
+                <li><strong>C</strong> — 3 of 5</li>
+                <li><strong>D</strong> — 2 of 5</li>
+                <li><strong>F</strong> — 0 or 1 of 5</li>
+            </ul>
+            <p>Every criterion is shown with the real figures behind it (for example, "Topline revenue growth: $416.2B vs prior $365.8B"). The grade is a summary, not a substitute for the evidence.</p>
+
+            <h2>The architecture</h2>
+            <p>StockGrader is split into two deployed services so each piece can scale and be reasoned about on its own:</p>
+            <ul>
+                <li><strong>Frontend</strong> — a React + Vite single-page app hosted on Vercel. It handles search, the grade card, the watchlist, and the compare view.</li>
+                <li><strong>Backend</strong> — an Express REST API on Render, backed by MongoDB Atlas through Mongoose. It does the grading, authentication, caching, and all the Finnhub calls.</li>
+                <li><strong>Auth</strong> — email/password with bcrypt-hashed passwords and JWT sessions (via Passport's <code>passport-jwt</code>), plus Google sign-in verified server-side with Google's auth library.</li>
+                <li><strong>Data</strong> — the <a href="https://finnhub.io/" target="_blank" rel="noopener noreferrer">Finnhub API</a> supplies live quotes and financial statements.</li>
+            </ul>
+            <p>Keeping the API key, grading logic, and database access entirely on the backend means the browser never sees a secret and never talks to Finnhub directly.</p>
+
+            <h2>The engineering decisions I'm most proud of</h2>
+
+            <h3>1. Beating the rate limit with a cache</h3>
+            <p>Finnhub's free tier allows 60 calls per minute, and grading a single stock takes about four calls. Without a plan, a handful of users refreshing watchlists would blow the limit instantly. So the backend <strong>caches every graded result in MongoDB for 24 hours</strong>, with an on-demand refresh when a user explicitly wants fresh numbers. Fundamentals barely move day to day, so this costs nothing in accuracy and keeps the app comfortably inside the free tier.</p>
+
+            <div class="article-callout">
+                <strong>The lesson:</strong> a third-party rate limit isn't a blocker — it's a design constraint. Caching turned a hard limit into a non-issue and made the app faster at the same time.
+            </div>
+
+            <h3>2. Being honest when the model doesn't fit</h3>
+            <p>A free-cash-flow-based model doesn't fit every company. Banks and insurers work differently, so instead of printing a confident-but-wrong grade, StockGrader returns an honest <strong>N/A</strong> with a plain-English explanation. REITs and utilities get graded but carry a caveat noting that free cash flow is only a rough proxy for them.</p>
+            <p>It would have been easier to grade everything and look more "complete." Choosing correctness over coverage was the right call — a tool that lies confidently is worse than one that admits its limits.</p>
+
+            <h3>3. Designing around a cold-start</h3>
+            <p>The backend sleeps on Render's free tier and takes 30–60 seconds to wake. Rather than let the first user hit a frozen screen, the frontend <strong>warms up the backend on page load</strong> and shows spinners during sign-in, so by the time someone searches, the server is usually awake. It's a small touch, but it's the difference between "broken" and "just a moment."</p>
+
+            <h3>4. Modeling change over time</h3>
+            <p>The watchlist stores a <strong>grade-at-add snapshot</strong> for each stock, then compares it to the current grade so a user sees "▲ Upgraded," "▼ Downgraded," or "— No change." That meant thinking about data modeling, not just displaying the latest value — storing history to make comparison meaningful.</p>
+
+            <h3>5. Testing both layers</h3>
+            <p>Correctness matters when you're telling people a stock is an "A." The frontend is covered by a Vitest suite across helpers, components, and hooks; the backend is tested with Mocha, Chai, Supertest, Sinon, and an in-memory MongoDB so tests run fast and hermetically, without touching a real database. Testing across the whole stack is a habit I wanted to build early.</p>
+
+            <h2>What I learned</h2>
+            <p>StockGrader is where a lot of separate skills became one working product: wiring a React frontend to an authenticated Express + MongoDB API, integrating third-party financial data, handling auth and OAuth, and deploying two services that talk to each other in production. Just as important, it's where I learned that the interesting engineering is often in the constraints — the rate limit, the cold start, the companies that don't fit the model — and that handling them honestly is what makes a project feel finished.</p>
+
+            <div class="article-cta">
+                <a href="https://stock-advisor-frontend.vercel.app" target="_blank" rel="noopener noreferrer">View live app &rarr;</a>
+                <a class="secondary" href="https://github.com/Cory71/stock-advisor-frontend" target="_blank" rel="noopener noreferrer">Frontend repo</a>
+                <a class="secondary" href="https://github.com/Cory71/stock-advisor-backend" target="_blank" rel="noopener noreferrer">Backend repo</a>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; <span id="currentYear">2026</span> Cory Carmen - Portfolio Website</p>
+    </footer>
+
+    <script>document.getElementById('currentYear').textContent = new Date().getFullYear();</script>
+    <script src="../js/theme.js"></script>
+</body>
+</html>

@@ -269,6 +269,59 @@ body.dark-mode .project-image {
     border-color: #3a3a3a;
 }
 
+/* Writing section: list of article links. */
+.writing-list {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin-top: 12px;
+}
+
+.writing-item {
+    padding: 14px 16px;
+    border: 1px solid #c7d8c7;
+    border-radius: 8px;
+    background: #f0fff0;
+    color: #333;
+}
+
+.writing-item h4 {
+    margin: 0 0 8px;
+    font-size: 1.05rem;
+}
+
+.writing-item h4 a {
+    color: #0b4f4f;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.writing-item h4 a:hover {
+    text-decoration: underline;
+}
+
+.writing-meta {
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #6b7c78;
+    margin-bottom: 6px;
+}
+
+body.dark-mode .writing-item {
+    background: #2a2a2a;
+    border-color: #3a3a3a;
+    color: #e0e0e0;
+}
+
+body.dark-mode .writing-item h4 a {
+    color: #7fd4d0;
+}
+
+body.dark-mode .writing-meta {
+    color: #9aa8a5;
+}
+
 .project-card-header {
     display: flex;
     justify-content: space-between;
