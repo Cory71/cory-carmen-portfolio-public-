@@ -253,6 +253,22 @@ aside {
     grid-column: 1 / -1;
 }
 
+/* Screenshot banner at the top of a project card. */
+.project-image {
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    object-position: top;
+    border-radius: 6px;
+    border: 1px solid #c7d8c7;
+    margin-bottom: 12px;
+}
+
+body.dark-mode .project-image {
+    border-color: #3a3a3a;
+}
+
 .project-card-header {
     display: flex;
     justify-content: space-between;
