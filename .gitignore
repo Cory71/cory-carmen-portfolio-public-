@@ -6,3 +6,5 @@ MyInteractiveWebsiteJourney.md
 .claude
 docs/
 .playwright-mcp/
+.env
+node_modules/

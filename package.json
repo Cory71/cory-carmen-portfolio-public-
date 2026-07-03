@@ -4,6 +4,11 @@
   "description": "Personal portfolio website for Cory Carmen.",
   "private": true,
   "scripts": {
-    "vercel-build": "node scripts/generate-config.js"
+    "vercel-build": "node scripts/generate-config.js",
+    "dev": "node scripts/dev-server.js",
+    "eval": "node eval/run-eval.js"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.70.0"
   }
 }

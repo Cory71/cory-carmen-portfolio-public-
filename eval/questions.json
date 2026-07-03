@@ -1,0 +1,42 @@
+[
+    {
+        "question": "What did Cory do before software development?",
+        "expectedKeywords": ["diving", "25"],
+        "expectRefusal": false
+    },
+    {
+        "question": "What is Cory's job title?",
+        "expectedKeywords": ["full-stack"],
+        "expectRefusal": false
+    },
+    {
+        "question": "Which database does Cory use?",
+        "expectedKeywords": ["MongoDB"],
+        "expectRefusal": false
+    },
+    {
+        "question": "What is the StockGrader project?",
+        "expectedKeywords": ["stock", "grade"],
+        "expectRefusal": false
+    },
+    {
+        "question": "What mobile app has Cory built?",
+        "expectedKeywords": ["BC Marine", "React Native"],
+        "expectRefusal": false
+    },
+    {
+        "question": "When did Cory graduate?",
+        "expectedKeywords": ["2026"],
+        "expectRefusal": false
+    },
+    {
+        "question": "Is Cory available for work?",
+        "expectedKeywords": ["available"],
+        "expectRefusal": false
+    },
+    {
+        "question": "What is Cory's favorite pizza topping?",
+        "expectedKeywords": [],
+        "expectRefusal": true
+    }
+]
