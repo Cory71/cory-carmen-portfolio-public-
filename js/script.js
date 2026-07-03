@@ -830,10 +830,13 @@ function initQuickStatsWidget() {
     const completedProjectsCount = document.getElementById('completedProjectsCount');
     const liveProjectsCount = document.getElementById('liveProjectsCount');
     const focusAreasCount = document.getElementById('focusAreasCount');
+    const featuredReposCount = document.getElementById('publicReposCount');
 
     if (completedProjectsCount) completedProjectsCount.textContent = completedProjects;
     if (liveProjectsCount) liveProjectsCount.textContent = liveProjects;
     if (focusAreasCount) focusAreasCount.textContent = focusAreas;
+    // Count only the curated showcase repos, so old classwork never inflates it.
+    if (featuredReposCount) featuredReposCount.textContent = FEATURED_GITHUB_REPOS.length;
 }
 
 // Count projects that have a deployed "View Live Site" link.
