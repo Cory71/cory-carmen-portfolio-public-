@@ -915,42 +915,66 @@ async function initGitHubActivityWidget() {
     if (!githubActivity) return;
 
     try {
-        const repo = await fetchFeaturedGitHubRepo();
-        renderFeaturedGitHubRepo(githubActivity, repo);
+        const repos = await fetchRecentGitHubRepos();
+        renderRecentGitHubRepos(githubActivity, repos);
     } catch (error) {
         showGitHubActivityError(githubActivity, error);
     }
 }
 
-async function fetchFeaturedGitHubRepo() {
-    const response = await fetch('https://api.github.com/repos/Cory71/weather-app-cs');
+// The repos worth featuring, so practice and lesson repos never show up here.
+const FEATURED_GITHUB_REPOS = [
+    'cory-carmen-portfolio-public-',
+    'stock-advisor-frontend',
+    'stock-advisor-backend',
+    'bc-marine',
+    'note-taking-app-MT',
+    'weather-app-cs'
+];
+
+// Fetch the user's repos and keep the most recently updated featured ones.
+async function fetchRecentGitHubRepos() {
+    const response = await fetch('https://api.github.com/users/Cory71/repos?sort=pushed&per_page=100');
     if (!response.ok) {
         throw new Error(`GitHub API error: ${response.status}`);
     }
 
-    const repo = await response.json();
-    if (!repo || !repo.html_url) {
-        throw new Error('Featured GitHub project is unavailable right now.');
+    const repos = await response.json();
+    if (!Array.isArray(repos)) {
+        throw new Error('GitHub activity is unavailable right now.');
     }
 
-    return repo;
+    // Keep only the featured repos, newest first, and take the top three.
+    return repos
+        .filter(repo => FEATURED_GITHUB_REPOS.includes(repo.name))
+        .sort((a, b) => new Date(b.pushed_at) - new Date(a.pushed_at))
+        .slice(0, 3);
 }
 
-function renderFeaturedGitHubRepo(githubActivity, repo) {
-    githubActivity.innerHTML = `
-        <div class="github-list">
-            <div class="github-repo">
-                <div class="github-repo-name"><a href="${repo.html_url}" target="_blank" rel="noopener noreferrer">${repo.name}</a></div>
-                <div class="github-repo-meta">Updated ${formatGitHubDate(repo.updated_at)}</div>
-                <div class="github-repo-meta">Primary language: ${repo.language || 'Not specified'}</div>
-            </div>
+function renderRecentGitHubRepos(githubActivity, repos) {
+    if (repos.length === 0) {
+        showGitHubActivityError(githubActivity, new Error('No featured repos returned'));
+        return;
+    }
+
+    const repoItems = repos.map(repo => `
+        <div class="github-repo">
+            <div class="github-repo-name"><a href="${repo.html_url}" target="_blank" rel="noopener noreferrer">${cleanRepoName(repo.name)}</a></div>
+            <div class="github-repo-meta">Updated ${formatGitHubDate(repo.pushed_at)} · ${repo.language || 'Code'}</div>
         </div>
-    `;
+    `).join('');
+
+    githubActivity.innerHTML = `<div class="github-list">${repoItems}</div>`;
+}
+
+// Tidy a repo name for display (drops the trailing dash on the public mirror).
+function cleanRepoName(name) {
+    return name.replace(/-+$/, '');
 }
 
 function showGitHubActivityError(githubActivity, error) {
     console.error('GitHub activity error:', error);
-    githubActivity.innerHTML = '<div class="github-error">Featured GitHub project is unavailable at the moment.</div>';
+    githubActivity.innerHTML = '<div class="github-error">GitHub activity is unavailable at the moment.</div>';
 }
 
 function formatGitHubDate(dateString) {
