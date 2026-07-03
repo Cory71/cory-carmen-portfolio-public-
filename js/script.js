@@ -272,6 +272,9 @@ function initSkillInteractions() {
         'JWT Authentication': 'Token-based authentication for securing APIs and managing user sessions.',
         'Google OAuth': 'Third-party sign-in letting users authenticate securely with their Google account.',
         'Docker': 'Containerizing applications for consistent development, testing, and deployment environments.',
+        'Vercel': 'Deploying and hosting web apps and serverless functions with Git-based continuous deployment.',
+        'Serverless Functions': 'Running backend logic as on-demand serverless functions (e.g. on Vercel) without managing a server.',
+        'Claude API': "Building AI features with Anthropic's Claude API - grounded prompts, streaming responses, and source citations.",
         'Vitest': 'Fast unit testing framework for JavaScript and React components.',
         'Unit Testing': 'Writing automated tests to verify individual pieces of code work as expected.'
     };
