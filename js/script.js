@@ -938,6 +938,23 @@ const FEATURED_GITHUB_REPOS = [
     'weather-app-cs'
 ];
 
+// GitHub reports every one of these repos as plain "JavaScript", which tells a
+// visitor nothing. Label each one with the stack it actually uses instead.
+// Keep this in step with FEATURED_GITHUB_REPOS above.
+const FEATURED_REPO_LABELS = {
+    'cory-carmen-portfolio-public-': 'JavaScript · Claude API',
+    'stock-advisor-frontend': 'React',
+    'stock-advisor-backend': 'Node.js · Express',
+    'bc-marine': 'React Native',
+    'note-taking-app-MT': 'Node.js · Express',
+    'weather-app-cs': 'React'
+};
+
+// Prefer the curated label, and fall back to whatever GitHub reports.
+function repoStackLabel(repo) {
+    return FEATURED_REPO_LABELS[repo.name] || repo.language || 'Code';
+}
+
 // Fetch the user's repos and keep the most recently updated featured ones.
 async function fetchRecentGitHubRepos() {
     const response = await fetch('https://api.github.com/users/Cory71/repos?sort=pushed&per_page=100');
@@ -966,7 +983,7 @@ function renderRecentGitHubRepos(githubActivity, repos) {
     const repoItems = repos.map(repo => `
         <div class="github-repo">
             <div class="github-repo-name"><a href="${repo.html_url}" target="_blank" rel="noopener noreferrer">${cleanRepoName(repo.name)}</a></div>
-            <div class="github-repo-meta">Updated ${formatGitHubDate(repo.pushed_at)} · ${repo.language || 'Code'}</div>
+            <div class="github-repo-meta">Updated ${formatGitHubDate(repo.pushed_at)} · ${repoStackLabel(repo)}</div>
         </div>
     `).join('');
 

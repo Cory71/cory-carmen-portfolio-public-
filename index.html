@@ -182,6 +182,7 @@
                         <div class="skill-tag">React Native</div>
                         <div class="skill-tag">Expo</div>
                         <div class="skill-tag">Vite</div>
+                        <div class="skill-tag">Recharts</div>
                         <div class="skill-tag">Responsive Design</div>
                         <div class="skill-tag">DOM Manipulation</div>
                       </div>
@@ -305,14 +306,16 @@
                         <h4>Weather Forecasting App</h4>
                         <span class="project-status completed">Completed</span>
                       </div>
-                      <p class="project-meta"><strong>Built With:</strong> React, JavaScript, Material UI, OpenWeatherMap API</p>
-                      <p><strong>What It Does:</strong> A weather app that lets users search for any city and view current conditions plus a five-day forecast, with support for light/dark mode and Celsius/Fahrenheit switching.</p>
+                      <p class="project-meta"><strong>Built With:</strong> React, JavaScript, Material UI, OpenWeatherMap API, Browser Geolocation API</p>
+                      <p><strong>What It Does:</strong> A weather app that lets users search for any city or detect their own location, then view current conditions plus a five-day forecast, with support for light/dark mode and Celsius/Fahrenheit switching.</p>
                       <ul class="project-points">
                         <li>Fetches live weather data through the OpenWeatherMap API.</li>
-                        <li>Manages search state, loading, and error feedback with React.</li>
-                        <li>Delivers a responsive layout across mobile, tablet, and desktop.</li>
+                        <li>Detects the current location with one button press, turning coordinates into a city name with reverse geocoding.</li>
+                        <li>Saves favorite cities in the browser so they can be reloaded from the settings menu on a later visit.</li>
+                        <li>Follows the device light or dark setting by default, with a manual override that survives a reload.</li>
+                        <li>Manages search state, loading, and error feedback with React, in a responsive layout across mobile, tablet, and desktop.</li>
                       </ul>
-                      <p class="project-focus"><strong>What I Learned:</strong> Building a clean React dashboard with reusable components, API-driven views, and a polished user interface.</p>
+                      <p class="project-focus"><strong>What I Learned:</strong> Building a clean React dashboard with reusable components, API-driven views, browser geolocation and storage, and a polished user interface.</p>
                       <!-- Only public repositories get direct GitHub links for visitors. -->
                       <p><a class="project-link" href="https://skycast-nine-livid.vercel.app/" target="_blank" rel="noopener noreferrer">View Live Site</a></p>
                       <p><a class="project-link" href="https://github.com/Cory71/weather-app-cs" target="_blank" rel="noopener noreferrer">View GitHub Repository</a></p>
@@ -331,8 +334,10 @@
                         <li>Pulls live marine data from the DFO tide API, Open-Meteo Marine API, and Environment Canada feeds.</li>
                         <li>Displays tide charts, wave and wind details, tidal currents, and active marine warnings.</li>
                         <li>Lets users search locations, save favorites, or use GPS, with pull-to-refresh and offline caching.</li>
+                        <li>Handles partial API outages gracefully, showing the data that did load instead of failing the whole screen.</li>
+                        <li>Kept current with the platform — upgraded through Expo SDK 57 on React Native 0.86 and React 19, with unused dependencies pruned.</li>
                       </ul>
-                      <p class="project-focus"><strong>What I Learned:</strong> Building a full React Native app with Expo, combining multiple live APIs, and managing app state, navigation, and local storage on mobile.</p>
+                      <p class="project-focus"><strong>What I Learned:</strong> Building a full React Native app with Expo, combining multiple live APIs, managing app state, navigation, and local storage on mobile, and keeping a shipped app current across major SDK upgrades.</p>
                       <!-- Only public repositories get direct GitHub links for visitors. -->
                       <p><a class="project-link" href="https://github.com/Cory71/bc-marine" target="_blank" rel="noopener noreferrer">View GitHub Repository</a></p>
                       <p class="project-year">2026</p>
@@ -342,17 +347,19 @@
                       <img class="project-image" src="images/projects/stockgrader.png" alt="StockGrader app showing Apple (AAPL) with an A grade and its five passing criteria">
                       <div class="project-card-header">
                         <h4>StockGrader (Capstone)</h4>
-                        <span class="project-status completed">Completed</span>
+                        <span class="project-status completed">Live &middot; Ongoing</span>
                       </div>
-                      <p class="project-meta"><strong>Built With:</strong> React, Vite, React Router, Bootstrap, Node.js, Express.js, MongoDB, JWT, Google OAuth, Finnhub API</p>
+                      <p class="project-meta"><strong>Built With:</strong> React, Vite, React Router, Bootstrap, Recharts, Node.js, Express.js, MongoDB, JWT, Google OAuth, Finnhub API, XBRL financial data</p>
                       <p><strong>What It Does:</strong> A full-stack web app that grades publicly traded stocks on an A–F scale by analyzing five fundamental financial criteria from Finnhub data, turning complex numbers into a quick, easy-to-read assessment.</p>
                       <ul class="project-points">
                         <li>Pairs a React and Vite frontend with an Express, MongoDB, and Finnhub-powered backend API.</li>
                         <li>Supports email/password and Google sign-in, with a grade card that breaks down all five criteria.</li>
                         <li>Adds a watchlist that tracks grade changes and a compare view for two to three stocks.</li>
+                        <li>Charts five years of revenue and free cash flow on a shared axis, joining the two series by year and naming any years a filing could not supply.</li>
+                        <li>Grades sector-aware — REITs and utilities get an honest caveat instead of a wrong "financial firm" message, and segment-level capital spending is summed where no consolidated line is filed.</li>
                         <li>Includes dark/light mode, ticker and company name search, and a full suite of unit tests across the frontend and backend.</li>
                       </ul>
-                      <p class="project-focus"><strong>What I Learned:</strong> Building and deploying a complete full-stack app end to end, wiring a React frontend to an authenticated Express and MongoDB API with third-party data and OAuth.</p>
+                      <p class="project-focus"><strong>What I Learned:</strong> Building and deploying a complete full-stack app end to end, wiring a React frontend to an authenticated Express and MongoDB API with third-party data and OAuth — then continuing to harden the grading accuracy against messy real-world filings.</p>
                       <!-- Capstone is split into separate public frontend and backend repositories. -->
                       <p><a class="project-link" href="https://stock-advisor-frontend.vercel.app" target="_blank" rel="noopener noreferrer">View Live Site</a></p>
                       <p><a class="project-link" href="https://github.com/Cory71/stock-advisor-frontend" target="_blank" rel="noopener noreferrer">View Frontend Repository</a></p>

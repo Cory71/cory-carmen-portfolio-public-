@@ -28,14 +28,16 @@ discipline, and calm-under-pressure habits into software development.
 ## Technical skills
 
 **Frontend:** HTML5, CSS3, JavaScript, ES6+, Bootstrap, React, React Router,
-React Native, Expo, Vite, Responsive Design, DOM Manipulation.
+React Native, Expo, Vite, Recharts, Responsive Design, DOM Manipulation.
 
-**Backend and APIs:** Node.js, Express.js, REST APIs, Async/Await, JSON.
+**Backend and APIs:** Node.js, Express.js, REST APIs, Serverless Functions,
+Claude API, Async/Await, JSON.
 
 **Database and Authentication:** MongoDB, Auth0, Passport Local Strategy,
 JWT Authentication, Google OAuth, MERN stack.
 
-**Tools and Workflow:** Git, GitHub, Docker, Postman, Vitest, Unit Testing.
+**Tools and Workflow:** Git, GitHub, Docker, Vercel, Postman, Vitest,
+Unit Testing.
 
 ## Education and credentials
 
