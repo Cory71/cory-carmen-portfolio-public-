@@ -58,27 +58,52 @@ Live site: https://stock-advisor-frontend.vercel.app
 Frontend repo: https://github.com/Cory71/stock-advisor-frontend
 Backend repo: https://github.com/Cory71/stock-advisor-backend
 
-## BC Marine (Mobile App)
+## BC Marine (Web & Mobile App)
 
-**Built with:** React Native, Expo, React Navigation, Axios, AsyncStorage,
-react-native-svg.
+**Built with:** React 19, Vite, React Router, Expo SDK 57, React Native,
+JavaScript (ES modules), Vercel Functions, Vitest, Testing Library, ESLint,
+GitHub Actions.
 
-A cross-platform mobile app for British Columbia's coastal mariners that shows
-live tide heights, wind, waves, currents, and Environment Canada marine
-forecasts for stations from Victoria to Prince Rupert. Pulls live data from the
-DFO tide API, Open-Meteo Marine API, and Environment Canada feeds. Lets users
-search locations, save favorites, or use GPS, with pull-to-refresh and offline
-caching. Handles partial API outages gracefully, showing whatever data did load
-instead of failing the whole screen.
+Live tides, wind, waves, tidal currents, and Environment Canada marine
+forecasts for 40+ locations on the BC coast, from Victoria to Prince Rupert.
+Data comes from the DFO tide API, Open-Meteo Marine API, and Environment Canada
+feeds. It started as an Expo / React Native mobile app (search, favorites, GPS,
+pull-to-refresh, offline caching) and on October 24, 2026 also launched as a
+public web app. Both apps share one data layer. It is live and still actively
+worked on, with more features planned.
 
-Kept current with the platform: upgraded through Expo SDK 57, running on React
-Native 0.86 and React 19, with unused dependencies pruned.
+What shipped with the web launch:
 
-**What Cory learned:** building a full React Native app with Expo, combining
-multiple live APIs, managing app state, navigation, and local storage on mobile,
-and keeping a shipped app current across major SDK upgrades.
+- **Web app:** Vite + React 19 on Vercel, with a desktop station sidebar, a
+  phone-friendly drawer, a dashboard, tides / weather / currents views, a
+  hand-built SVG tide chart, and shareable links (e.g. `/tides?station=tofino`).
+- **Monorepo:** npm workspaces with `apps/web`, `apps/mobile`, and
+  `packages/shared`, a plain-JS data layer used by both apps.
+- **Serverless proxy:** Environment Canada's feeds block browser requests (no
+  CORS headers), so a Vercel function with an allowlist fetches them. Responses
+  are CDN-cached for 30 minutes.
+- **BC time everywhere:** times show in Pacific time for every viewer, with
+  daylight-saving edge cases tested. CI also caught BC's move to permanent
+  UTC−7 on November 1, 2026.
+- **Data accuracy fix:** Cory audited all 41 locations against DFO's station
+  catalogue. 23 were showing tides from 20–218 km away; each now uses its own
+  station, verified against live data.
+- **Performance:** each data source appears as soon as it arrives, axios was
+  replaced with `fetch`, and code-splitting cut the first JavaScript download
+  from 125 KB to 86 KB (gzipped).
+- **Quality:** 77 Vitest tests, ESLint, and GitHub Actions CI (lint, tests, web
+  build, mobile bundle check). Lighthouse desktop: Performance 98–100,
+  Accessibility 100, Best Practices 100, SEO 100.
 
+**How it was built:** Cory designed the app and wrote the design spec and build
+plan, including the key decisions: shared data package, Vercel hosting,
+JavaScript, BC time in shared code, and an allowlisted proxy. Implementation
+was AI-assisted (Claude Code), with tests written first and every step checked
+in a browser or on a phone.
+
+Live site: https://bc-marine.vercel.app
 Repo: https://github.com/Cory71/bc-marine
+Architecture notes: https://github.com/Cory71/bc-marine/blob/main/docs/architecture.md
 
 ## Weather Forecasting App
 

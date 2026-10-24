@@ -103,8 +103,9 @@ The site presents five projects with descriptive cards:
 
 - **StockGrader (capstone)** — full-stack app that grades stocks A–F (React, Vite,
   Express, MongoDB, JWT, Google OAuth, Finnhub). Live and public.
-- **BC Marine (mobile app)** — cross-platform marine data app for BC's coast
-  (React Native, Expo, live tide/wind/wave APIs).
+- **BC Marine (web & mobile app)** — live marine data for 40+ BC coast locations,
+  as a public web app and a React Native app sharing one data layer (React 19,
+  Vite, Expo, Vercel Functions). Live and public.
 - **Weather Forecasting App** — React weather dashboard with a five-day forecast.
   Live and public.
 - **Note-Taking App** — authenticated full-stack CRUD notes app (Node, Express,
@@ -178,7 +179,8 @@ keeps the contact form and weather widget disabled.
 
 Full history is in the Git commit log. Key milestones:
 
-- **October 24, 2026** — Updated StockGrader with the bank grading model, plain-English
+- **October 24, 2026** — Updated BC Marine with its new public web app, monorepo,
+  proxy, and station-accuracy fix; updated StockGrader with the bank grading model, plain-English
   grade explanations, industry comparison, daily GitHub Actions refresh, PDF reports,
   and guest access; moved the news widget to its own `/api/news` function
 - **July 2, 2026** — Added the "Chat with Cory" AI assistant (streaming, grounded,

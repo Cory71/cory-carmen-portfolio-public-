@@ -264,23 +264,55 @@
                   <p>Each project highlights the stack used, the problem it addresses, and the main area of growth it represents in my development journey.</p>
                   <!-- Project cards replace the old table with more context about each project. -->
                   <div class="project-showcase">
-                    <article class="project-card project-featured">
+                    <article class="project-card">
+                      <img class="project-image" src="images/projects/stockgrader.png" alt="StockGrader app showing Apple (AAPL) with an A grade and its five passing criteria">
                       <div class="project-card-header">
-                        <h4>Portfolio Website</h4>
+                        <h4>StockGrader (Capstone)</h4>
                         <span class="project-status completed">Live &middot; Ongoing</span>
                       </div>
-                      <p class="project-meta"><strong>Built With:</strong> HTML5, CSS3, JavaScript, Bootstrap, Node.js (Serverless), Claude API, Vercel, REST APIs</p>
-                      <p><strong>What It Does:</strong> This portfolio pairs personal branding with interactive frontend behavior and an AI assistant ("Ask about Cory") that answers questions about my background — powered by the Claude API through a Vercel serverless function. It also includes live weather, news, quotes, dark mode, and a contact form.</p>
+                      <p class="project-meta"><strong>Built With:</strong> React, Vite, React Router, Bootstrap, Recharts, jsPDF, Node.js, Express.js, MongoDB, JWT, Google OAuth, Finnhub API, XBRL financial data, GitHub Actions</p>
+                      <p><strong>What It Does:</strong> A full-stack web app that grades 165 publicly traded companies on an A–F scale by analyzing five fundamental financial criteria from Finnhub data, turning complex numbers into a quick, easy-to-read assessment. Grades are refreshed automatically every morning, and the app is backed by 332 automated tests.</p>
                       <ul class="project-points">
-                        <li>Features an AI assistant with grounded, streaming answers, source citations, and honest "I don't know" refusals.</li>
-                        <li>Runs the assistant on a Node.js serverless function using the Claude API, keeping the API key server-side.</li>
-                        <li>Integrates live API content and dynamic widgets with responsive, theme-aware styling.</li>
-                        <li>Presents my background, skills, projects, and writing in a professional, evolving format.</li>
+                        <li>Pairs a React and Vite frontend with an Express, MongoDB, and Finnhub-powered backend API.</li>
+                        <li>Lets anyone grade a stock without an account; signing in with email/password or Google adds a watchlist that tracks grade changes, search history, and a compare view for two to three stocks.</li>
+                        <li>Explains every grade in plain English and compares each stock with the median of its industry once at least eight peers are graded.</li>
+                        <li>Grades banks on their own model — book value and net income growth, return on equity, return on assets, and efficiency ratio against the typical bank — instead of returning N/A.</li>
+                        <li>Keeps grades current with a daily GitHub Actions refresh, paces every Finnhub call through one shared rate limiter, and logs which criteria moved whenever a grade changes.</li>
+                        <li>Offers a downloadable PDF report for every grade, plus an account page to rename, export your data as a PDF, clear history, or delete the account.</li>
+                        <li>Charts five years of revenue and free cash flow, with dark/light mode, ticker and company name search, and unit tests across the frontend and backend.</li>
                       </ul>
-                      <p class="project-focus"><strong>What I Learned:</strong> How to design and ship an AI feature end to end — grounding, prompt design, streaming, and serverless deployment — alongside frontend polish and API integration.</p>
-                      <p><a class="project-link" href="writing/why-i-skipped-rag.html">Read: Why I skipped RAG →</a></p>
-                      <p><a class="project-link" href="https://github.com/Cory71/cory-carmen-portfolio-public-" target="_blank" rel="noopener noreferrer">View GitHub Repository</a></p>
-                      <p class="project-year">2025 to 2026</p>
+                      <p class="project-focus"><strong>What I Learned:</strong> Building and deploying a complete full-stack app end to end, wiring a React frontend to an authenticated Express and MongoDB API with third-party data and OAuth — then running it like a real product: scheduled jobs, shared rate limits, and tracing unexpected grade changes back to the data.</p>
+                      <!-- Capstone is split into separate public frontend and backend repositories. -->
+                      <p><a class="project-link" href="https://stock-advisor-frontend.vercel.app" target="_blank" rel="noopener noreferrer">View Live Site</a></p>
+                      <p><a class="project-link" href="https://github.com/Cory71/stock-advisor-frontend" target="_blank" rel="noopener noreferrer">View Frontend Repository</a></p>
+                      <p><a class="project-link" href="https://github.com/Cory71/stock-advisor-backend" target="_blank" rel="noopener noreferrer">View Backend Repository</a></p>
+                      <p><a class="project-link" href="writing/stockgrader-case-study.html">Read the case study →</a></p>
+                      <p class="project-year">2026</p>
+                    </article>
+
+                    <article class="project-card">
+                      <img class="project-image" src="images/projects/bcmarine.png" alt="BC Marine web app dashboard for Tofino showing a gale warning, live wind, waves, visibility, tide, currents, and today's tide chart">
+                      <div class="project-card-header">
+                        <h4>BC Marine (Web &amp; Mobile App)</h4>
+                        <span class="project-status completed">Live &middot; Ongoing</span>
+                      </div>
+                      <p class="project-meta"><strong>Built With:</strong> React 19, Vite, React Router, Expo SDK 57, React Native, JavaScript (ES modules), Vercel Functions, Vitest, Testing Library, ESLint, GitHub Actions</p>
+                      <p><strong>What It Does:</strong> Live tides, wind, waves, tidal currents, and Environment Canada marine forecasts for 40+ locations on the BC coast. It started as an Expo / React Native mobile app and is now also a public web app, with both sharing one data layer.</p>
+                      <ul class="project-points">
+                        <li>Web app built with Vite and React 19 on Vercel: a desktop station sidebar, a phone-friendly drawer, tides / weather / currents views, a hand-built SVG tide chart, and shareable links like <code>/tides?station=tofino</code>.</li>
+                        <li>npm workspaces monorepo with <code>apps/web</code>, <code>apps/mobile</code>, and a plain-JS <code>packages/shared</code> data layer used by both apps.</li>
+                        <li>An allowlisted Vercel serverless proxy for Environment Canada's feeds (which block browser requests), CDN-cached for 30 minutes.</li>
+                        <li>Shows BC time for every viewer, with daylight-saving edge cases tested — CI even caught BC's move to permanent UTC−7 on Nov 1, 2026.</li>
+                        <li>Audited all 41 locations against DFO's station catalogue: 23 were showing tides from 20–218 km away, and each now uses its own verified station.</li>
+                        <li>Each data source renders as soon as it arrives; swapping axios for <code>fetch</code> and code-splitting cut the first JavaScript download from 125 KB to 86 KB gzipped.</li>
+                        <li>77 Vitest tests, ESLint, and GitHub Actions CI; Lighthouse desktop scores of 98–100 Performance and 100 for Accessibility, Best Practices, and SEO.</li>
+                      </ul>
+                      <p class="project-focus"><strong>How I Built It:</strong> I designed the app and wrote the design spec and build plan, including the key decisions: a shared data package, Vercel hosting, JavaScript, BC time in shared code, and an allowlisted proxy. Implementation was AI-assisted (Claude Code), with tests written first and every step checked in a browser or on a phone.</p>
+                      <!-- Only public repositories get direct GitHub links for visitors. -->
+                      <p><a class="project-link" href="https://bc-marine.vercel.app" target="_blank" rel="noopener noreferrer">View Live Site</a></p>
+                      <p><a class="project-link" href="https://github.com/Cory71/bc-marine" target="_blank" rel="noopener noreferrer">View GitHub Repository</a></p>
+                      <p><a class="project-link" href="https://github.com/Cory71/bc-marine/blob/main/docs/architecture.md" target="_blank" rel="noopener noreferrer">Read the architecture notes →</a></p>
+                      <p class="project-year">2026</p>
                     </article>
 
                     <article class="project-card">
@@ -326,51 +358,23 @@
                       <p class="project-year">2026</p>
                     </article>
 
-                    <article class="project-card">
-                      <img class="project-image" src="images/projects/bcmarine.jpeg" style="object-position: 50% 70%;" alt="BC Marine mobile app dashboard showing live wind, wave, visibility, and tide data for Victoria, BC">
+                    <article class="project-card project-featured">
                       <div class="project-card-header">
-                        <h4>BC Marine (Mobile App)</h4>
-                        <span class="project-status completed">Completed</span>
-                      </div>
-                      <p class="project-meta"><strong>Built With:</strong> React Native, Expo, React Navigation, Axios, AsyncStorage, react-native-svg</p>
-                      <p><strong>What It Does:</strong> A cross-platform mobile app for British Columbia's coastal mariners that shows live tide heights, wind, waves, currents, and Environment Canada marine forecasts for stations from Victoria to Prince Rupert.</p>
-                      <ul class="project-points">
-                        <li>Pulls live marine data from the DFO tide API, Open-Meteo Marine API, and Environment Canada feeds.</li>
-                        <li>Displays tide charts, wave and wind details, tidal currents, and active marine warnings.</li>
-                        <li>Lets users search locations, save favorites, or use GPS, with pull-to-refresh and offline caching.</li>
-                        <li>Handles partial API outages gracefully, showing the data that did load instead of failing the whole screen.</li>
-                        <li>Kept current with the platform — upgraded through Expo SDK 57 on React Native 0.86 and React 19, with unused dependencies pruned.</li>
-                      </ul>
-                      <p class="project-focus"><strong>What I Learned:</strong> Building a full React Native app with Expo, combining multiple live APIs, managing app state, navigation, and local storage on mobile, and keeping a shipped app current across major SDK upgrades.</p>
-                      <!-- Only public repositories get direct GitHub links for visitors. -->
-                      <p><a class="project-link" href="https://github.com/Cory71/bc-marine" target="_blank" rel="noopener noreferrer">View GitHub Repository</a></p>
-                      <p class="project-year">2026</p>
-                    </article>
-
-                    <article class="project-card">
-                      <img class="project-image" src="images/projects/stockgrader.png" alt="StockGrader app showing Apple (AAPL) with an A grade and its five passing criteria">
-                      <div class="project-card-header">
-                        <h4>StockGrader (Capstone)</h4>
+                        <h4>Portfolio Website</h4>
                         <span class="project-status completed">Live &middot; Ongoing</span>
                       </div>
-                      <p class="project-meta"><strong>Built With:</strong> React, Vite, React Router, Bootstrap, Recharts, jsPDF, Node.js, Express.js, MongoDB, JWT, Google OAuth, Finnhub API, XBRL financial data, GitHub Actions</p>
-                      <p><strong>What It Does:</strong> A full-stack web app that grades 165 publicly traded companies on an A–F scale by analyzing five fundamental financial criteria from Finnhub data, turning complex numbers into a quick, easy-to-read assessment. Grades are refreshed automatically every morning, and the app is backed by 332 automated tests.</p>
+                      <p class="project-meta"><strong>Built With:</strong> HTML5, CSS3, JavaScript, Bootstrap, Node.js (Serverless), Claude API, Vercel, REST APIs</p>
+                      <p><strong>What It Does:</strong> This portfolio pairs personal branding with interactive frontend behavior and an AI assistant ("Ask about Cory") that answers questions about my background — powered by the Claude API through a Vercel serverless function. It also includes live weather, news, quotes, dark mode, and a contact form.</p>
                       <ul class="project-points">
-                        <li>Pairs a React and Vite frontend with an Express, MongoDB, and Finnhub-powered backend API.</li>
-                        <li>Lets anyone grade a stock without an account; signing in with email/password or Google adds a watchlist that tracks grade changes, search history, and a compare view for two to three stocks.</li>
-                        <li>Explains every grade in plain English and compares each stock with the median of its industry once at least eight peers are graded.</li>
-                        <li>Grades banks on their own model — book value and net income growth, return on equity, return on assets, and efficiency ratio against the typical bank — instead of returning N/A.</li>
-                        <li>Keeps grades current with a daily GitHub Actions refresh, paces every Finnhub call through one shared rate limiter, and logs which criteria moved whenever a grade changes.</li>
-                        <li>Offers a downloadable PDF report for every grade, plus an account page to rename, export your data as a PDF, clear history, or delete the account.</li>
-                        <li>Charts five years of revenue and free cash flow, with dark/light mode, ticker and company name search, and unit tests across the frontend and backend.</li>
+                        <li>Features an AI assistant with grounded, streaming answers, source citations, and honest "I don't know" refusals.</li>
+                        <li>Runs the assistant on a Node.js serverless function using the Claude API, keeping the API key server-side.</li>
+                        <li>Integrates live API content and dynamic widgets with responsive, theme-aware styling.</li>
+                        <li>Presents my background, skills, projects, and writing in a professional, evolving format.</li>
                       </ul>
-                      <p class="project-focus"><strong>What I Learned:</strong> Building and deploying a complete full-stack app end to end, wiring a React frontend to an authenticated Express and MongoDB API with third-party data and OAuth — then running it like a real product: scheduled jobs, shared rate limits, and tracing unexpected grade changes back to the data.</p>
-                      <!-- Capstone is split into separate public frontend and backend repositories. -->
-                      <p><a class="project-link" href="https://stock-advisor-frontend.vercel.app" target="_blank" rel="noopener noreferrer">View Live Site</a></p>
-                      <p><a class="project-link" href="https://github.com/Cory71/stock-advisor-frontend" target="_blank" rel="noopener noreferrer">View Frontend Repository</a></p>
-                      <p><a class="project-link" href="https://github.com/Cory71/stock-advisor-backend" target="_blank" rel="noopener noreferrer">View Backend Repository</a></p>
-                      <p><a class="project-link" href="writing/stockgrader-case-study.html">Read the case study →</a></p>
-                      <p class="project-year">2026</p>
+                      <p class="project-focus"><strong>What I Learned:</strong> How to design and ship an AI feature end to end — grounding, prompt design, streaming, and serverless deployment — alongside frontend polish and API integration.</p>
+                      <p><a class="project-link" href="writing/why-i-skipped-rag.html">Read: Why I skipped RAG →</a></p>
+                      <p><a class="project-link" href="https://github.com/Cory71/cory-carmen-portfolio-public-" target="_blank" rel="noopener noreferrer">View GitHub Repository</a></p>
+                      <p class="project-year">2025 to 2026</p>
                     </article>
                   </div>
                 </section>

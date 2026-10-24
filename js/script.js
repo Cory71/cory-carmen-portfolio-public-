@@ -873,7 +873,7 @@ function getSpotlightMeta(card) {
         'Portfolio Website': 'HTML, CSS, JavaScript, Bootstrap, APIs',
         'Note-Taking App': 'JavaScript, EJS, Node.js, MongoDB',
         'Weather Forecasting App': 'React, JavaScript, weather APIs',
-        'BC Marine (Mobile App)': 'React Native, Expo, live marine data APIs',
+        'BC Marine (Web & Mobile App)': 'React 19, Vite, React Native, Expo, Vercel Functions',
         'StockGrader (Capstone)': 'React, Vite, Node, Express, MongoDB, JWT, Finnhub'
     };
 
@@ -886,7 +886,7 @@ function getSpotlightFocus(card) {
         'Portfolio Website': 'Built one polished site that mixes portfolio content with live widgets and theme controls.',
         'Note-Taking App': 'Practiced full-stack CRUD flows, server rendering, and database-backed note management.',
         'Weather Forecasting App': 'Built a clean React weather dashboard with reusable components, live API data, and theme controls.',
-        'BC Marine (Mobile App)': 'Built a cross-platform React Native app that pulls live tide, wind, wave, and forecast data for BC waters.',
+        'BC Marine (Web & Mobile App)': 'Live tides, wind, waves, and currents for 40+ BC coast locations, as a public web app and a React Native app sharing one data layer.',
         'StockGrader (Capstone)': 'Built and deployed a full-stack app that grades stocks A–F, pairing a React frontend with an authenticated Express and MongoDB API.'
     };
 
@@ -945,7 +945,7 @@ const FEATURED_REPO_LABELS = {
     'cory-carmen-portfolio-public-': 'JavaScript · Claude API',
     'stock-advisor-frontend': 'React',
     'stock-advisor-backend': 'Node.js · Express',
-    'bc-marine': 'React Native',
+    'bc-marine': 'React · React Native',
     'note-taking-app-MT': 'Node.js · Express',
     'weather-app-cs': 'React'
 };
