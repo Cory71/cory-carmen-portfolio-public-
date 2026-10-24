@@ -8,7 +8,9 @@ GitHub Actions.
 
 A full-stack web app that grades publicly traded stocks on an A–F scale by
 analyzing five fundamental financial criteria from Finnhub data, turning complex
-numbers into a quick, easy-to-read assessment. Anyone can grade a stock without
+numbers into a quick, easy-to-read assessment. It currently grades 165 publicly
+traded companies, re-graded automatically every morning, and is backed by 332
+automated tests across the frontend and backend. Anyone can grade a stock without
 an account (guests are rate-limited to 30 lookups per 15 minutes). Signing in
 with email/password or Google adds a watchlist that tracks grade changes, search
 history, and a compare view for two to three stocks. Includes dark/light mode,
