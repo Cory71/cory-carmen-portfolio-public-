@@ -178,6 +178,9 @@ keeps the contact form and weather widget disabled.
 
 Full history is in the Git commit log. Key milestones:
 
+- **October 24, 2026** — Updated StockGrader with the bank grading model, plain-English
+  grade explanations, industry comparison, daily GitHub Actions refresh, PDF reports,
+  and guest access; moved the news widget to its own `/api/news` function
 - **July 2, 2026** — Added the "Chat with Cory" AI assistant (streaming, grounded,
   cited answers via a Vercel serverless function and the Claude API)
 - **June 2026** — Added the downloadable resume, the CircuitStream graduation

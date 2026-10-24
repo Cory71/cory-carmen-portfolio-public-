@@ -220,6 +220,7 @@
                         <div class="skill-tag">GitHub</div>
                         <div class="skill-tag">Docker</div>
                         <div class="skill-tag">Vercel</div>
+                        <div class="skill-tag">GitHub Actions</div>
                         <div class="skill-tag">Postman</div>
                         <div class="skill-tag">Vitest</div>
                         <div class="skill-tag">Unit Testing</div>
@@ -349,17 +350,18 @@
                         <h4>StockGrader (Capstone)</h4>
                         <span class="project-status completed">Live &middot; Ongoing</span>
                       </div>
-                      <p class="project-meta"><strong>Built With:</strong> React, Vite, React Router, Bootstrap, Recharts, Node.js, Express.js, MongoDB, JWT, Google OAuth, Finnhub API, XBRL financial data</p>
+                      <p class="project-meta"><strong>Built With:</strong> React, Vite, React Router, Bootstrap, Recharts, jsPDF, Node.js, Express.js, MongoDB, JWT, Google OAuth, Finnhub API, XBRL financial data, GitHub Actions</p>
                       <p><strong>What It Does:</strong> A full-stack web app that grades publicly traded stocks on an A–F scale by analyzing five fundamental financial criteria from Finnhub data, turning complex numbers into a quick, easy-to-read assessment.</p>
                       <ul class="project-points">
                         <li>Pairs a React and Vite frontend with an Express, MongoDB, and Finnhub-powered backend API.</li>
-                        <li>Supports email/password and Google sign-in, with a grade card that breaks down all five criteria.</li>
-                        <li>Adds a watchlist that tracks grade changes and a compare view for two to three stocks.</li>
-                        <li>Charts five years of revenue and free cash flow on a shared axis, joining the two series by year and naming any years a filing could not supply.</li>
-                        <li>Grades sector-aware — REITs and utilities get an honest caveat instead of a wrong "financial firm" message, and segment-level capital spending is summed where no consolidated line is filed.</li>
-                        <li>Includes dark/light mode, ticker and company name search, and a full suite of unit tests across the frontend and backend.</li>
+                        <li>Lets anyone grade a stock without an account; signing in with email/password or Google adds a watchlist that tracks grade changes, search history, and a compare view for two to three stocks.</li>
+                        <li>Explains every grade in plain English and compares each stock with the median of its industry once at least eight peers are graded.</li>
+                        <li>Grades banks on their own model — book value and net income growth, return on equity, return on assets, and efficiency ratio against the typical bank — instead of returning N/A.</li>
+                        <li>Keeps grades current with a daily GitHub Actions refresh, paces every Finnhub call through one shared rate limiter, and logs which criteria moved whenever a grade changes.</li>
+                        <li>Offers a downloadable PDF report for every grade, plus an account page to rename, export your data as a PDF, clear history, or delete the account.</li>
+                        <li>Charts five years of revenue and free cash flow, with dark/light mode, ticker and company name search, and unit tests across the frontend and backend.</li>
                       </ul>
-                      <p class="project-focus"><strong>What I Learned:</strong> Building and deploying a complete full-stack app end to end, wiring a React frontend to an authenticated Express and MongoDB API with third-party data and OAuth — then continuing to harden the grading accuracy against messy real-world filings.</p>
+                      <p class="project-focus"><strong>What I Learned:</strong> Building and deploying a complete full-stack app end to end, wiring a React frontend to an authenticated Express and MongoDB API with third-party data and OAuth — then running it like a real product: scheduled jobs, shared rate limits, and tracing unexpected grade changes back to the data.</p>
                       <!-- Capstone is split into separate public frontend and backend repositories. -->
                       <p><a class="project-link" href="https://stock-advisor-frontend.vercel.app" target="_blank" rel="noopener noreferrer">View Live Site</a></p>
                       <p><a class="project-link" href="https://github.com/Cory71/stock-advisor-frontend" target="_blank" rel="noopener noreferrer">View Frontend Repository</a></p>
@@ -376,7 +378,7 @@
                   <p>Short write-ups on how I think about building software.</p>
                   <div class="writing-list">
                     <article class="writing-item">
-                      <p class="writing-meta">Case study · ~7 min read</p>
+                      <p class="writing-meta">Case study · ~9 min read</p>
                       <h4><a href="writing/stockgrader-case-study.html">StockGrader: Turning Financial Statements into a Letter Grade</a></h4>
                       <p>A full-stack case study of my capstone — the architecture and the engineering decisions I'm most proud of, from beating an API rate limit to grading stocks honestly.</p>
                       <p><a class="project-link" href="writing/stockgrader-case-study.html">Read the case study →</a></p>

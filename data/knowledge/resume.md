@@ -36,7 +36,7 @@ Claude API, Async/Await, JSON.
 **Database and Authentication:** MongoDB, Auth0, Passport Local Strategy,
 JWT Authentication, Google OAuth, MERN stack.
 
-**Tools and Workflow:** Git, GitHub, Docker, Vercel, Postman, Vitest,
+**Tools and Workflow:** Git, GitHub, GitHub Actions, Docker, Vercel, Postman, Vitest,
 Unit Testing.
 
 ## Education and credentials

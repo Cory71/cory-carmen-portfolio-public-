@@ -2,31 +2,55 @@
 
 ## StockGrader (Capstone)
 
-**Built with:** React, Vite, React Router, Bootstrap, Recharts, Node.js,
-Express.js, MongoDB, JWT, Google OAuth, Finnhub API, XBRL financial data.
+**Built with:** React, Vite, React Router, Bootstrap, Recharts, jsPDF, Node.js,
+Express.js, MongoDB, JWT, Google OAuth, Finnhub API, XBRL financial data,
+GitHub Actions.
 
 A full-stack web app that grades publicly traded stocks on an A–F scale by
 analyzing five fundamental financial criteria from Finnhub data, turning complex
-numbers into a quick, easy-to-read assessment. Supports email/password and
-Google sign-in, a grade card breaking down all five criteria, a watchlist that
-tracks grade changes, and a compare view for two to three stocks. Includes
-dark/light mode, ticker and company-name search, and a full suite of unit tests
-across the frontend and backend.
+numbers into a quick, easy-to-read assessment. Anyone can grade a stock without
+an account (guests are rate-limited to 30 lookups per 15 minutes). Signing in
+with email/password or Google adds a watchlist that tracks grade changes, search
+history, and a compare view for two to three stocks. Includes dark/light mode,
+ticker and company-name search, a five-year revenue and free-cash-flow trend
+chart, and unit tests across the frontend and backend.
 
 This is Cory's capstone, but it is still live and actively worked on against a
-post-MVP roadmap. Recent work focuses on grading accuracy with messy real-world
-filings: a revenue and free-cash-flow trend chart on the grade page that plots
-five years on one shared axis and names any years a filing could not supply;
-sector-aware messaging so REITs and utilities get an honest caveat instead of
-being told they are financial firms; summing segment-level capital-expenditure
-lines for companies like NextEra that file no consolidated capex line; and
-measuring the growth lookback window in calendar years rather than row count, so
-every stock is judged over the same span even when a filing year is unreadable.
+post-MVP roadmap. Work shipped in September and October 2026:
+
+- **Bank grading model:** banks used to get N/A because they have no free cash
+  flow in the usual sense. They are now graded on book value growth, net income
+  growth, return on equity, return on assets, and efficiency ratio, compared with
+  the median of 14 seeded banks. A ratio passes unless it is clearly worse than
+  the typical bank, because banks cluster too tightly for a strict line. Insurers,
+  REITs, and utilities still use the general model with a caveat.
+- **Plain-English explanations:** every grade opens with a "Why this grade?"
+  summary and a plain sentence for each criterion.
+- **Industry comparison:** each stock's revenue growth, free cash flow margin,
+  and free cash flow growth are compared with its industry median, shown only
+  when at least 8 peers are graded. It never changes the letter.
+- **Keeping grades current:** a daily GitHub Actions job re-grades stale stocks
+  directly against MongoDB, and a yearly job updates the bank medians (refusing
+  to commit if any median jumps more than 25%). Every Finnhub call is paced
+  through one shared rate limiter, and the watchlist shows progress while
+  refreshing.
+- **Grade-flip investigation:** in early October the daily refresh flipped many
+  grades back and forth with no code or filing changes. Cory traced it to the
+  trailing-twelve-month criteria depending on which quarter Finnhub returned as
+  newest, and made the refresh log record which criteria moved and which quarter
+  TTM was built from, so the next occurrence explains itself.
+- **PDF reports and account settings:** every grade page can download a PDF
+  report, and a new Account page lets users rename themselves, download their
+  data as a PDF, clear search history, or delete their account.
+
+Earlier post-MVP work focused on grading accuracy with messy real-world filings:
+sector-aware caveats, summing segment-level capex for companies like NextEra,
+and measuring the growth lookback in calendar years.
 
 **What Cory learned:** building and deploying a complete full-stack app end to
 end, wiring a React frontend to an authenticated Express and MongoDB API with
-third-party data and OAuth — then continuing to harden the grading logic against
-inconsistent real-world financial data.
+third-party data and OAuth — then running it like a real product, with scheduled
+jobs, a shared rate limit, and tracing unexpected grade changes back to the data.
 
 Live site: https://stock-advisor-frontend.vercel.app
 Frontend repo: https://github.com/Cory71/stock-advisor-frontend

@@ -46,7 +46,7 @@
         <div class="article-header">
             <p class="article-kicker">Case study</p>
             <h1>StockGrader: Turning Financial Statements into a Letter Grade</h1>
-            <p class="article-meta">By Cory Carmen · July 2026 · ~7 min read</p>
+            <p class="article-meta">By Cory Carmen · July 2026 · Updated October 2026 · ~9 min read</p>
         </div>
 
         <div class="article-body">
@@ -97,14 +97,16 @@
 
             <h3>1. Beating the rate limit with a cache</h3>
             <p>Finnhub's free tier allows 60 calls per minute, and grading a single stock takes about four calls. Without a plan, a handful of users refreshing watchlists would blow the limit instantly. So the backend <strong>caches every graded result in MongoDB for 24 hours</strong>, with an on-demand refresh when a user explicitly wants fresh numbers. Fundamentals barely move day to day, so this costs nothing in accuracy and keeps the app comfortably inside the free tier.</p>
+            <p>The cache solved one user, but every user shares one API key. A watchlist of 15 stocks could still hit the limit part-way through a refresh, so every Finnhub call now waits its turn in <strong>one shared rate limiter</strong> instead of failing, and the watchlist shows "Refreshing 12 of 30…" while it works. A <strong>daily GitHub Actions job</strong> re-grades stale stocks straight against the database, so watchlists stay current even when nobody visits.</p>
 
             <div class="article-callout">
                 <strong>The lesson:</strong> a third-party rate limit isn't a blocker — it's a design constraint. Caching turned a hard limit into a non-issue and made the app faster at the same time.
             </div>
 
             <h3>2. Being honest when the model doesn't fit</h3>
-            <p>A free-cash-flow-based model doesn't fit every company. Banks and insurers work differently, so instead of printing a confident-but-wrong grade, StockGrader returns an honest <strong>N/A</strong> with a plain-English explanation. REITs and utilities get graded but carry a caveat noting that free cash flow is only a rough proxy for them.</p>
-            <p>It would have been easier to grade everything and look more "complete." Choosing correctness over coverage was the right call — a tool that lies confidently is worse than one that admits its limits.</p>
+            <p>A free-cash-flow-based model doesn't fit every company. Instead of printing a confident-but-wrong grade, StockGrader started by returning an honest <strong>N/A</strong> with a plain-English explanation when free cash flow couldn't be computed. Insurers, REITs, and utilities get graded but carry a caveat noting that free cash flow is only a rough proxy for them.</p>
+            <p>Banks were the biggest gap, so they now have <strong>their own model</strong>: book value growth, net income growth, return on equity, return on assets, and efficiency ratio, each compared with the median of 14 seeded banks. A ratio passes unless it's clearly worse than the typical bank, because banks cluster so tightly that a strict line would grade them on noise. The medians live in a committed file that a yearly GitHub Actions job updates — and refuses to commit if any median jumps more than 25%, since a real sector shift is a point or two.</p>
+            <p>It would have been easier to grade everything from day one and look more "complete." Choosing correctness over coverage was the right call — a tool that lies confidently is worse than one that admits its limits, and the honest N/A showed exactly where to build next.</p>
 
             <h3>3. Designing around a cold-start</h3>
             <p>The backend sleeps on Render's free tier and takes 30–60 seconds to wake. Rather than let the first user hit a frozen screen, the frontend <strong>warms up the backend on page load</strong> and shows spinners during sign-in, so by the time someone searches, the server is usually awake. It's a small touch, but it's the difference between "broken" and "just a moment."</p>
@@ -114,6 +116,10 @@
 
             <h3>5. Testing both layers</h3>
             <p>Correctness matters when you're telling people a stock is an "A." The frontend is covered by a Vitest suite across helpers, components, and hooks; the backend is tested with Mocha, Chai, Supertest, Sinon, and an in-memory MongoDB so tests run fast and in isolation, without touching a real database. Testing across the whole stack is a habit I wanted to build early.</p>
+
+            <h3>6. Making grade changes explain themselves</h3>
+            <p>In early October the daily refresh changed 18, 18, and 13 grades on three days in a row, with many flipping straight back (NVIDIA went A → C → A). No code had changed and no company had filed anything new, so the input that moved was Finnhub's data — but the log only stored letters, so the cause couldn't be proven afterwards.</p>
+            <p>The investigation ruled out duplicate reports and narrowed it to the two trailing-twelve-month criteria, which are built from whichever quarter Finnhub returns as newest. Since the past data couldn't be recovered, I made the next occurrence explain itself: the refresh log now records which criteria moved and which quarter the TTM figures were built from.</p>
 
             <h2>What I learned</h2>
             <p>StockGrader is where a lot of separate skills became one working product: wiring a React frontend to an authenticated Express + MongoDB API, integrating third-party financial data, handling auth and OAuth, and deploying two services that talk to each other in production. Just as important, it's where I learned that the interesting engineering is often in the constraints — the rate limit, the cold start, the companies that don't fit the model — and that handling them honestly is what makes a project feel finished.</p>
