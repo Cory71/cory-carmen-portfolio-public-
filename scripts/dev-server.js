@@ -1,6 +1,6 @@
 // Tiny local development server for testing the site + chat API together.
 // It serves the static files from the repo root and routes POST /api/chat to
-// the same handler Vercel uses in production. No global Vercel CLI needed.
+// the same handler Vercel uses in production. GET /api/news works the same way. No global Vercel CLI needed.
 //
 // Run with: npm run dev  ->  http://localhost:3000
 
@@ -16,6 +16,7 @@ loadEnvFile(path.join(ROOT, '.env'));
 
 // The chat handler is required AFTER env vars are loaded so it sees the API key.
 const chatHandler = require('../api/chat');
+const newsHandler = require('../api/news');
 
 const CONTENT_TYPES = {
     '.html': 'text/html; charset=utf-8',
@@ -31,9 +32,16 @@ const CONTENT_TYPES = {
 };
 
 const server = http.createServer((req, res) => {
-    // The chat API is the only dynamic route.
-    if (req.url.split('?')[0] === '/api/chat') {
+    const urlPath = req.url.split('?')[0];
+
+    // The chat and news APIs are the only dynamic routes.
+    if (urlPath === '/api/chat') {
         chatHandler(req, res);
+        return;
+    }
+
+    if (urlPath === '/api/news') {
+        newsHandler(req, res);
         return;
     }
 

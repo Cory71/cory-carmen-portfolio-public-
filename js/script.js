@@ -1345,30 +1345,10 @@ function renderLoadedArticles(articles) {
 }
 
 // News data helpers
+// Our own /api/news function fetches the Global News RSS feed server-side.
 async function fetchNewsData(category) {
-    const feedUrl = getNewsFeedUrl(category);
-    return fetchNewsFromRss2Json(feedUrl, category);
-}
-
-function getNewsFeedUrl(category) {
-    const feeds = {
-        headline: 'https://globalnews.ca/feed/',
-        local: 'https://globalnews.ca/bc/feed/',
-        canada: 'https://globalnews.ca/canada/feed/',
-        world: 'https://globalnews.ca/world/feed/',
-        business: 'https://globalnews.ca/money/feed/',
-        technology: 'https://globalnews.ca/tech/feed/',
-        health: 'https://globalnews.ca/health/feed/',
-        sports: 'https://globalnews.ca/sports/feed/'
-    };
-
-    return feeds[category] || feeds.headline;
-}
-
-// Fetch the RSS feed as JSON through rss2json, which also handles CORS for us.
-async function fetchNewsFromRss2Json(feedUrl, category) {
-    const requestUrl = buildRss2JsonUrl(feedUrl);
-    const response = await fetch(requestUrl, { cache: 'no-store' });
+    const requestUrl = `/api/news?category=${encodeURIComponent(category)}`;
+    const response = await fetch(requestUrl);
 
     if (!response.ok) {
         throw new Error(`News service unavailable: ${response.status}`);
@@ -1380,15 +1360,9 @@ async function fetchNewsFromRss2Json(feedUrl, category) {
         throw new Error('News service returned no items');
     }
 
-    // Keep the first few items and convert them to the widget's article shape.
     return data.items
-        .slice(0, 8)
         .map(item => createArticleFromJson(item, category))
         .filter(article => article.title);
-}
-
-function buildRss2JsonUrl(feedUrl) {
-    return `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(feedUrl)}`;
 }
 
 // News parsing helpers
@@ -1404,13 +1378,9 @@ function createArticleFromJson(item, category) {
     };
 }
 
-// rss2json sends dates like "2026-06-12 15:15:44"; convert to ISO so Date can parse them.
+// The API sends ISO dates; fall back to "now" if a date is missing.
 function normalizePublishedDate(pubDate) {
-    if (!pubDate) {
-        return new Date().toISOString();
-    }
-
-    return pubDate.replace(' ', 'T');
+    return pubDate || new Date().toISOString();
 }
 
 function buildArticleDescription(description) {
